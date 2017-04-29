@@ -1,0 +1,14 @@
+Service Discovery Server
+
+Eureka Documentation (Spring Cloud): https://cloud.spring.io/spring-cloud-netflix/
+GitHub: https://github.com/spring-cloud-samples/eureka
+
+For Standalone applications:
+    mvn spring-boot:run
+
+For High Availability (HA) applications:
+    spring-boot:run -Dspring.profiles.active=peer1
+    spring-boot:run -Dspring.profiles.active=peer2
+
+Eureka runs on 8761 port in standalone mode, in HA mode you are running
+2 instances one in 8761 and the other in 8762.
