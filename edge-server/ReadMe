@@ -1,0 +1,8 @@
+Edge Server
+
+Spring Zuul tutorial: https://spring.io/guides/gs/routing-and-filtering/
+Github: https://github.com/spring-cloud-samples/zuul-server & https://github.com/ExampleDriven/spring-cloud-zuul-example
+
+Zuul always runs as standalone, for HA use 2 instances behind a LB.
+
+In this example we have implemented filter & routing, use current implementation for further use cases.
