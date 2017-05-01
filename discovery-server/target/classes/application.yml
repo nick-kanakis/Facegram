@@ -5,11 +5,11 @@ security:
     password: passw0rd!
 
 eureka:
-  client:
+  client: #Do not register with 'itself'
     registerWithEureka: false
     fetchRegistry: false
   server:
-    waitTimeInMsWhenSyncEmpty: 0
+    waitTimeInMsWhenSyncEmpty: 0 #WARNING: Remove from production use!!
 
 ---
 spring:
@@ -19,7 +19,7 @@ eureka:
     hostname: localhost
   client:
     serviceUrl:
-      defaultZone: http://user:passw0rd!@127.0.0.1:8762/eureka/
+      defaultZone: http://user:passw0rd!@127.0.0.1:8762/eureka/ #peer2 URL
 
 ---
 spring:
@@ -31,4 +31,4 @@ eureka:
     hostname: localhost
   client:
     serviceUrl:
-      defaultZone: http://user:passw0rd!@127.0.0.1:8761/eureka/
+      defaultZone: http://user:passw0rd!@127.0.0.1:8761/eureka/ #peer1 URL

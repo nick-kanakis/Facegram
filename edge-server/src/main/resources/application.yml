@@ -1,0 +1,33 @@
+server:
+  port: 8765
+
+endpoints:
+  restart: #.../restart restart the application
+    enabled: true
+  shutdown: #.../shutdown allows for gracefully shutdown of the application
+    enabled: true
+  health: #../health allows for health checks of the app
+    sensitive: false
+
+# map eureka services
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+
+  zuul:
+    #All services will be mapped under the /api URI
+    prefix: /api
+    #Disable all auto-registering services from Eureka
+    ignoreServices: '*'
+    host:
+      connect-timeout-millis: 20000
+      socket-timeout-millis: 20000
+
+    #manual expose certain services
+#    ex: routes everything under /api/microservice1/... to microservice1 service defined in eureka
+#    routes:
+#      microservice1:
+#        path: /microservice1/**
+#        serviceId: microservice1
