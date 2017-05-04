@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: story-service
+
+server:
+  port: 0
