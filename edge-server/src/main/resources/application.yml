@@ -9,21 +9,18 @@ endpoints:
   health: #../health allows for health checks of the app
     sensitive: false
 
-# map eureka services
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-
-
-  zuul:
+zuul:
     #All services will be mapped under the /api URI
-    prefix: /api
+  prefix: /api
     #Disable all auto-registering services from Eureka
-    ignoreServices: '*'
-    host:
-      connect-timeout-millis: 20000
-      socket-timeout-millis: 20000
+  ignoreServices: '*'
+  routes:
+    story-service:
+      path: /stories/**
+      serviceId: story-service
+  host:
+    connect-timeout-millis: 20000
+    socket-timeout-millis: 20000
 
     #manual expose certain services
 #    ex: routes everything under /api/microservice1/... to microservice1 service defined in eureka
@@ -31,3 +28,5 @@ eureka:
 #      microservice1:
 #        path: /microservice1/**
 #        serviceId: microservice1
+
+
