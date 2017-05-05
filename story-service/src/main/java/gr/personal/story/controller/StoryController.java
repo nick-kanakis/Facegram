@@ -2,7 +2,6 @@ package gr.personal.story.controller;
 
 import gr.personal.story.domain.Comment;
 import gr.personal.story.domain.Story;
-import gr.personal.story.domain.StoryImpl;
 import gr.personal.story.service.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +22,7 @@ public class StoryController {
     }
 
     @RequestMapping(path = "/fetch/{storyId}", method = RequestMethod.GET)
-    public StoryImpl fetchStory(@PathVariable String storyId) {
+    public Story fetchStory(@PathVariable String storyId) {
         return storyService.fetchStory(storyId);
     }
 
@@ -52,8 +51,8 @@ public class StoryController {
         return storyService.deleteComment(commentId);
     }
 
-    @RequestMapping(path = "/uncomment/{commentId}", method = RequestMethod.DELETE)
-    public String fetchComment(@PathVariable String commentId) {
+    @RequestMapping(path = "/fetchcomment/{commentId}", method = RequestMethod.DELETE)
+    public Comment fetchComment(@PathVariable String commentId) {
         return storyService.fetchComment(commentId);
     }
 

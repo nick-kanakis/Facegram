@@ -1,6 +1,7 @@
 package gr.personal.story.domain;
 
-import java.util.Date;
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 /**
@@ -8,22 +9,27 @@ import java.util.List;
  */
 public class StoryImpl implements Story{
 
+    private String id;
+    private String story;
     private String title;
     private String userId;
-    private Date postDate;
+    private DateTime postDate;
     private long likes;
     private long unlikes;
     private List<Comment> comments;
     private Geolocation geoLocation;
 
-    static class Builder<T extends Builder>{
+    public static class Builder<T extends Builder>{
         private String title;
         private String userId;
-        private Date postDate;
+        private DateTime postDate;
         private long likes;
         private long unlikes;
         private List<Comment> comments;
         private Geolocation geoLocation;
+        private String id;
+        private String story;
+
 
         public Builder geoLocation(Geolocation geoLocation) {
             this.geoLocation = geoLocation;
@@ -35,7 +41,7 @@ public class StoryImpl implements Story{
             return this;
         }
 
-        public Builder postDate(Date postDate) {
+        public Builder postDate(DateTime postDate) {
             this.postDate = postDate;
             return this;
         }
@@ -60,9 +66,20 @@ public class StoryImpl implements Story{
             return this;
         }
 
+        public Builder id(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder story(String story) {
+            this.story = story;
+            return this;
+        }
+
         public StoryImpl build(){
             return new StoryImpl(this);
         }
+
     }
 
     protected StoryImpl(Builder builder){
@@ -73,6 +90,8 @@ public class StoryImpl implements Story{
         this.unlikes = builder.unlikes;
         this.comments = builder.comments;
         this.geoLocation = builder.geoLocation;
+        this.id = builder.id;
+        this.story = builder.story;
     }
 
     public Geolocation getGeoLocation() {
@@ -91,11 +110,11 @@ public class StoryImpl implements Story{
         this.userId = userId;
     }
 
-    public Date getPostDate() {
+    public DateTime getPostDate() {
         return postDate;
     }
 
-    public void setPostDate(Date postDate) {
+    public void setPostDate(DateTime postDate) {
         this.postDate = postDate;
     }
 
@@ -131,11 +150,27 @@ public class StoryImpl implements Story{
         this.title = title;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getStory() {
+        return story;
+    }
+
+    public void setStory(String story) {
+        this.story = story;
+    }
 
     @Override
     public String toString() {
         return "StoryImpl{" +
-                "title='" + title + '\'' +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
                 ", userId='" + userId + '\'' +
                 ", postDate=" + postDate +
                 ", likes=" + likes +

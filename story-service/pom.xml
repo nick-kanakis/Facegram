@@ -37,6 +37,18 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!--Generate Fake Data todo: replace with actual data-->
+        <dependency>
+            <groupId>io.codearte.jfairy</groupId>
+            <artifactId>jfairy</artifactId>
+            <version>0.5.7</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>20.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>

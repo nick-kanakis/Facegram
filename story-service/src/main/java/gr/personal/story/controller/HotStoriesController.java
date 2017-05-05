@@ -1,8 +1,8 @@
 package gr.personal.story.controller;
 
 import gr.personal.story.domain.Geolocation;
-import gr.personal.story.domain.StoryImpl;
-import gr.personal.story.service.StoryService;
+import gr.personal.story.domain.Story;
+import gr.personal.story.service.HotStoriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,21 +17,21 @@ import java.util.List;
 public class HotStoriesController {
 
     @Autowired
-    private StoryService storyService;
+    private HotStoriesService hotStoriesService;
 
     //TODO: return generic result(?)
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
-    public List<StoryImpl> getHotStoriesOfUser(@PathVariable String userId) throws ParseException {
-        return storyService.getHotStoriesOfUser(userId);
+    public List<Story> getHotStoriesOfUser(@PathVariable String userId) throws ParseException {
+        return hotStoriesService.getHotStoriesOfUser(userId);
     }
 
     @RequestMapping(path = "/location", method = RequestMethod.GET)
-    public List<StoryImpl> getHotStoriesOfLocation(@RequestParam Geolocation geolocation) throws ParseException {
-        return storyService.getHotStoriesOfLocation(geolocation);
+    public List<Story> getHotStoriesOfLocation(@RequestParam Geolocation geolocation) throws ParseException {
+        return hotStoriesService.getHotStoriesOfLocation(geolocation);
     }
 
     @RequestMapping(path = "/group/{groupId}", method = RequestMethod.GET)
-    public List<StoryImpl> getHotStoriesOfGroup(@PathVariable String groupId) throws ParseException {
-        return storyService.getHotStoriesOfGroup(groupId);
+    public List<Story> getHotStoriesOfGroup(@PathVariable String groupId) throws ParseException {
+        return hotStoriesService.getHotStoriesOfGroup(groupId);
     }
 }

@@ -1,12 +1,9 @@
 package gr.personal.story.service;
 
 import gr.personal.story.domain.Comment;
-import gr.personal.story.domain.Geolocation;
 import gr.personal.story.domain.Story;
-import gr.personal.story.domain.StoryImpl;
+import gr.personal.story.util.FakeDataGenerator;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Created by Nick Kanakis on 1/5/2017.
@@ -15,72 +12,36 @@ import java.util.List;
 @Service
 public class StoryService {
 
-    //TODO: actually implement the service layer and maybe break it apart?
-    public List<StoryImpl> getTopStoriesOfUser(String userId) {
-        return  null;
-    }
-
-    public List<StoryImpl> getTopStoriesOfLocation(Geolocation geolocation) {
-        return  null;
-    }
-
-    public List<StoryImpl> getTopStoriesOfGroup(String groupId) {
-        return  null;
-    }
-
-    public List<StoryImpl> getNewStoriesOfUser(String userId) {
-        return  null;
-    }
-
-    public List<StoryImpl> getNewStoriesOfLocation(Geolocation geolocation) {
-        return  null;
-    }
-
-    public List<StoryImpl> getNewStoriesOfGroup(String groupId) {
-        return  null;
-    }
-
-    public List<StoryImpl> getHotStoriesOfGroup(String groupId) {
-        return  null;
-    }
-
-    public List<StoryImpl> getHotStoriesOfLocation(Geolocation geolocation) {
-        return  null;
-    }
-
-    public List<StoryImpl> getHotStoriesOfUser(String userId) {
-        return  null;
-    }
-
+    //TODO: use persistence layer
     public String createStory(Story story) {
-        return null;
+        return "OK";
     }
 
-    public StoryImpl fetchStory(String storyId) {
-        return null;
+    public Story fetchStory(String storyId) {
+        return FakeDataGenerator.generateStory();
     }
 
     public String deleteStory(String storyId) {
-        return null;
+        return "OK";
     }
 
     public String likeStory(String storyId) {
-        return null;
+        return "OK";
     }
 
     public String unlikeStory(String storyId) {
-        return null;
+        return "OK";
     }
 
     public String createComment(Comment comment) {
-        return null;
+        return "OK";
     }
 
     public String deleteComment(String commentId) {
-        return null;
+        return "OK";
     }
 
-    public String fetchComment(String commentId) {
-        return null;
+    public Comment fetchComment(String commentId) {
+        return FakeDataGenerator.generateComment();
     }
 }

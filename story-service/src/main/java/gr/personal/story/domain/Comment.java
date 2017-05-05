@@ -1,6 +1,6 @@
 package gr.personal.story.domain;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * Created by Nick Kanakis on 4/5/2017.
@@ -11,7 +11,7 @@ public class Comment {
     private String header;
     private String userId;
     private String description;
-    private Date postDate;
+    private DateTime postDate;
 
     public String getHeader() {
         return header;
@@ -37,11 +37,11 @@ public class Comment {
         this.description = description;
     }
 
-    public Date getPostDate() {
+    public DateTime getPostDate() {
         return postDate;
     }
 
-    public void setPostDate(Date postDate) {
+    public void setPostDate(DateTime postDate) {
         this.postDate = postDate;
     }
 
