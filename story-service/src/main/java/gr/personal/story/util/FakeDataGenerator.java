@@ -49,7 +49,7 @@ public class FakeDataGenerator {
                 .title(textProducer.sentence())
                 .unlikes(baseProducer.randomBetween(0, 500))
                 .userId(String.valueOf(baseProducer.randomBetween(0, 999999999)))
-                .postDate(dateProducer.randomDateInThePast(10))
+                .postDate(dateProducer.randomDateInThePast(10).toDate())
                 .geoLocation(getRandomGeoLocation())
                 .comments(generateComments())
                 .id(String.valueOf(baseProducer.randomBetween(0, 999999999)))
@@ -79,7 +79,7 @@ public class FakeDataGenerator {
         DateProducer dateProducer = fairy.dateProducer();
 
         Comment comment = new Comment();
-        comment.setPostDate(dateProducer.randomDateInThePast(10));
+        comment.setPostDate(dateProducer.randomDateInThePast(10).toDate());
         comment.setDescription(textProducer.paragraph(10));
         comment.setHeader(textProducer.sentence());
         comment.setId(String.valueOf(baseProducer.randomBetween(0, 999999999)));
@@ -93,7 +93,7 @@ public class FakeDataGenerator {
         Fairy fairy = Fairy.create();
         BaseProducer baseProducer = fairy.baseProducer();
 
-        return new Geolocation(baseProducer.randomBetween(-90, 90),baseProducer.randomBetween(-180, 180));
+        return new Geolocation(baseProducer.randomBetween(-90.0, 90.0),baseProducer.randomBetween(-180.0, 180.0));
     }
 
 

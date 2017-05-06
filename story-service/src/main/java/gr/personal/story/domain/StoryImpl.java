@@ -1,7 +1,6 @@
 package gr.personal.story.domain;
 
-import org.joda.time.DateTime;
-
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,7 +12,7 @@ public class StoryImpl implements Story{
     private String story;
     private String title;
     private String userId;
-    private DateTime postDate;
+    private Date postDate;
     private long likes;
     private long unlikes;
     private List<Comment> comments;
@@ -22,7 +21,7 @@ public class StoryImpl implements Story{
     public static class Builder<T extends Builder>{
         private String title;
         private String userId;
-        private DateTime postDate;
+        private Date postDate;
         private long likes;
         private long unlikes;
         private List<Comment> comments;
@@ -41,7 +40,7 @@ public class StoryImpl implements Story{
             return this;
         }
 
-        public Builder postDate(DateTime postDate) {
+        public Builder postDate(Date postDate) {
             this.postDate = postDate;
             return this;
         }
@@ -110,11 +109,11 @@ public class StoryImpl implements Story{
         this.userId = userId;
     }
 
-    public DateTime getPostDate() {
+    public Date getPostDate() {
         return postDate;
     }
 
-    public void setPostDate(DateTime postDate) {
+    public void setPostDate(Date postDate) {
         this.postDate = postDate;
     }
 
