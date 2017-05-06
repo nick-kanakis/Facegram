@@ -9,18 +9,37 @@ endpoints:
   health: #../health allows for health checks of the app
     sensitive: false
 
+# Increase the Hystrix timeout to 60s (globally)
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
 zuul:
     #All services will be mapped under the /api URI
   prefix: /api
     #Disable all auto-registering services from Eureka
   ignoreServices: '*'
   routes:
-    story-service:
-      path: /stories/**
+    hot-stories-service:
+      path: /hotStories/**
       serviceId: story-service
+      strip-prefix: false
+    new-stories-service:
+      path: /newStories/**
+      serviceId: story-service
+      strip-prefix: false
+    top-stories-service:
+      path: /topStories/**
+      serviceId: story-service
+      strip-prefix: false
+
   host:
     connect-timeout-millis: 20000
-    socket-timeout-millis: 20000
+    socket-timeout-millis: 200000
 
     #manual expose certain services
 #    ex: routes everything under /api/microservice1/... to microservice1 service defined in eureka
