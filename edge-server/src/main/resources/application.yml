@@ -9,14 +9,14 @@ endpoints:
   health: #../health allows for health checks of the app
     sensitive: false
 
-# Increase the Hystrix timeout to 60s (globally)
+# Increase the Hystrix timeout to 30s (globally)
 hystrix:
   command:
     default:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 60000
+            timeoutInMilliseconds: 30000
 
 zuul:
     #All services will be mapped under the /api URI
