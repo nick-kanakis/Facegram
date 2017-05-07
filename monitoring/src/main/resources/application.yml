@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: monitoring
+server:
+  port: 8179
+
+turbine:
+  aggregator:
+    clusterConfig: STORY-SERVICE
+  appConfig: STORY-SERVICE
