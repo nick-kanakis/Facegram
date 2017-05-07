@@ -59,5 +59,6 @@ fabric.properties
 modules.xml
 .idea/misc.xml
 *.ipr
+*.logs
 
 # End of https://www.gitignore.io/api/intellij+iml
