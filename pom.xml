@@ -12,6 +12,7 @@
         <module>discovery-server</module>
         <module>edge-server</module>
         <module>story-service</module>
+        <module>monitoring</module>
     </modules>
 
 
