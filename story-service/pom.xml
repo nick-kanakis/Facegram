@@ -37,6 +37,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-hystrix</artifactId>
+        </dependency>
         <!--Generate Fake Data todo: replace with actual data-->
         <dependency>
             <groupId>io.codearte.jfairy</groupId>
