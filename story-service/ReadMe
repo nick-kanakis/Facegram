@@ -1,0 +1,23 @@
+Story Service
+
+This service is responsible for handling everything involving story. Will be used as a source service for every operation
+that need information about Story/Comments
+
+Tech Features
+=============
+Hystrix:
+
+Every call to the backend (currently mocked my JFairy, in the future a mongoDB) is wrapped as a Hystrix Control, this
+gives as the ability to handle failures (in a fallback method) and use Circuit Breaker Pattern.
+
+JFairy:
+
+A nice beta project that helps you mock real-like data as Credit Cards, Paragraphs, Names etc.
+
+
+TODO:
+-> Add ranging algorithm
+-> Connect No-SQL DB
+
+
+
