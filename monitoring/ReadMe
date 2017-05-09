@@ -2,6 +2,8 @@ Monitoring
 
 Responsible for monitoring all Hystrix Wrapped calls.
 
+
+
 Tech Features
 =============
 
@@ -10,8 +12,36 @@ Hystrix DashBoard:
 Gives a visual representation of current status of all hystrix wrapped calls (Status of circuit). In order to access the
 console go to: localhost:8179/hystrix add add the turbine URL turbine.stream?cluster=STORY-SERVICE (for story service)
 
+
 TODO: Add more services
 
 Turbine:
 
 Turbine enables to collect multiple hystrix streams and display them in a single dashboard.
+Turbine aggregates all of the relevant /hystrix.stream endpoints into a combined /turbine.stream for use in the
+Hystrix Dashboard. Individual instances are located via Eureka.
+
+
+turbine.appConfig: Eureka serviceIds that turbine will use to lookup instances
+
+turbine.aggregator.clusterConfig: Cluster Name, must be always in UPPERCASE as eureka instances are always in UPPERCASE
+
+eg: http://my.turbine.sever:8080/turbine.stream?cluster=<CLUSTERNAME>; CLUSTERNAME == turbine.aggregator.clusterConfig
+
+
+When I register more microservices turbine may NOT work Wha I need to do is:
+
+1) Add the follow to each service I want to monitor
+    https://github.com/spring-cloud/spring-cloud-netflix/issues/948
+eureka:
+  instance:
+    metadataMap:
+      cluster: MYCLUSTER
+
+2) Add this to the turbine
+turbine:
+  aggregator:
+    clusterConfig: MYCLUSTER
+  appConfig: microservice-one,microservice-two,zuul-server
+  clusterNameExpression: metadata['cluster']
+  combineHostPort: true
