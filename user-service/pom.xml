@@ -5,16 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>gr.personal</groupId>
-    <artifactId>facegram</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>user-service</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>discovery-server</module>
-        <module>edge-server</module>
-        <module>monitoring</module>
-        <module>story-service</module>
-        <module>user=service</module>
-    </modules>
 
 
 </project>
