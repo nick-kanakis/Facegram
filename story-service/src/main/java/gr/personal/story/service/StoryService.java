@@ -3,6 +3,7 @@ package gr.personal.story.service;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import gr.personal.story.domain.Comment;
 import gr.personal.story.domain.Story;
+import gr.personal.story.domain.StoryRequest;
 import gr.personal.story.util.FakeDataGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,7 @@ public class StoryService {
     Logger logger = LoggerFactory.getLogger(StoryService.class);
 
     //TODO: use persistence layer
-    public String createStory(Story story) {
+    public String createStory(StoryRequest story) {
         return "OK";
     }
 

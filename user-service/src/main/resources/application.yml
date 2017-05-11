@@ -1,9 +1,9 @@
 spring:
   application:
-    name: story-service
+    name: user-service
 
 server:
-  port: 1000
+  port: 1001
 
 logging:
   level:
@@ -12,13 +12,4 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-  file: story-service.logs
-
-# Increase the Hystrix timeout to 30s (globally)
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 30000
+  file: user-service.logs

@@ -2,6 +2,7 @@ package gr.personal.story.controller;
 
 import gr.personal.story.domain.Comment;
 import gr.personal.story.domain.Story;
+import gr.personal.story.domain.StoryRequest;
 import gr.personal.story.service.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class StoryController {
     StoryService storyService;
 
     @RequestMapping(path = "/create", method = RequestMethod.POST)
-    public String createStory(@RequestParam Story story) {
+    public String createStory(@RequestParam StoryRequest story) {
         return storyService.createStory(story);
     }
 
