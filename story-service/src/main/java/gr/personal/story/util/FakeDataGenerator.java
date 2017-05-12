@@ -19,16 +19,9 @@ import java.util.Random;
 //TODO: Replace it with Persistence layer!!
 public class FakeDataGenerator {
 
-     Fairy fairy = Fairy.create();
-     TextProducer textProducer = fairy.textProducer();
-     BaseProducer baseProducer = fairy.baseProducer();
-     DateProducer dateProducer = fairy.dateProducer();
-
     public static List<Story> generateStories(){
         Fairy fairy = Fairy.create();
-        TextProducer textProducer = fairy.textProducer();
         BaseProducer baseProducer = fairy.baseProducer();
-        DateProducer dateProducer = fairy.dateProducer();
 
         List<Story> stories = new ArrayList<>();
         for(int i=0; i<=baseProducer.randomBetween(1, 50); i++){

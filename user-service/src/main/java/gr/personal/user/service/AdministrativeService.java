@@ -2,6 +2,7 @@ package gr.personal.user.service;
 
 import gr.personal.user.domain.User;
 import gr.personal.user.domain.UserRequest;
+import gr.personal.user.util.FakeDataGenerator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,30 +13,30 @@ import java.util.List;
 @Service
 public class AdministrativeService {
     public String createUser(UserRequest user) {
-        return null;
+        return "OK";
     }
 
     public String updateUser(UserRequest user) {
-        return null;
+        return "OK";
     }
 
     public String deleteUser(String userId) {
-        return null;
+        return "OK";
     }
 
     public User retrieveUser(String userId) {
-        return null;
+        return FakeDataGenerator.generateUser();
     }
 
     public String addFriend(String userId, UserRequest friend) {
-        return null;
+        return "OK";
     }
 
     public String removeFriend(String userId, String friendId) {
-        return null;
+        return "OK";
     }
 
     public List<User> retrieveFriends(String userId) {
-        return null;
+        return FakeDataGenerator.generateUsers();
     }
 }

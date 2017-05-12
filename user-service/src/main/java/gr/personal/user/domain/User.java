@@ -11,7 +11,6 @@ public class User {
     private String name;
     private String surname;
     private List<String> friendIDs;
-    private List<Story> stories;
     private Gender gender;
 
 
@@ -20,7 +19,6 @@ public class User {
         String name;
         String surname;
         List<String> friendIDs;
-        List<Story> stories;
         Gender gender;
 
         public Builder id(String id) {
@@ -43,11 +41,6 @@ public class User {
             return this;
         }
 
-        public Builder stories(List<Story> stories) {
-            this.stories = stories;
-            return this;
-        }
-
         public Builder gender(Gender gender) {
             this.gender = gender;
             return this;
@@ -63,7 +56,6 @@ public class User {
         name = builder.name;
         surname = builder.surname;
         friendIDs = builder.friendIDs;
-        stories = builder.stories;
         gender = builder.gender;
     }
 
@@ -98,14 +90,6 @@ public class User {
 
     public void setFriendIDs(List<String> friendIDs) {
         this.friendIDs = friendIDs;
-    }
-
-    public List<Story> getStories() {
-        return stories;
-    }
-
-    public void setStories(List<Story> stories) {
-        this.stories = stories;
     }
 
     public Gender getGender() {
