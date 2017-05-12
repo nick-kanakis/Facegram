@@ -3,7 +3,7 @@ package gr.personal.story.domain;
 /**
  * Created by Nick Kanakis on 4/5/2017.
  */
-public class GroupStory extends StoryImpl {
+public class GroupStoryImpl extends StoryImpl {
 
     private String ownerGroupId;
 
@@ -23,12 +23,12 @@ public class GroupStory extends StoryImpl {
             return this;
         }
 
-        public GroupStory build(){
-            return new GroupStory(this);
+        public GroupStoryImpl build(){
+            return new GroupStoryImpl(this);
         }
     }
 
-    public GroupStory(Builder builder) {
+    public GroupStoryImpl(Builder builder) {
         super(builder);
         ownerGroupId = builder.ownerGroupId;
     }
