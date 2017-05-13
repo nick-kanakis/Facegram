@@ -25,7 +25,7 @@ public class TopStoriesController {
     }
 
     @RequestMapping(path = "/location", method = RequestMethod.GET)
-    public List<Story> getTopStoriesOfLocation(@RequestParam Geolocation geolocation) throws ParseException {
+    public List<Story> getTopStoriesOfLocation(Geolocation geolocation) throws ParseException {
         return topStoriesService.getTopStoriesOfLocation(geolocation);
     }
 

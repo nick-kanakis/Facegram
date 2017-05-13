@@ -3,6 +3,7 @@ package gr.personal.story.service;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import gr.personal.story.domain.Comment;
 import gr.personal.story.domain.Story;
+import gr.personal.story.domain.StoryImpl;
 import gr.personal.story.domain.StoryRequest;
 import gr.personal.story.util.FakeDataGenerator;
 import org.slf4j.Logger;
@@ -54,12 +55,12 @@ public class StoryService {
     }
 
     private Story fallbackFetchStory(String storyId, Throwable t){
-        logger.error("Fetch story fallback method for StoryId: " + storyId, t);
-        return null;
+        logger.error("Fetch story fallback method for StoryId: " + storyId+". Returning empty object", t);
+        return new StoryImpl();
     }
 
     private Story fallbackFetchComment(String commentId, Throwable t){
-        logger.error("Fetch comment fallback method for commentId: " + commentId, t);
-        return null;
+        logger.error("Fetch comment fallback method for commentId: " + commentId+". Returning empty object", t);
+        return new StoryImpl();
     }
 }

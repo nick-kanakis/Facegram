@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,28 +27,28 @@ public class TopStoriesService {
         return  FakeDataGenerator.generateStories();
     }
 
-    @HystrixCommand(fallbackMethod = "topStoriesOfGroupFallback")
+    @HystrixCommand(fallbackMethod = "topStoriesOfLocationFallback")
     public List<Story> getTopStoriesOfLocation(Geolocation geolocation) {
         return  FakeDataGenerator.generateStories();
     }
 
-    @HystrixCommand(fallbackMethod = "topStoriesOfLocationFallback")
+    @HystrixCommand(fallbackMethod = "topStoriesOfGroupFallback")
     public List<Story> getTopStoriesOfGroup(String groupId) {
         return  FakeDataGenerator.generateStories();
     }
 
     private List<Story> topStoriesOfUserFallback(String userId, Throwable t) {
-        logger.error("Top Stories Fallback for userId: "+ userId, t);
-        return  null;
+        logger.error("Top Stories Fallback for userId: "+ userId+". Returning empty list", t);
+        return new ArrayList<>();
     }
 
     private List<Story> topStoriesOfGroupFallback(String groupId, Throwable t) {
-        logger.error("Top Stories Fallback for groupId: "+ groupId, t);
-        return  null;
+        logger.error("Top Stories Fallback for groupId: "+ groupId+". Returning empty list", t);
+        return new ArrayList<>();
     }
 
     private List<Story> topStoriesOfLocationFallback(Geolocation geolocation, Throwable t) {
-        logger.error("Top Stories Fallback for Location: "+ geolocation, t);
-        return  null;
+        logger.error("Top Stories Fallback for Location: "+ geolocation+". Returning empty list", t);
+        return new ArrayList<>();
     }
 }

@@ -25,7 +25,7 @@ public class NewStoriesController {
     }
 
     @RequestMapping(path = "/location", method = RequestMethod.GET)
-    public List<Story> getNewStoriesOfLocation(@RequestParam Geolocation geolocation) throws ParseException {
+    public List<Story> getNewStoriesOfLocation(Geolocation geolocation) throws ParseException {
         return newStoriesService.getNewStoriesOfLocation(geolocation);
     }
 

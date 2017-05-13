@@ -93,6 +93,9 @@ public class StoryImpl implements Story{
         this.story = builder.story;
     }
 
+    public StoryImpl() {
+    }
+
     public Geolocation getGeoLocation() {
         return geoLocation;
     }

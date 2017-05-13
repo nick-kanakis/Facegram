@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,18 +38,18 @@ public class NewStoriesService {
     }
 
     private List<Story> newStoriesOfUserFallback(String userId, Throwable t) {
-        logger.error("New Stories Fallback for UserId "+userId, t);
+        logger.error("New Stories Fallback for UserId "+userId+". Returning empty list", t);
         return  null;
     }
 
     private List<Story> newStoriesOfLocationFallback(Geolocation geolocation, Throwable t) {
-        logger.error("New Stories Fallback for Location " + geolocation, t);
-        return  null;
+        logger.error("New Stories Fallback for Location " + geolocation+". Returning empty list", t);
+        return new ArrayList<>();
     }
 
     private List<Story> newStoriesOfGroupFallback(String groupId, Throwable t) {
-        logger.error("New Stories Fallback for GroupId "+groupId, t);
-        return  null;
+        logger.error("New Stories Fallback for GroupId "+groupId+". Returning empty list", t);
+        return new ArrayList<>();
     }
 
 }

@@ -26,7 +26,7 @@ public class HotStoriesController {
     }
 
     @RequestMapping(path = "/location", method = RequestMethod.GET)
-    public List<Story> getHotStoriesOfLocation(@RequestParam Geolocation geolocation) throws ParseException {
+    public List<Story> getHotStoriesOfLocation( Geolocation geolocation) throws ParseException {
         return hotStoriesService.getHotStoriesOfLocation(geolocation);
     }
 
