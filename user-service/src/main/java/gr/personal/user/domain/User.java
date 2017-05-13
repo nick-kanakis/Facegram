@@ -59,6 +59,13 @@ public class User {
         gender = builder.gender;
     }
 
+    public User(String id, Gender gender, String name, String surname, List<String> friendIDs) {
+        this.id = id;
+        this.gender = gender;
+        this.name = name;
+        this.surname = surname;
+        this.friendIDs = friendIDs;
+    }
 
     public String getId() {
         return id;

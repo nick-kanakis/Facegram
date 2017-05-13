@@ -53,6 +53,9 @@ public class Comment {
         this.id = id;
     }
 
+    public Comment() {
+    }
+
     @Override
     public String toString() {
         return "Comment{" +

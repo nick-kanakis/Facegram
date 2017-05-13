@@ -19,17 +19,18 @@ public class HomepageController {
     HomepageService homepageService;
 
     @RequestMapping(value = "/retrieveTopStories/{userId}", method = RequestMethod.GET)
+    //In order to map Geolocation for GET command do not use @RequestParam
     public List<Story> retrieveTopStories(@PathVariable String userId, Geolocation geolocation){
         return homepageService.retrieveTopStories(userId, geolocation);
     }
 
     @RequestMapping(value = "/retrieveHotStories/{userId}", method = RequestMethod.GET)
-    public List<Story> retrieveHotStories(@PathVariable String userId, @RequestParam Geolocation geolocation){
+    public List<Story> retrieveHotStories(@PathVariable String userId,  Geolocation geolocation){
         return homepageService.retrieveHotStories(userId, geolocation);
     }
 
     @RequestMapping(value = "/retrieveNewStories/{userId}", method = RequestMethod.GET)
-    public List<Story> retrieveNewStories(@PathVariable String userId, @RequestParam Geolocation geolocation){
+    public List<Story> retrieveNewStories(@PathVariable String userId, Geolocation geolocation){
         return homepageService.retrieveNewStories(userId, geolocation);
     }
 }

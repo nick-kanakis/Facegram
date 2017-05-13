@@ -8,6 +8,8 @@ public class Geolocation {
     private double latitude;
     private double longitude;
 
+    public Geolocation() {
+    }
 
     public double getLatitude() {
         return latitude;

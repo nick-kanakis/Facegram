@@ -18,6 +18,9 @@ public class Story {
     private List<Comment> comments;
     private Geolocation geoLocation;
 
+    public Story() {
+    }
+
     public static class Builder<T extends Builder>{
         private String title;
         private String userId;

@@ -2,6 +2,18 @@ spring:
   application:
     name: user-service
 
+feign:
+  hystrix:
+    enabled: true
+
+# Increase the Hystrix timeout to 30s (globally)
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000
 server:
   port: 1001
 
