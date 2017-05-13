@@ -39,7 +39,7 @@ public class NewStoriesService {
 
     private List<Story> newStoriesOfUserFallback(String userId, Throwable t) {
         logger.error("New Stories Fallback for UserId "+userId+". Returning empty list", t);
-        return  null;
+        return  new ArrayList<>();
     }
 
     private List<Story> newStoriesOfLocationFallback(Geolocation geolocation, Throwable t) {

@@ -2,20 +2,12 @@ spring:
   application:
     name: user-service
 
+server:
+  port: 1001
+
 feign:
   hystrix:
     enabled: true
-
-# Increase the Hystrix timeout to 30s (globally)
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 30000
-server:
-  port: 1001
 
 logging:
   level:
@@ -25,3 +17,12 @@ logging:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   file: user-service.logs
+
+# Increase the Hystrix timeout to 30s (globally)
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000

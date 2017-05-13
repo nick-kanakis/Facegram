@@ -13,6 +13,10 @@ public class User {
     private List<String> friendIDs;
     private Gender gender;
 
+    public User() {
+
+    }
+
 
     public static class Builder{
         String id;
