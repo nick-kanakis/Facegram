@@ -6,5 +6,6 @@ server:
 
 turbine:
   aggregator:
-    clusterConfig: STORY-SERVICE
-  appConfig: STORY-SERVICE
+    clusterConfig: STORY-SERVICE,USER-SERVICE
+  appConfig: STORY-SERVICE,USER-SERVICE
+  combineHostPort: true

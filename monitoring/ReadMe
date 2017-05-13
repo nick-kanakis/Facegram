@@ -24,24 +24,20 @@ Hystrix Dashboard. Individual instances are located via Eureka.
 
 turbine.appConfig: Eureka serviceIds that turbine will use to lookup instances
 
-turbine.aggregator.clusterConfig: Cluster Name, must be always in UPPERCASE as eureka instances are always in UPPERCASE
+turbine.aggregator.clusterConfig: Cluster Name.
 
 eg: http://my.turbine.sever:8080/turbine.stream?cluster=<CLUSTERNAME>; CLUSTERNAME == turbine.aggregator.clusterConfig
 
 
-When I register more microservices turbine may NOT work Wha I need to do is:
+When I register more microservices turbine  I need to do is:
 
-1) Add the follow to each service I want to monitor
-    https://github.com/spring-cloud/spring-cloud-netflix/issues/948
-eureka:
-  instance:
-    metadataMap:
-      cluster: MYCLUSTER
-
-2) Add this to the turbine
+Add this to the turbine
 turbine:
   aggregator:
-    clusterConfig: MYCLUSTER
-  appConfig: microservice-one,microservice-two,zuul-server
-  clusterNameExpression: metadata['cluster']
-  combineHostPort: true
+    clusterConfig: SERVICE-ONE,SERVICE-TWO  ->Describes the name of the cluster
+  appConfig: SERVICE-ONE,SERVICE-TWO->Describes the services we want to monitor
+  combineHostPort: true ->use a combination of hosts & ports for separating services
+
+Turbine is not build to aggregate multiple services into the same cluster. To do this you need to add in each of the clients
+the dependency of spring-boot-starter-amqp and created rabbitMQ broker. Turbine is aggregating all messages via amqp
+and be able to see all Hystrix commands aggregated on hystrix dashboard server
