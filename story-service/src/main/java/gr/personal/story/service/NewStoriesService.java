@@ -7,6 +7,7 @@ import gr.personal.story.util.FakeDataGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,16 +25,19 @@ public class NewStoriesService {
 
     @HystrixCommand(fallbackMethod = "newStoriesOfUserFallback")
     public List<Story> getNewStoriesOfUser(String userId) {
+        Assert.hasLength(userId, "getNewStoriesOfUser input was null or empty");
         return  FakeDataGenerator.generateStories();
     }
 
     @HystrixCommand(fallbackMethod = "newStoriesOfLocationFallback")
     public List<Story> getNewStoriesOfLocation(Geolocation geolocation) {
+        Assert.notNull(geolocation,"getNewStoriesOfLocation input is null");
         return  FakeDataGenerator.generateStories();
     }
 
     @HystrixCommand(fallbackMethod = "newStoriesOfGroupFallback")
     public List<Story> getNewStoriesOfGroup(String groupId) {
+        Assert.hasLength(groupId, "getNewStoriesOfGroup input was null or empty");
         return  FakeDataGenerator.generateStories();
     }
 

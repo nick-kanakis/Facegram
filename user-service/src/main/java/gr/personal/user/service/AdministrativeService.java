@@ -7,6 +7,7 @@ import gr.personal.user.util.FakeDataGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,32 +22,47 @@ public class AdministrativeService {
 
     @HystrixCommand(fallbackMethod = "createUserFallback")
     public String createUser(UserRequest user) {
+        Assert.notNull(user, "createUser input is null");
         return "OK";
     }
 
     @HystrixCommand(fallbackMethod = "updateUserFallback")
     public String updateUser(UserRequest user) {
+        Assert.notNull(user, "updateUser input is null");
         return "OK";
     }
 
     @HystrixCommand(fallbackMethod = "deleteUserFallback")
     public String deleteUser(String userId) {
+        Assert.hasLength(userId, "deleteUser input is empty or null");
         return "OK";
     }
+
     @HystrixCommand(fallbackMethod = "retrieveUserFallback")
     public User retrieveUser(String userId) {
+        Assert.hasLength(userId, "retrieveUser input is empty or null");
+
         return FakeDataGenerator.generateUser();
     }
+
     @HystrixCommand(fallbackMethod = "addFriendFallback")
     public String addFriend(String userId, UserRequest friend) {
+        Assert.notNull(friend, "addFriend input is null");
         return "OK";
     }
+
     @HystrixCommand(fallbackMethod = "removeFriendFallback")
     public String removeFriend(String userId, String friendId) {
+        Assert.hasLength(userId, "removeFriend input is empty or null");
+        Assert.hasLength(friendId, "removeFriend input is empty or null");
+
         return "OK";
     }
+
     @HystrixCommand(fallbackMethod = "retrieveFriendsFallback")
     public List<User> retrieveFriends(String userId) {
+        Assert.hasLength(userId, "retrieveFriends input is empty or null");
+
         return FakeDataGenerator.generateUsers();
     }
 
