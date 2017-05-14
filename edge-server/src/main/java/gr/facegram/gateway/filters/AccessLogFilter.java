@@ -21,10 +21,10 @@ public class AccessLogFilter extends ZuulFilter {
     public String filterType() {
         /*
         * Zuul has 4 types of standard filters
-        *   > pre filters are executed before the request is routed,
-        *   > route filters can handle the actual routing of the request,
-        *   > post filters are executed after the request has been routed, and
-        *   > error filters execute if an error occurs in the course of handling the request.
+        *   > PRE filters are executed before the request is routed,
+        *   > ROUTE filters can handle the actual routing of the request,
+        *   > POST filters are executed after the request has been routed, and
+        *   > ERROR filters execute if an error occurs in the course of handling the request.
          */
         return "post";
     }
@@ -46,7 +46,8 @@ public class AccessLogFilter extends ZuulFilter {
         HttpServletResponse response = RequestContext.getCurrentContext().getResponse();
 
         logger.info("REQUEST :: < " + request.getScheme() + " " + request.getLocalAddr() + ":" + request.getLocalPort());
-        logger.info("REQUEST :: < " + request.getMethod() + " " + request.getRequestURI() + " " + request.getProtocol()); logger.info("RESPONSE:: > HTTP:" + response.getStatus());
+        logger.info("REQUEST :: < " + request.getMethod() + " " + request.getRequestURI() + " " + request.getProtocol());
+        logger.info("RESPONSE:: > HTTP:" + response.getStatus());
 
 
         return null;

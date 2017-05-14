@@ -12,9 +12,6 @@ Hystrix DashBoard:
 Gives a visual representation of current status of all hystrix wrapped calls (Status of circuit). In order to access the
 console go to: localhost:8179/hystrix add add the turbine URL turbine.stream?cluster=STORY-SERVICE (for story service)
 
-
-TODO: Add more services
-
 Turbine:
 
 Turbine enables to collect multiple hystrix streams and display them in a single dashboard.
