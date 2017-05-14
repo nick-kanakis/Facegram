@@ -28,6 +28,10 @@ public class ApplicationTests {
     private int port = 0;
 
     @Test
+    public void contextLoads() {
+    }
+
+    @Test
     public void catalogLoads() {
         ResponseEntity<Map> entity = new TestRestTemplate("user", "passw0rd!").getForEntity("http://localhost:" + port + "/eureka/apps", Map.class);
         Assert.assertEquals(HttpStatus.OK, entity.getStatusCode());
