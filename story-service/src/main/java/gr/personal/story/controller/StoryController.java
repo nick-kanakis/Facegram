@@ -18,7 +18,7 @@ public class StoryController {
     StoryService storyService;
 
     @RequestMapping(path = "/create", method = RequestMethod.POST)
-    public String createStory(@RequestParam StoryRequest story) {
+    public String createStory(@RequestBody StoryRequest story) {
         return storyService.createStory(story);
     }
 
@@ -43,7 +43,7 @@ public class StoryController {
     }
 
     @RequestMapping(path = "/comment/{storyId}", method = RequestMethod.POST)
-    public String createComment(@RequestParam Comment comment) {
+    public String createComment(@RequestBody Comment comment) {
         return storyService.createComment(comment);
     }
 
@@ -52,7 +52,7 @@ public class StoryController {
         return storyService.deleteComment(commentId);
     }
 
-    @RequestMapping(path = "/fetchcomment/{commentId}", method = RequestMethod.DELETE)
+    @RequestMapping(path = "/fetchComment/{commentId}", method = RequestMethod.GET)
     public Comment fetchComment(@PathVariable String commentId) {
         return storyService.fetchComment(commentId);
     }

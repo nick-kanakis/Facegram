@@ -31,6 +31,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class NewStoriesControllerTest {
 
+    /**
+     * Inject Mock creates an instance of the class and injects the mocks that are created with @Mock into
+     * this instance.
+     */
     @InjectMocks
     private NewStoriesController newStoriesController;
 
@@ -41,6 +45,10 @@ public class NewStoriesControllerTest {
 
     @Before
     public void setup(){
+        /**
+         * We can not use @RunWith(MockitoJUnitRunner.class) in this test as we use @RunWith(SpringRunner.class)
+         * for this reason we use MockitoAnnotations.initMocks(this) in order to initialize mock objects
+         */
         MockitoAnnotations.initMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(newStoriesController).build();
     }
