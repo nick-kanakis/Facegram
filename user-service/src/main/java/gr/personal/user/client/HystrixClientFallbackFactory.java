@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class HystrixClientFallbackFactory implements FallbackFactory<StoryClient
             }
 
             @Override
-            public List<Story> getHotStoriesOfLocation(@PathParam("latitude") double latitude, @PathParam("longitude") double longitude) {
+            public List<Story> getHotStoriesOfLocation(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude) {
                 logger.warn("getHotStoriesOfLocation did not respond, returning empty object");
                 return new ArrayList<>();
             }
