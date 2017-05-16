@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyDouble;
 
 /**
  * Created by Nick Kanakis on 14/5/2017.
@@ -32,7 +33,7 @@ public class StoryClientTest {
 
     @Test
     public void shouldGetHotStoriesOfLocation(){
-        List<Story> stories = client.getHotStoriesOfLocation(any(Double.class), any(Double.class));
+        List<Story> stories = client.getHotStoriesOfLocation(anyDouble(), anyDouble());
         Assert.assertNotNull(stories);
     }
 
@@ -44,7 +45,7 @@ public class StoryClientTest {
 
     @Test
     public void shouldGetNewStoriesOfLocation(){
-        List<Story> stories = client.getNewStoriesOfLocation(any(Double.class), any(Double.class));
+        List<Story> stories = client.getNewStoriesOfLocation(anyDouble(), anyDouble());
         Assert.assertNotNull(stories);
     }
 
@@ -56,7 +57,7 @@ public class StoryClientTest {
 
     @Test
     public void shouldGetTopStoriesOfLocation(){
-        List<Story> stories = client.getTopStoriesOfLocation(any(Double.class), any(Double.class));
+        List<Story> stories = client.getTopStoriesOfLocation(anyDouble(), anyDouble());
         Assert.assertNotNull(stories);
     }
 

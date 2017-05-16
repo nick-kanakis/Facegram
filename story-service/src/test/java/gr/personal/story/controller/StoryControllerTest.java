@@ -1,7 +1,6 @@
 package gr.personal.story.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.corba.se.spi.ior.ObjectKey;
 import gr.personal.story.domain.*;
 import gr.personal.story.service.StoryService;
 import org.junit.Before;
@@ -19,7 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Date;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -54,7 +53,7 @@ public class StoryControllerTest {
         StoryImpl story = new StoryImpl();
         story.setId("test");
 
-        when(storyService.fetchStory(any(String.class))).thenReturn(story);
+        when(storyService.fetchStory(anyString())).thenReturn(story);
 
         mockMvc.perform(get("/story/fetch/test"))
                 .andExpect(jsonPath("$.id").value(story.getId()))
@@ -89,7 +88,7 @@ public class StoryControllerTest {
         StoryImpl story = new StoryImpl();
         story.setId("test");
 
-        when(storyService.deleteStory(any(String.class))).thenReturn("OK");
+        when(storyService.deleteStory(anyString())).thenReturn("OK");
 
         mockMvc.perform(delete("/story/delete/test"))
                 .andExpect(mvcResult -> "OK".equals(mvcResult))
@@ -101,7 +100,7 @@ public class StoryControllerTest {
         StoryImpl story = new StoryImpl();
         story.setId("test");
 
-        when(storyService.likeStory(any(String.class))).thenReturn("OK");
+        when(storyService.likeStory(anyString())).thenReturn("OK");
 
         mockMvc.perform(post("/story/like/test"))
                 .andExpect(mvcResult -> "OK".equals(mvcResult))
@@ -113,7 +112,7 @@ public class StoryControllerTest {
         StoryImpl story = new StoryImpl();
         story.setId("test");
 
-        when(storyService.unlikeStory(any(String.class))).thenReturn("OK");
+        when(storyService.unlikeStory(anyString())).thenReturn("OK");
 
         mockMvc.perform(post("/story/unlike/test"))
                 .andExpect(mvcResult -> "OK".equals(mvcResult))
@@ -141,7 +140,7 @@ public class StoryControllerTest {
     @Test
     public void shouldDeleteComment() throws Exception{
 
-        when(storyService.deleteComment(any(String.class))).thenReturn("OK");
+        when(storyService.deleteComment(anyString())).thenReturn("OK");
 
         mockMvc.perform(delete("/story/uncomment/testCommentId"))
                 .andExpect(status().isOk())
@@ -158,7 +157,7 @@ public class StoryControllerTest {
         comment.setId("1");
         comment.setPostDate(new Date());
 
-        when(storyService.fetchComment(any(String.class))).thenReturn(comment);
+        when(storyService.fetchComment(anyString())).thenReturn(comment);
 
         mockMvc.perform(get("/story/fetchComment/testCommentId"))
                 .andExpect(status().isOk())
