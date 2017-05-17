@@ -1,5 +1,6 @@
 package gr.personal.story.controller;
 
+import gr.personal.story.aop.annotations.LogExecutionTime;
 import gr.personal.story.domain.Geolocation;
 import gr.personal.story.domain.Story;
 import gr.personal.story.service.HotStoriesService;
@@ -24,6 +25,7 @@ public class HotStoriesController {
     private HotStoriesService hotStoriesService;
 
     //TODO: return generic result(?)
+    @LogExecutionTime
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
     public List<Story> getHotStoriesOfUser(@PathVariable String userId) throws ParseException {
         logger.debug("Entering getHotStoriesOfUser (userId={})", userId);
@@ -31,7 +33,7 @@ public class HotStoriesController {
         logger.debug("Exiting getHotStoriesOfUser (userId={}, numberOfStories={})", userId, hotStoriesOfUser.size());
         return hotStoriesOfUser;
     }
-
+    @LogExecutionTime
     @RequestMapping(path = "/location", method = RequestMethod.GET)
     public List<Story> getHotStoriesOfLocation( Geolocation geolocation) throws ParseException {
         logger.debug("Entering getHotStoriesOfLocation (geolocation={})", geolocation);
@@ -39,7 +41,7 @@ public class HotStoriesController {
         logger.debug("Exiting getHotStoriesOfLocation (geolocation={}, numberOfStories={})", geolocation, hotStoriesOfLocation.size());
         return hotStoriesOfLocation;
     }
-
+    @LogExecutionTime
     @RequestMapping(path = "/group/{groupId}", method = RequestMethod.GET)
     public List<Story> getHotStoriesOfGroup(@PathVariable String groupId) throws ParseException {
         logger.debug("Entering getHotStoriesOfGroup (groupId={})", groupId);

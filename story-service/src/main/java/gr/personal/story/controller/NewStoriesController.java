@@ -1,5 +1,6 @@
 package gr.personal.story.controller;
 
+import gr.personal.story.aop.annotations.LogExecutionTime;
 import gr.personal.story.domain.Geolocation;
 import gr.personal.story.domain.Story;
 import gr.personal.story.service.NewStoriesService;
@@ -22,7 +23,7 @@ public class NewStoriesController {
 
     @Autowired
     private NewStoriesService newStoriesService;
-
+    @LogExecutionTime
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
     public List<Story> getNewStoriesOfUser(@PathVariable String userId) throws ParseException {
         logger.debug("Entering getNewStoriesOfUser (userId={})", userId);
@@ -30,7 +31,7 @@ public class NewStoriesController {
         logger.debug("Existing getNewStoriesOfUser (userId={}, numberOfStories={})", userId, newStoriesOfUser.size());
         return newStoriesOfUser;
     }
-
+    @LogExecutionTime
     @RequestMapping(path = "/location", method = RequestMethod.GET)
     public List<Story> getNewStoriesOfLocation(Geolocation geolocation) throws ParseException {
         logger.debug("Entering getNewStoriesOfLocation (geolocation={})", geolocation);
@@ -38,7 +39,7 @@ public class NewStoriesController {
         logger.debug("Exiting getNewStoriesOfLocation (geolocation={}, numberOfStories={})", geolocation, newStoriesOfLocation.size());
         return newStoriesOfLocation;
     }
-
+    @LogExecutionTime
     @RequestMapping(path = "/group/{groupId}", method = RequestMethod.GET)
     public List<Story> getNewStoriesOfGroup(@PathVariable String groupId) throws ParseException {
         logger.debug("Entering getNewStoriesOfGroup (groupId={})", groupId);
