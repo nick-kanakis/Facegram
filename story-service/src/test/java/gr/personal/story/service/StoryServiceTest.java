@@ -44,7 +44,7 @@ public class StoryServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToCreateComment(){
-        storyService.createComment(null);
+        storyService.createComment("", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
