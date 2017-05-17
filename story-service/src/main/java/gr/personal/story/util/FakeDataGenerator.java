@@ -4,13 +4,10 @@ import gr.personal.story.domain.*;
 import io.codearte.jfairy.Fairy;
 import io.codearte.jfairy.producer.BaseProducer;
 import io.codearte.jfairy.producer.DateProducer;
-import io.codearte.jfairy.producer.company.Company;
-import io.codearte.jfairy.producer.payment.CreditCard;
 import io.codearte.jfairy.producer.text.TextProducer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by Nick Kanakis on 5/5/2017.
@@ -43,7 +40,7 @@ public class FakeDataGenerator {
                 .unlikes(baseProducer.randomBetween(0, 500))
                 .userId(String.valueOf(baseProducer.randomBetween(0, 999999999)))
                 .postDate(dateProducer.randomDateInThePast(10).toDate())
-                .geoLocation(getRandomGeoLocation())
+                .geolocation(getRandomGeoLocation())
                 .comments(generateComments())
                 .id(String.valueOf(baseProducer.randomBetween(0, 999999999)))
                 .story(textProducer.paragraph())

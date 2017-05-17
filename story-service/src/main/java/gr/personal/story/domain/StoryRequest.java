@@ -70,7 +70,7 @@ public class StoryRequest {
                 ", title='" + title + '\'' +
                 ", userId='" + userId + '\'' +
                 ", postDate=" + postDate +
-                ", geoLocation=" + geoLocation +
+                ", geolocation=" + geoLocation +
                 '}';
     }
 }

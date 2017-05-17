@@ -1,13 +1,19 @@
 package gr.personal.story.domain;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Nick Kanakis on 1/5/2017.
  */
+
+@Document(collection = "stories")
 public class StoryImpl implements Story{
 
+    @Id
     private String id;
     private String story;
     private String title;
@@ -16,7 +22,7 @@ public class StoryImpl implements Story{
     private long likes;
     private long unlikes;
     private List<Comment> comments;
-    private Geolocation geoLocation;
+    private Geolocation geolocation;
 
     public static class Builder<T extends Builder>{
         private String title;
@@ -25,13 +31,13 @@ public class StoryImpl implements Story{
         private long likes;
         private long unlikes;
         private List<Comment> comments;
-        private Geolocation geoLocation;
+        private Geolocation geolocation;
         private String id;
         private String story;
 
 
-        public Builder geoLocation(Geolocation geoLocation) {
-            this.geoLocation = geoLocation;
+        public Builder geolocation(Geolocation geoLocation) {
+            this.geolocation = geoLocation;
             return this;
         }
 
@@ -88,7 +94,7 @@ public class StoryImpl implements Story{
         this.likes = builder.likes;
         this.unlikes = builder.unlikes;
         this.comments = builder.comments;
-        this.geoLocation = builder.geoLocation;
+        this.geolocation = builder.geolocation;
         this.id = builder.id;
         this.story = builder.story;
     }
@@ -96,12 +102,12 @@ public class StoryImpl implements Story{
     public StoryImpl() {
     }
 
-    public Geolocation getGeoLocation() {
-        return geoLocation;
+    public Geolocation getGeolocation() {
+        return geolocation;
     }
 
-    public void setGeoLocation(Geolocation geoLocation) {
-        this.geoLocation = geoLocation;
+    public void setGeolocation(Geolocation geolocation) {
+        this.geolocation = geolocation;
     }
 
     public String getUserId() {
@@ -178,7 +184,7 @@ public class StoryImpl implements Story{
                 ", likes=" + likes +
                 ", unlikes=" + unlikes +
                 ", comments=" + comments +
-                ", geoLocation=" + geoLocation +
+                ", geolocation=" + geolocation +
                 '}';
     }
 }
