@@ -50,7 +50,7 @@ public class StoryClientTest {
     }
 
     @Test
-    public void shouldTopNewtStoriesOfUser(){
+    public void shouldGetToptStoriesOfUser(){
         List<Story> stories = client.getTopStoriesOfUser("test");
         Assert.assertNotNull(stories);
     }

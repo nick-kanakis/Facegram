@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -59,7 +60,9 @@ public class AdministrativeControllerTest {
 
         when(administrativeService.createUser(any(UserRequest.class))).thenReturn("OK");
 
-        mockMvc.perform(post("/administrative/createUser").content(asJsonString(userRequest)))
+        mockMvc.perform(post("/administrative/createUser")
+                .content(asJsonString(userRequest))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(mvcResult -> "OK".equals(mvcResult));
     }
@@ -74,7 +77,9 @@ public class AdministrativeControllerTest {
 
         when(administrativeService.updateUser(any(UserRequest.class))).thenReturn("OK");
 
-        mockMvc.perform(post("/administrative/updateUser").content(asJsonString(userRequest)))
+        mockMvc.perform(post("/administrative/updateUser")
+                .content(asJsonString(userRequest))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(mvcResult -> "OK".equals(mvcResult));
     }
@@ -100,7 +105,7 @@ public class AdministrativeControllerTest {
 
         when(administrativeService.retrieveUser(anyString())).thenReturn(user);
 
-        mockMvc.perform(post("/administrative/deleteUser/testUserId"))
+        mockMvc.perform(get("/administrative/retrieveUser/testUserId"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"));
     }
@@ -115,7 +120,9 @@ public class AdministrativeControllerTest {
 
         when(administrativeService.addFriend(anyString(), any(UserRequest.class))).thenReturn("OK");
 
-        mockMvc.perform(post("/administrative/addFriend/testUserId"))
+        mockMvc.perform(post("/administrative/addFriend/testUserId")
+                .content(asJsonString(userRequest))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(mvcResult -> "OK".equals(mvcResult));
 
@@ -126,7 +133,7 @@ public class AdministrativeControllerTest {
 
         when(administrativeService.removeFriend(anyString(),anyString())).thenReturn("OK");
 
-        mockMvc.perform(post("/administrative/removeFriend/testUserId/testFriendId"))
+        mockMvc.perform(delete("/administrative/removeFriend/testUserId/testFriendId"))
                 .andExpect(status().isOk())
                 .andExpect(mvcResult -> "OK".equals(mvcResult));
     }

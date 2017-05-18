@@ -16,17 +16,17 @@ public class HomepageServiceTest {
     @InjectMocks
     HomepageService homepageService;
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void shouldFailToRetrieveNewStories() throws Exception {
         homepageService.retrieveNewStories("", null);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void shouldFailToRetrieveHotStories() throws Exception {
         homepageService.retrieveHotStories("", null);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void shouldFailToRetrieveTopStories() throws Exception {
         homepageService.retrieveTopStories("", null);
     }
