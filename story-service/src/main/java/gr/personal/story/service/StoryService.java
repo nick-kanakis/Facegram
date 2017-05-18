@@ -47,7 +47,7 @@ public class StoryService {
         return "OK";
     }
 
-    public String createComment(Comment comment) {
+    public String createComment(String storyId, Comment comment) {
         Assert.notNull(comment, "createComment input is null");
         return "OK";
     }

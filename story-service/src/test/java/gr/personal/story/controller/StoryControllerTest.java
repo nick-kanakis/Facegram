@@ -19,6 +19,10 @@ import java.util.Date;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+<<<<<<< HEAD
+=======
+import static org.mockito.Mockito.mock;
+>>>>>>> d25a06c6b3a10ae272d77b65c917136dbd7918ec
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -129,7 +133,7 @@ public class StoryControllerTest {
         comment.setId("1");
         comment.setPostDate(new Date());
 
-        when(storyService.createComment(any(Comment.class))).thenReturn("OK");
+        when(storyService.createComment(anyString(), any(Comment.class))).thenReturn("OK");
 
         mockMvc.perform(post("/story/comment/testStoryId").contentType(MediaType.APPLICATION_JSON)
                             .content(asJsonString(comment)))

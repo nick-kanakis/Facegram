@@ -1,18 +1,21 @@
 package gr.personal.story.domain;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 /**
  * Created by Nick Kanakis on 4/5/2017.
  */
+@Document(collection = "stories")
 public class GroupStoryImpl extends StoryImpl {
 
-    private String ownerGroupId;
+    private String groupId;
 
-    public String getOwnerGroupId() {
-        return ownerGroupId;
+    public String getGroupId() {
+        return groupId;
     }
 
-    public void setOwnerGroupId(String ownerGroupId) {
-        this.ownerGroupId = ownerGroupId;
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public static class Builder extends StoryImpl.Builder<Builder>{
@@ -30,6 +33,6 @@ public class GroupStoryImpl extends StoryImpl {
 
     public GroupStoryImpl(Builder builder) {
         super(builder);
-        ownerGroupId = builder.ownerGroupId;
+        groupId = builder.ownerGroupId;
     }
 }

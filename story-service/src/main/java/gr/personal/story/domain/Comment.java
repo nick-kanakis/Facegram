@@ -1,12 +1,18 @@
 package gr.personal.story.domain;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Date;
 
 /**
  * Created by Nick Kanakis on 4/5/2017.
  */
+
+@Document(collection = "comments")
 public class Comment {
 
+    @Id
     private String id;
     private String header;
     private String userId;
