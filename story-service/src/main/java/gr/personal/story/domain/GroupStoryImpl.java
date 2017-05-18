@@ -35,4 +35,8 @@ public class GroupStoryImpl extends StoryImpl {
         super(builder);
         groupId = builder.ownerGroupId;
     }
+
+    public GroupStoryImpl() {
+        super();
+    }
 }

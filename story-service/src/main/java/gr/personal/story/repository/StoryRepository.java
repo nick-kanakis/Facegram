@@ -15,4 +15,7 @@ public interface StoryRepository extends MongoRepository<StoryImpl, String> {
 
     List<StoryImpl> findByGeolocation(Geolocation geolocation);
 
+    List<StoryImpl> findByUserId(String userId);
+
+
 }
