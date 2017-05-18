@@ -1,9 +1,7 @@
 package gr.personal.story.repository;
 
-import gr.personal.story.domain.Comment;
 import gr.personal.story.domain.Geolocation;
 import gr.personal.story.domain.Story;
-import gr.personal.story.domain.StoryImpl;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -35,7 +33,7 @@ public class StoryRepositoryTest {
         geolocation.setLatitude(0);
         geolocation.setLongitude(0);
 
-        StoryImpl story = new StoryImpl();
+        Story story = new Story();
         story.setLikes(2);
         story.setComments(new ArrayList<>());
         story.setPostDate(new Date());
@@ -52,7 +50,7 @@ public class StoryRepositoryTest {
     }
     @Test
     public void shouldFetchData(){
-        List<StoryImpl> stories = storyRepository.findByUserId("testUserId");
+        List<Story> stories = storyRepository.findByUserId("testUserId");
         Assert.assertNotNull(stories);
         Assert.assertEquals("Test Title", stories.get(0).getTitle());
 
@@ -61,10 +59,10 @@ public class StoryRepositoryTest {
     @Test
     public void shouldUpdateDate(){
 
-        List<StoryImpl> stories = storyRepository.findByUserId("testUserId");
+        List<Story> stories = storyRepository.findByUserId("testUserId");
         stories.get(0).setTitle("Test Title 2");
         storyRepository.save(stories);
-        List<StoryImpl> storiesAfterUpdate = storyRepository.findByUserId("testUserId");
+        List<Story> storiesAfterUpdate = storyRepository.findByUserId("testUserId");
         Assert.assertEquals("Test Title 2", storiesAfterUpdate.get(0).getTitle());
 
 

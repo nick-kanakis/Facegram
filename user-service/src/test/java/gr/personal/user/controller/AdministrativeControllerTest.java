@@ -54,24 +54,24 @@ public class AdministrativeControllerTest {
     public void shouldCreateUser() throws Exception{
         UserRequest userRequest = new UserRequest();
         userRequest.setGender(Gender.FEMALE);
-        userRequest.setId("1");
+        userRequest.setUsername("1");
         userRequest.setName("test");
         userRequest.setSurname("test");
 
-        when(administrativeService.createUser(any(UserRequest.class))).thenReturn("OK");
+        when(administrativeService.createUser(any(UserRequest.class))).thenReturn("testUserId");
 
         mockMvc.perform(post("/administrative/createUser")
                 .content(asJsonString(userRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(mvcResult -> "OK".equals(mvcResult));
+                .andExpect(mvcResult -> "testUserId".equals(mvcResult));
     }
 
     @Test
     public void shouldUpdateUser() throws Exception {
         UserRequest userRequest = new UserRequest();
         userRequest.setGender(Gender.FEMALE);
-        userRequest.setId("1");
+        userRequest.setUsername("1");
         userRequest.setName("test");
         userRequest.setSurname("test");
 
@@ -98,7 +98,7 @@ public class AdministrativeControllerTest {
 
         User user = new User();
         user.setGender(Gender.FEMALE);
-        user.setId("1");
+        user.setUsername("1");
         user.setName("test");
         user.setSurname("test");
         user.setFriendIDs(new ArrayList<>());
@@ -114,7 +114,7 @@ public class AdministrativeControllerTest {
     public void shouldAddFriend() throws Exception {
         UserRequest userRequest = new UserRequest();
         userRequest.setGender(Gender.FEMALE);
-        userRequest.setId("1");
+        userRequest.setUsername("1");
         userRequest.setName("test");
         userRequest.setSurname("test");
 
@@ -143,7 +143,7 @@ public class AdministrativeControllerTest {
 
         User user = new User();
         user.setGender(Gender.FEMALE);
-        user.setId("1");
+        user.setUsername("1");
         user.setName("test");
         user.setSurname("test");
         user.setFriendIDs(new ArrayList<>());
@@ -155,7 +155,7 @@ public class AdministrativeControllerTest {
 
         mockMvc.perform(get("/administrative/retrieveFriends/testUserId"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(user.getId()));
+                .andExpect(jsonPath("$[0].id").value(user.getUsername()));
 
     }
 

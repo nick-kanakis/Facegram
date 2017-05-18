@@ -50,7 +50,7 @@ public class StoryControllerTest {
 
     @Test
     public void shouldFetchStory() throws Exception {
-        StoryImpl story = new StoryImpl();
+        Story story = new Story();
         story.setId("test");
 
         when(storyService.fetchStory(anyString())).thenReturn(story);
@@ -85,7 +85,7 @@ public class StoryControllerTest {
 
     @Test
     public void shouldDeleteStory() throws Exception {
-        StoryImpl story = new StoryImpl();
+        Story story = new Story();
         story.setId("test");
 
         when(storyService.deleteStory(anyString())).thenReturn("OK");
@@ -97,7 +97,7 @@ public class StoryControllerTest {
 
     @Test
     public void shouldLikeStory() throws Exception {
-        StoryImpl story = new StoryImpl();
+        Story story = new Story();
         story.setId("test");
 
         when(storyService.likeStory(anyString())).thenReturn("OK");
@@ -109,7 +109,7 @@ public class StoryControllerTest {
 
     @Test
     public void shouldUnLikeStory() throws Exception {
-        StoryImpl story = new StoryImpl();
+        Story story = new Story();
         story.setId("test");
 
         when(storyService.unlikeStory(anyString())).thenReturn("OK");

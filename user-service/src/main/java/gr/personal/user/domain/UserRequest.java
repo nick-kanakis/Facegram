@@ -1,13 +1,11 @@
 package gr.personal.user.domain;
 
-import java.util.List;
-
 /**
  * Created by Nick Kanakis on 9/5/2017.
  */
 public class UserRequest {
 
-    private String id;
+    private String username;
     private String name;
     private String surname;
     private Gender gender;
@@ -37,11 +35,11 @@ public class UserRequest {
         this.surname = surname;
     }
 
-    public String getId() {
-        return id;
+    public String getUsername() {
+        return username;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

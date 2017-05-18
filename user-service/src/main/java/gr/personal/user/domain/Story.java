@@ -171,7 +171,7 @@ public class Story {
     @Override
     public String toString() {
         return "StoryImpl{" +
-                "id='" + id + '\'' +
+                "username='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", userId='" + userId + '\'' +
                 ", postDate=" + postDate +

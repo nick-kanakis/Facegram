@@ -1,13 +1,18 @@
 package gr.personal.user.domain;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.List;
 
 /**
  * Created by Nick Kanakis on 9/5/2017.
  */
+@Document(collection = "users")
 public class User {
 
-    private String id;
+    @Id
+    private String username;
     private String name;
     private String surname;
     private List<String> friendIDs;
@@ -19,14 +24,14 @@ public class User {
 
 
     public static class Builder{
-        String id;
+        String username;
         String name;
         String surname;
         List<String> friendIDs;
         Gender gender;
 
-        public Builder id(String id) {
-            this.id = id;
+        public Builder username(String id) {
+            this.username = id;
             return this;
         }
 
@@ -56,27 +61,27 @@ public class User {
     }
 
     public User(Builder builder) {
-        id = builder.id;
+        username = builder.username;
         name = builder.name;
         surname = builder.surname;
         friendIDs = builder.friendIDs;
         gender = builder.gender;
     }
 
-    public User(String id, Gender gender, String name, String surname, List<String> friendIDs) {
-        this.id = id;
+    public User(String username, Gender gender, String name, String surname, List<String> friendIDs) {
+        this.username = username;
         this.gender = gender;
         this.name = name;
         this.surname = surname;
         this.friendIDs = friendIDs;
     }
 
-    public String getId() {
-        return id;
+    public String getUsername() {
+        return username;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getName() {

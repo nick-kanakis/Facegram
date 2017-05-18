@@ -34,7 +34,7 @@ public class FakeDataGenerator {
         BaseProducer baseProducer = fairy.baseProducer();
         DateProducer dateProducer = fairy.dateProducer();
 
-        Story story = new StoryImpl.Builder<>()
+        Story story = new Story.Builder<>()
                 .likes(baseProducer.randomBetween(0, 1000))
                 .title(textProducer.sentence())
                 .unlikes(baseProducer.randomBetween(0, 500))

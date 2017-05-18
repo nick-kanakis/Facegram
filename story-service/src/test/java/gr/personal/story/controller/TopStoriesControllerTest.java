@@ -2,7 +2,7 @@ package gr.personal.story.controller;
 
 import com.google.common.collect.ImmutableList;
 import gr.personal.story.domain.Geolocation;
-import gr.personal.story.domain.StoryImpl;
+import gr.personal.story.domain.Story;
 import gr.personal.story.service.TopStoriesService;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,7 +48,7 @@ public class TopStoriesControllerTest {
     @Test
     public void shouldGetTopStoriesOfUser() throws Exception{
 
-        StoryImpl story = new StoryImpl();
+        Story story = new Story();
         story.setId("test");
 
         when(topStoriesService.getTopStoriesOfUser("test")).thenReturn(ImmutableList.of(story));
@@ -60,7 +60,7 @@ public class TopStoriesControllerTest {
     @Test
     public void shouldGetTopStoriesOfLocation() throws Exception{
 
-        StoryImpl story = new StoryImpl();
+        Story story = new Story();
         story.setId("test");
 
         Geolocation geolocation = new Geolocation();
@@ -81,7 +81,7 @@ public class TopStoriesControllerTest {
     @Test
     public void shouldGetTopStoriesOfGroup() throws Exception{
 
-        StoryImpl story = new StoryImpl();
+        Story story = new Story();
         story.setId("test");
 
         when(topStoriesService.getTopStoriesOfGroup("test")).thenReturn(ImmutableList.of(story));

@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * Created by Nick Kanakis on 4/5/2017.
  */
 @Document(collection = "stories")
-public class GroupStoryImpl extends StoryImpl {
+public class GroupStory extends Story {
 
     private String groupId;
 
@@ -18,7 +18,7 @@ public class GroupStoryImpl extends StoryImpl {
         this.groupId = groupId;
     }
 
-    public static class Builder extends StoryImpl.Builder<Builder>{
+    public static class Builder extends Story.Builder<Builder>{
         private String ownerGroupId;
 
         public Builder ownerGroupId(String ownerGroupId) {
@@ -26,17 +26,17 @@ public class GroupStoryImpl extends StoryImpl {
             return this;
         }
 
-        public GroupStoryImpl build(){
-            return new GroupStoryImpl(this);
+        public GroupStory build(){
+            return new GroupStory(this);
         }
     }
 
-    public GroupStoryImpl(Builder builder) {
+    public GroupStory(Builder builder) {
         super(builder);
         groupId = builder.ownerGroupId;
     }
 
-    public GroupStoryImpl() {
+    public GroupStory() {
         super();
     }
 }

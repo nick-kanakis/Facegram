@@ -26,17 +26,17 @@ public class AdministrativeController {
     @LogTimeExecution
     @RequestMapping(value = "/createUser", method = RequestMethod.POST)
     public String createUser(@RequestBody UserRequest user){
-        logger.debug("Entering createUser (userId = {})",user.getId());
+        logger.debug("Entering createUser (username = {})",user.getUsername());
         String result = administrativeService.createUser(user);
-        logger.debug("Exiting createUser (userId ={}, result={})",user.getId(), result);
+        logger.debug("Exiting createUser (username ={}, result={})",user.getUsername(), result);
         return result;
     }
     @LogTimeExecution
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     public String updateUser(@RequestBody UserRequest user){
-        logger.debug("Entering updateUser (userId = {})",user.getId());
+        logger.debug("Entering updateUser (username = {})",user.getUsername());
         String result =  administrativeService.updateUser(user);
-        logger.debug("Exiting updateUser (userId ={}, result={})",user.getId(), result);
+        logger.debug("Exiting updateUser (username ={}, result={})",user.getUsername(), result);
         return result;
 
     }

@@ -3,9 +3,11 @@ package gr.personal.user.service;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import gr.personal.user.domain.User;
 import gr.personal.user.domain.UserRequest;
+import gr.personal.user.repository.UserRepository;
 import gr.personal.user.util.FakeDataGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -20,15 +22,19 @@ public class AdministrativeService {
 
     Logger logger = LoggerFactory.getLogger(AdministrativeService.class);
 
+    @Autowired
+    UserRepository userRepository;
+
     @HystrixCommand(fallbackMethod = "createUserFallback")
-    public String createUser(UserRequest user) {
-        Assert.notNull(user, "createUser input is null");
+    public String createUser(UserRequest userRequest) {
+        Assert.notNull(userRequest, "createUser input is null");
+
         return "OK";
     }
 
     @HystrixCommand(fallbackMethod = "updateUserFallback")
-    public String updateUser(UserRequest user) {
-        Assert.notNull(user, "updateUser input is null");
+    public String updateUser(UserRequest userRequest) {
+        Assert.notNull(userRequest, "updateUser input is null");
         return "OK";
     }
 
@@ -68,13 +74,13 @@ public class AdministrativeService {
 
     public String createUserFallback(UserRequest user, Throwable t){
 
-        logger.warn("Create User fallback for user: "+ user.getId()+ ". Returning empty object", t);
+        logger.warn("Create User fallback for user: "+ user.getUsername()+ ". Returning empty object", t);
 
         return "";
     }
 
     public String updateUserFallback(UserRequest user, Throwable t) {
-        logger.warn("Update User fallback for user: "+ user.getId()+ ". Returning empty object", t);
+        logger.warn("Update User fallback for user: "+ user.getUsername()+ ". Returning empty object", t);
 
         return "";
     }

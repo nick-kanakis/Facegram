@@ -1,8 +1,7 @@
 package gr.personal.story.repository;
 
 import gr.personal.story.domain.Geolocation;
-import gr.personal.story.domain.GroupStoryImpl;
-import gr.personal.story.domain.StoryImpl;
+import gr.personal.story.domain.GroupStory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -34,7 +33,7 @@ public class GroupStoryRepositoryTest {
         geolocation.setLatitude(0);
         geolocation.setLongitude(0);
 
-        GroupStoryImpl groupStory = new GroupStoryImpl();
+        GroupStory groupStory = new GroupStory();
         groupStory.setLikes(2);
         groupStory.setComments(new ArrayList<>());
         groupStory.setPostDate(new Date());
@@ -52,7 +51,7 @@ public class GroupStoryRepositoryTest {
     }
     @Test
     public void shouldFetchData(){
-        List<GroupStoryImpl> groupStories = groupStoryRepository.findByGroupId("testGroupId");
+        List<GroupStory> groupStories = groupStoryRepository.findByGroupId("testGroupId");
         Assert.assertNotNull(groupStories);
         Assert.assertEquals("Test Title", groupStories.get(0).getTitle());
 
@@ -61,10 +60,10 @@ public class GroupStoryRepositoryTest {
     @Test
     public void shouldUpdateDate(){
 
-        List<GroupStoryImpl> groupStories = groupStoryRepository.findByGroupId("testGroupId");
+        List<GroupStory> groupStories = groupStoryRepository.findByGroupId("testGroupId");
         groupStories.get(0).setTitle("Test Title 2");
         groupStoryRepository.save(groupStories);
-        List<GroupStoryImpl> storiesAfterUpdate = groupStoryRepository.findByGroupId("testGroupId");
+        List<GroupStory> storiesAfterUpdate = groupStoryRepository.findByGroupId("testGroupId");
         Assert.assertEquals("Test Title 2", storiesAfterUpdate.get(0).getTitle());
 
 
