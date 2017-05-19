@@ -37,17 +37,17 @@ public class AdministrativeServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldFailToAddFriend(){
-        administrativeService.addFriend("",null);
+    public void shouldFailToAddFollower(){
+        administrativeService.addFollower("",null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldFailToRemoveFriend(){
-        administrativeService.removeFriend("","");
+    public void shouldFailToRemoveFollower(){
+        administrativeService.removeFollower("","");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldFailToRetrieveFriends(){
-        administrativeService.retrieveFriends("");
+    public void shouldFailToRetrieveFollowers(){
+        administrativeService.retrieveFollowers("");
     }
 }

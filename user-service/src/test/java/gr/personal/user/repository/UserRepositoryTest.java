@@ -28,7 +28,7 @@ public class UserRepositoryTest {
     @Before
     public void setup(){
         User user = new User();
-        user.setFriendIDs(new ArrayList<>());
+        user.setFollowerIds(new ArrayList<>());
         user.setGender(Gender.MALE);
         user.setName("Nick");
         user.setSurname("Kanakis");

@@ -29,48 +29,79 @@ public class AdministrativeService {
     public String createUser(UserRequest userRequest) {
         Assert.notNull(userRequest, "createUser input is null");
 
+        if(userRepository.exists(userRequest.getUsername()))
+            return "NOK";
+
+        User user = new User.Builder()
+                .followers(new ArrayList<>())
+                .gender(userRequest.getGender())
+                .name(userRequest.getName())
+                .surname(userRequest.getSurname())
+                .username(userRequest.getSurname())
+                .build();
+
+        userRepository.save(user);
+
         return "OK";
     }
 
     @HystrixCommand(fallbackMethod = "updateUserFallback")
     public String updateUser(UserRequest userRequest) {
         Assert.notNull(userRequest, "updateUser input is null");
+
+        //TODO: do it in one operation with query (?)
+        User user = userRepository.findByUsername(userRequest.getUsername());
+
+        if(user == null)
+            return "NOK";
+
+        user.setName(userRequest.getName());
+        user.setSurname(userRequest.getSurname());
+        user.setGender(userRequest.getGender());
+
+        userRepository.save(user);
+
         return "OK";
     }
 
     @HystrixCommand(fallbackMethod = "deleteUserFallback")
-    public String deleteUser(String userId) {
-        Assert.hasLength(userId, "deleteUser input is empty or null");
+    public String deleteUser(String username) {
+        Assert.hasLength(username, "deleteUser input is empty or null");
+        
+        userRepository.delete(username);
+        
         return "OK";
     }
 
     @HystrixCommand(fallbackMethod = "retrieveUserFallback")
-    public User retrieveUser(String userId) {
-        Assert.hasLength(userId, "retrieveUser input is empty or null");
-
-        return FakeDataGenerator.generateUser();
+    public User retrieveUser(String username) {
+        Assert.hasLength(username, "retrieveUser input is empty or null");
+        return userRepository.findByUsername(username);
     }
 
-    @HystrixCommand(fallbackMethod = "addFriendFallback")
-    public String addFriend(String userId, UserRequest friend) {
-        Assert.notNull(friend, "addFriend input is null");
-        return "OK";
-    }
-
-    @HystrixCommand(fallbackMethod = "removeFriendFallback")
-    public String removeFriend(String userId, String friendId) {
-        Assert.hasLength(userId, "removeFriend input is empty or null");
-        Assert.hasLength(friendId, "removeFriend input is empty or null");
+    @HystrixCommand(fallbackMethod = "addFollowerFallback")
+    public String addFollower(String username, String followedUsername) {
+        Assert.hasLength(followedUsername, "addFollower input is empty");
 
         return "OK";
     }
 
-    @HystrixCommand(fallbackMethod = "retrieveFriendsFallback")
-    public List<User> retrieveFriends(String userId) {
-        Assert.hasLength(userId, "retrieveFriends input is empty or null");
+    @HystrixCommand(fallbackMethod = "removeFollowerFallback")
+    public String removeFollower(String username, String followerUsername) {
+        Assert.hasLength(username, "removeFollower input is empty or null");
+        Assert.hasLength(followerUsername, "removeFollower input is empty or null");
+
+        return "OK";
+    }
+
+    @HystrixCommand(fallbackMethod = "retrieveFollowersFallback")
+    public List<User> retrieveFollowers(String username) {
+        Assert.hasLength(username, "retrieveFollowers input is empty or null");
 
         return FakeDataGenerator.generateUsers();
     }
+
+    //TODO move them in different Class
 
     public String createUserFallback(UserRequest user, Throwable t){
 
@@ -85,32 +116,32 @@ public class AdministrativeService {
         return "";
     }
 
-    public String deleteUserFallback(String userId, Throwable t) {
-        logger.warn("Delete User fallback for user: "+ userId+ ". Returning empty object", t);
+    public String deleteUserFallback(String username, Throwable t) {
+        logger.warn("Delete User fallback for user: "+ username+ ". Returning empty object", t);
 
         return "";
     }
 
-    private User retrieveUserFallback(String userId, Throwable t) {
-        logger.warn("Retrieve User fallback for user: "+ userId+ ". Returning empty object", t);
+    private User retrieveUserFallback(String username, Throwable t) {
+        logger.warn("Retrieve User fallback for user: "+ username+ ". Returning empty object", t);
 
         return new User();
     }
 
-    private String addFriendFallback(String userId, UserRequest friend, Throwable t) {
-        logger.warn("Add Friend fallback for user: "+ userId + ". Returning empty object", t);
+    private String addFollowerFallback(String username, UserRequest followerUsername, Throwable t) {
+        logger.warn("Add Follower fallback for user: "+ username + ". Returning empty object", t);
 
         return "";
     }
 
-    private String removeFriendFallback(String userId, String friendId, Throwable t) {
-        logger.warn("Retrieve Friend fallback for user: "+ userId + ". Returning empty object", t);
+    private String removeFollowerFallback(String username, String followerUsername, Throwable t) {
+        logger.warn("Remove follower fallback for user: "+ username + ". Returning empty object", t);
 
         return "";
     }
 
-    private List<User> retrieveFriendsFallback(String userId, Throwable t) {
-        logger.warn("Retrieve Users fallback for user: "+ userId + ". Returning empty List", t);
+    private List<User> retrieveFollowersFallback(String username, Throwable t) {
+        logger.warn("Retrieve followers fallback for user: "+ username + ". Returning empty List", t);
 
         return new ArrayList<>();
     }

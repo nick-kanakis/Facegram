@@ -15,7 +15,7 @@ public class User {
     private String username;
     private String name;
     private String surname;
-    private List<String> friendIDs;
+    private List<String> followerIds;
     private Gender gender;
 
     public User() {
@@ -27,7 +27,7 @@ public class User {
         String username;
         String name;
         String surname;
-        List<String> friendIDs;
+        List<String> followerIds;
         Gender gender;
 
         public Builder username(String id) {
@@ -45,8 +45,8 @@ public class User {
             return this;
         }
 
-        public Builder friends(List<String> friends) {
-            this.friendIDs = friends;
+        public Builder followers(List<String> followerIds) {
+            this.followerIds = followerIds;
             return this;
         }
 
@@ -64,16 +64,16 @@ public class User {
         username = builder.username;
         name = builder.name;
         surname = builder.surname;
-        friendIDs = builder.friendIDs;
+        followerIds = builder.followerIds;
         gender = builder.gender;
     }
 
-    public User(String username, Gender gender, String name, String surname, List<String> friendIDs) {
+    public User(String username, Gender gender, String name, String surname, List<String> followerIds) {
         this.username = username;
         this.gender = gender;
         this.name = name;
         this.surname = surname;
-        this.friendIDs = friendIDs;
+        this.followerIds = followerIds;
     }
 
     public String getUsername() {
@@ -100,12 +100,12 @@ public class User {
         this.surname = surname;
     }
 
-    public List<String> getFriendIDs() {
-        return friendIDs;
+    public List<String> getFollowerIds() {
+        return followerIds;
     }
 
-    public void setFriendIDs(List<String> friendIDs) {
-        this.friendIDs = friendIDs;
+    public void setFollowerIds(List<String> followerIds) {
+        this.followerIds = followerIds;
     }
 
     public Gender getGender() {

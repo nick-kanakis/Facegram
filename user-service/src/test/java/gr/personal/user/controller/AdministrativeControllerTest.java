@@ -101,26 +101,26 @@ public class AdministrativeControllerTest {
         user.setUsername("1");
         user.setName("test");
         user.setSurname("test");
-        user.setFriendIDs(new ArrayList<>());
+        user.setFollowerIds(new ArrayList<>());
 
         when(administrativeService.retrieveUser(anyString())).thenReturn(user);
 
         mockMvc.perform(get("/administrative/retrieveUser/testUserId"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value("1"));
+                .andExpect(jsonPath("$.username").value("1"));
     }
 
     @Test
-    public void shouldAddFriend() throws Exception {
+    public void shouldAddFollower() throws Exception {
         UserRequest userRequest = new UserRequest();
         userRequest.setGender(Gender.FEMALE);
         userRequest.setUsername("1");
         userRequest.setName("test");
         userRequest.setSurname("test");
 
-        when(administrativeService.addFriend(anyString(), any(UserRequest.class))).thenReturn("OK");
+        when(administrativeService.addFollower(anyString(), anyString())).thenReturn("OK");
 
-        mockMvc.perform(post("/administrative/addFriend/testUserId")
+        mockMvc.perform(post("/administrative/addFollower/testUserId/testFollowerId")
                 .content(asJsonString(userRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -129,33 +129,33 @@ public class AdministrativeControllerTest {
     }
 
     @Test
-    public void shouldRemoveFriend() throws Exception {
+    public void shouldRemoveFollower() throws Exception {
 
-        when(administrativeService.removeFriend(anyString(),anyString())).thenReturn("OK");
+        when(administrativeService.removeFollower(anyString(),anyString())).thenReturn("OK");
 
-        mockMvc.perform(delete("/administrative/removeFriend/testUserId/testFriendId"))
+        mockMvc.perform(delete("/administrative/removeFollower/testUserId/testFollowerId"))
                 .andExpect(status().isOk())
                 .andExpect(mvcResult -> "OK".equals(mvcResult));
     }
 
     @Test
-    public void shouldRetrieveFriends() throws Exception {
+    public void shouldRetrieveFollower() throws Exception {
 
         User user = new User();
         user.setGender(Gender.FEMALE);
         user.setUsername("1");
         user.setName("test");
         user.setSurname("test");
-        user.setFriendIDs(new ArrayList<>());
+        user.setFollowerIds(new ArrayList<>());
 
         List<User> users = new ArrayList<>();
         users.add(user);
 
-        when(administrativeService.retrieveFriends(anyString())).thenReturn(users);
+        when(administrativeService.retrieveFollowers(anyString())).thenReturn(users);
 
-        mockMvc.perform(get("/administrative/retrieveFriends/testUserId"))
+        mockMvc.perform(get("/administrative/retrieveFollowers/testUserId"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(user.getUsername()));
+                .andExpect(jsonPath("$[0].username").value(user.getUsername()));
 
     }
 

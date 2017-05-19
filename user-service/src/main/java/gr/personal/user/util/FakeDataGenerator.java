@@ -22,10 +22,10 @@ public class FakeDataGenerator {
         BaseProducer baseProducer = fairy.baseProducer();
         User user = new User.Builder()
                 .gender(Gender.MALE)
-                .id(String.valueOf(baseProducer.randomBetween(1, 999999999)))
+                .username(String.valueOf(baseProducer.randomBetween(1, 999999999)))
                 .name(person.getFirstName())
                 .surname(person.getLastName())
-                .friends(randomIds())
+                .followers(randomIds())
                 .build();
 
         return user;
