@@ -3,11 +3,6 @@ Story Service
 This service is responsible for handling everything involving story. Will be used as a source service for every operation
 that need information about Story/Comments
 
-//Only for personal use
-To start mongoDB:
-C:\Workspace\DBs\MongoDB\bin\mongod --config C:\Workspace\DBs\MongoDB\bin\mongo.config
-
-
 Tech Features
 =============
 Hystrix:
