@@ -12,6 +12,9 @@ import java.util.List;
 /**
  * Created by Nick Kanakis on 13/5/2017.
  */
+
+//TODO: Remove class
+@Deprecated
 public class FakeDataGenerator {
 
 
@@ -25,7 +28,7 @@ public class FakeDataGenerator {
                 .username(String.valueOf(baseProducer.randomBetween(1, 999999999)))
                 .name(person.getFirstName())
                 .surname(person.getLastName())
-                .followers(randomIds())
+                .followings(randomIds())
                 .build();
 
         return user;

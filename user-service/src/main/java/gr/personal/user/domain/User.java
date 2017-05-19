@@ -15,7 +15,7 @@ public class User {
     private String username;
     private String name;
     private String surname;
-    private List<String> followerIds;
+    private List<String> followingIds;
     private Gender gender;
 
     public User() {
@@ -27,7 +27,7 @@ public class User {
         String username;
         String name;
         String surname;
-        List<String> followerIds;
+        List<String> followingIds;
         Gender gender;
 
         public Builder username(String id) {
@@ -45,8 +45,8 @@ public class User {
             return this;
         }
 
-        public Builder followers(List<String> followerIds) {
-            this.followerIds = followerIds;
+        public Builder followings(List<String> followingIds) {
+            this.followingIds = followingIds;
             return this;
         }
 
@@ -64,16 +64,16 @@ public class User {
         username = builder.username;
         name = builder.name;
         surname = builder.surname;
-        followerIds = builder.followerIds;
+        followingIds = builder.followingIds;
         gender = builder.gender;
     }
 
-    public User(String username, Gender gender, String name, String surname, List<String> followerIds) {
+    public User(String username, Gender gender, String name, String surname, List<String> followingIds) {
         this.username = username;
         this.gender = gender;
         this.name = name;
         this.surname = surname;
-        this.followerIds = followerIds;
+        this.followingIds = followingIds;
     }
 
     public String getUsername() {
@@ -100,12 +100,12 @@ public class User {
         this.surname = surname;
     }
 
-    public List<String> getFollowerIds() {
-        return followerIds;
+    public List<String> getFollowingIds() {
+        return followingIds;
     }
 
-    public void setFollowerIds(List<String> followerIds) {
-        this.followerIds = followerIds;
+    public void setFollowingIds(List<String> followingIds) {
+        this.followingIds = followingIds;
     }
 
     public Gender getGender() {

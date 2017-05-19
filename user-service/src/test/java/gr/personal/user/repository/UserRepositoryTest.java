@@ -27,16 +27,18 @@ public class UserRepositoryTest {
 
     @Before
     public void setup(){
-        User user = new User();
-        user.setFollowerIds(new ArrayList<>());
-        user.setGender(Gender.MALE);
-        user.setName("Nick");
-        user.setSurname("Kanakis");
+        User user = createUser();
 
         Assert.assertNull(user.getUsername());
         userRepository.save(user);
         Assert.assertNotNull(user.getUsername());
     }
+
+    @After
+    public void tearDown(){
+        userRepository.deleteAll();
+    }
+
 
     @Test
     public void shouldFetchUser() throws Throwable{
@@ -54,9 +56,52 @@ public class UserRepositoryTest {
         Assert.assertEquals("Ilias", users.get(0).getName());
     }
 
-    @After
-    public void tearDown(){
-        userRepository.deleteAll();
+
+    @Test
+    public void shouldReturnNullUser() throws Throwable{
+        User user = userRepository.findByUsername("notExistingUsername");
+        Assert.assertNull(user);
     }
+
+    @Test
+    public void shouldReturnUserByUsername() throws Exception {
+        User user = createUser();
+        user.setUsername("nicolasmanic");
+        userRepository.save(user);
+
+        Assert.assertEquals("nicolasmanic",user.getUsername());
+
+        User nicolasmanic = userRepository.findByUsername("nicolasmanic");
+
+        Assert.assertNotNull(nicolasmanic);
+        Assert.assertEquals("nicolasmanic",user.getUsername());
+
+    }
+
+    @Test
+    public void shouldReturnListOfUsers() throws Exception {
+
+        List <String> usernames = new ArrayList<>();
+        usernames.add("nicolasmanic");
+
+        Iterable<User> friends = userRepository.findAll(usernames);
+
+        for (User user:friends) {
+            Assert.assertNotNull(user);
+            Assert.assertEquals("nicolasmanic",user.getUsername());
+
+        }
+
+    }
+
+    private User createUser(){
+        User user = new User();
+        user.setFollowingIds(new ArrayList<>());
+        user.setGender(Gender.MALE);
+        user.setName("Nick");
+        user.setSurname("Kanakis");
+        return user;
+    }
+
 
 }

@@ -1,10 +1,10 @@
 package gr.personal.user.service;
 
+import com.google.common.collect.Lists;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import gr.personal.user.domain.User;
 import gr.personal.user.domain.UserRequest;
 import gr.personal.user.repository.UserRepository;
-import gr.personal.user.util.FakeDataGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +29,17 @@ public class AdministrativeService {
     public String createUser(UserRequest userRequest) {
         Assert.notNull(userRequest, "createUser input is null");
 
-        if(userRepository.exists(userRequest.getUsername()))
+        if(userRepository.exists(userRequest.getUsername())){
+            logger.warn("User with id={} is already registered.", userRequest.getUsername());
             return "NOK";
+        }
 
         User user = new User.Builder()
-                .followers(new ArrayList<>())
+                .followings(new ArrayList<>())
                 .gender(userRequest.getGender())
                 .name(userRequest.getName())
                 .surname(userRequest.getSurname())
-                .username(userRequest.getSurname())
+                .username(userRequest.getUsername())
                 .build();
 
         userRepository.save(user);
@@ -52,8 +54,11 @@ public class AdministrativeService {
         //TODO: do it in one operation with query (?)
         User user = userRepository.findByUsername(userRequest.getUsername());
 
-        if(user == null)
+        if(user == null){
+            logger.warn("No user with id={} was found.", userRequest.getUsername());
             return "NOK";
+        }
+
 
         user.setName(userRequest.getName());
         user.setSurname(userRequest.getSurname());
@@ -79,26 +84,58 @@ public class AdministrativeService {
         return userRepository.findByUsername(username);
     }
 
-    @HystrixCommand(fallbackMethod = "addFollowerFallback")
-    public String addFollower(String username, String followedUsername) {
-        Assert.hasLength(followedUsername, "addFollower input is empty");
+    @HystrixCommand(fallbackMethod = "addFollowingFallback")
+    public String addFollowing(String username, String followingUsername) {
+        Assert.hasLength(followingUsername, "addFollowing input is empty");
+        User user = userRepository.findByUsername(username);
+
+        if(user == null){
+            logger.warn("No user with id={} was found.", username);
+            return "NOK";
+        }
+        if(!userRepository.exists(followingUsername)){
+            logger.warn("No user with id={} was found", followingUsername);
+            return "NOK";
+        }
+
+        user.getFollowingIds().add(followingUsername);
+        userRepository.save(user);
+        return "OK";
+    }
+
+    @HystrixCommand(fallbackMethod = "removeFollowingFallback")
+    public String removeFollowing(String username, String followingUsername) {
+        Assert.hasLength(username, "removeFollowing input is empty or null");
+        Assert.hasLength(followingUsername, "removeFollowing input is empty or null");
+
+        User user = userRepository.findByUsername(username);
+
+        if(user == null){
+            logger.warn("No user with id={} was found.", username);
+            return "NOK";
+        }
+
+        user.getFollowingIds().remove(followingUsername);
+
+        userRepository.save(user);
 
         return "OK";
     }
 
-    @HystrixCommand(fallbackMethod = "removeFollowerFallback")
-    public String removeFollower(String username, String followerUsername) {
-        Assert.hasLength(username, "removeFollower input is empty or null");
-        Assert.hasLength(followerUsername, "removeFollower input is empty or null");
+    @HystrixCommand(fallbackMethod = "retrieveFollowingsFallback")
+    public List<User> retrieveFollowings(String username) {
+        Assert.hasLength(username, "retrieveFollowings input is empty or null");
 
-        return "OK";
-    }
+        User user = userRepository.findByUsername(username);
 
-    @HystrixCommand(fallbackMethod = "retrieveFollowersFallback")
-    public List<User> retrieveFollowers(String username) {
-        Assert.hasLength(username, "retrieveFollowers input is empty or null");
+        if(user == null){
+            logger.warn("No user with id={} was found.", username);
+            return new ArrayList<>();
+        }
 
-        return FakeDataGenerator.generateUsers();
+        Iterable<User> friends = userRepository.findAll(user.getFollowingIds());
+
+        return Lists.newArrayList(friends);
     }
 
     //TODO move them in different Class
@@ -107,19 +144,19 @@ public class AdministrativeService {
 
         logger.warn("Create User fallback for user: "+ user.getUsername()+ ". Returning empty object", t);
 
-        return "";
+        return "NOK";
     }
 
     public String updateUserFallback(UserRequest user, Throwable t) {
         logger.warn("Update User fallback for user: "+ user.getUsername()+ ". Returning empty object", t);
 
-        return "";
+        return "NOK";
     }
 
     public String deleteUserFallback(String username, Throwable t) {
         logger.warn("Delete User fallback for user: "+ username+ ". Returning empty object", t);
 
-        return "";
+       return "NOK";
     }
 
     private User retrieveUserFallback(String username, Throwable t) {
@@ -128,20 +165,20 @@ public class AdministrativeService {
         return new User();
     }
 
-    private String addFollowerFallback(String username, UserRequest followerUsername, Throwable t) {
-        logger.warn("Add Follower fallback for user: "+ username + ". Returning empty object", t);
+    private String addFollowingFallback(String username, String followingUsername, Throwable t) {
+        logger.warn("Add Following fallback for user: "+ username + ". Returning empty object", t);
 
-        return "";
+        return "NOK";
     }
 
-    private String removeFollowerFallback(String username, String followerUsername, Throwable t) {
-        logger.warn("Remove follower fallback for user: "+ username + ". Returning empty object", t);
+    private String removeFollowingFallback(String username, String followingUsername, Throwable t) {
+        logger.warn("Remove following fallback for user: "+ username + ". Returning empty object", t);
 
-        return "";
+        return "NOK";
     }
 
-    private List<User> retrieveFollowersFallback(String username, Throwable t) {
-        logger.warn("Retrieve followers fallback for user: "+ username + ". Returning empty List", t);
+    private List<User> retrieveFollowingsFallback(String username, Throwable t) {
+        logger.warn("Retrieve followings fallback for user: "+ username + ". Returning empty List", t);
 
         return new ArrayList<>();
     }

@@ -61,29 +61,29 @@ public class AdministrativeController {
     }
 
     @LogTimeExecution
-    @RequestMapping(value = "/addFollower/{username}/{followedUsername}", method = RequestMethod.POST)
-    public String addFollower(@PathVariable String username, @PathVariable String followedUsername){
-        logger.debug("Entering addFollower (username = {})",username);
-        String result = administrativeService.addFollower(username, followedUsername);
-        logger.debug("Exiting addFollower (username ={}, result={})",username, result);
+    @RequestMapping(value = "/addFollowing/{username}/{followingUsername}", method = RequestMethod.POST)
+    public String addFollowing(@PathVariable String username, @PathVariable String followingUsername){
+        logger.debug("Entering addFollowing (username = {})",username);
+        String result = administrativeService.addFollowing(username, followingUsername);
+        logger.debug("Exiting addFollowing (username ={}, result={})",username, result);
         return result;
     }
 
     @LogTimeExecution
-    @RequestMapping(value = "/removeFollower/{username}/{followerUsername}", method = RequestMethod.DELETE)
-    public String removeFollower(@PathVariable String username, @PathVariable String followerUsername){
-        logger.debug("Entering removeFollower (username = {}, followerUsername={})",username,followerUsername);
-        String result = administrativeService.removeFollower(username, followerUsername);
-        logger.debug("Exiting removeFollower (username ={}, result={})",username, result);
+    @RequestMapping(value = "/removeFollowing/{username}/{followingUsername}", method = RequestMethod.DELETE)
+    public String removeFollowing(@PathVariable String username, @PathVariable String followingUsername){
+        logger.debug("Entering removeFollowing (username = {}, followingUsername={})",username,followingUsername);
+        String result = administrativeService.removeFollowing(username, followingUsername);
+        logger.debug("Exiting removeFollowing (username ={}, result={})",username, result);
         return result;
     }
 
     @LogTimeExecution
-    @RequestMapping(value = "/retrieveFollowers/{username}", method = RequestMethod.GET)
-    public List<User> retrieveFollowers(@PathVariable String username){
-        logger.debug("Entering retrieveFollowers (username = {})",username);
-        List<User> users = administrativeService.retrieveFollowers(username);
-        logger.debug("Exiting retrieveFollowers (username ={}, numOfFollowers={})",username, users.size());
+    @RequestMapping(value = "/retrieveFollowings/{username}", method = RequestMethod.GET)
+    public List<User> retrieveFollowings(@PathVariable String username){
+        logger.debug("Entering retrieveFollowings (username = {})",username);
+        List<User> users = administrativeService.retrieveFollowings(username);
+        logger.debug("Exiting retrieveFollowings (username ={}, numOfFollowings={})",username, users.size());
         return users;
     }
 
