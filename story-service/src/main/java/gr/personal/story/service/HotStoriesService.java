@@ -3,9 +3,12 @@ package gr.personal.story.service;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import gr.personal.story.domain.Geolocation;
 import gr.personal.story.domain.Story;
+import gr.personal.story.repository.GroupStoryRepository;
+import gr.personal.story.repository.StoryRepository;
 import gr.personal.story.util.FakeDataGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -22,6 +25,12 @@ public class HotStoriesService {
     //TODO: apply the specific criteria
 
     Logger logger = LoggerFactory.getLogger(HotStoriesService.class);
+
+    @Autowired
+    StoryRepository storyRepository;
+
+    @Autowired
+    GroupStoryRepository groupStoryRepository;
 
     @HystrixCommand(fallbackMethod = "hotStoriesOfGroupFallback")
     public List<Story> getHotStoriesOfGroup(String groupId) {

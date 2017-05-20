@@ -7,20 +7,11 @@ import java.util.Date;
  */
 public class StoryRequest {
 
-    private String id;
     private String story;
     private String title;
     private String userId;
     private Date postDate;
     private Geolocation geoLocation;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getStory() {
         return story;
@@ -65,8 +56,7 @@ public class StoryRequest {
     @Override
     public String toString() {
         return "StoryRequest{" +
-                "id='" + id + '\'' +
-                ", story='" + story + '\'' +
+                " story='" + story + '\'' +
                 ", title='" + title + '\'' +
                 ", userId='" + userId + '\'' +
                 ", postDate=" + postDate +

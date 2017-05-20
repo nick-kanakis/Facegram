@@ -9,10 +9,8 @@ import java.util.Date;
  * Created by Nick Kanakis on 4/5/2017.
  */
 
-public class Comment {
+public class CommentRequest {
 
-    @Id
-    private String id;
     private String header;
     private String userId;
     private String description;
@@ -50,19 +48,11 @@ public class Comment {
         this.postDate = postDate;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     @Override
     public String toString() {
         return "Comment{" +
-                "id='" + id + '\'' +
-                ", header='" + header + '\'' +
+                " header='" + header + '\'' +
                 ", userId='" + userId + '\'' +
                 ", description='" + description + '\'' +
                 ", postDate=" + postDate +

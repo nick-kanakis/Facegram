@@ -64,7 +64,6 @@ public class StoryControllerTest {
     public void shouldCreateStory() throws Exception {
 
         StoryRequest storyRequest = new StoryRequest();
-        storyRequest.setId("1");
         storyRequest.setPostDate(new Date());
         storyRequest.setStory("test");
         storyRequest.setTitle("Test");
@@ -122,14 +121,13 @@ public class StoryControllerTest {
     @Test
     public void shouldCreateComment() throws Exception{
 
-        Comment comment = new Comment();
+        CommentRequest comment = new CommentRequest();
         comment.setDescription("test");
         comment.setHeader("testHeader");
         comment.setUserId("1");
-        comment.setId("1");
         comment.setPostDate(new Date());
 
-        when(storyService.createComment(anyString(), any(Comment.class))).thenReturn("OK");
+        when(storyService.createComment(anyString(), any(CommentRequest.class))).thenReturn("OK");
 
         mockMvc.perform(post("/story/comment/testStoryId").contentType(MediaType.APPLICATION_JSON)
                             .content(asJsonString(comment)))

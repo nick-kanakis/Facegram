@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -23,6 +24,7 @@ public class Story {
     private long unlikes;
     private List<Comment> comments;
     private Geolocation geolocation;
+
 
     public static class Builder<T extends Builder>{
         private String title;
@@ -173,6 +175,34 @@ public class Story {
     public void setStory(String story) {
         this.story = story;
     }
+
+    public Comment getCommentById(String commentId) {
+
+        for (Comment comment:comments) {
+            if(comment.getId().equals(commentId))
+                return comment;
+        }
+        return new Comment();
+    }
+
+    public void deleteCommentById(String commentId) {
+
+        /*
+        * The best solution in order to delete an element in an List
+        * without O(N^2) (duplicate list). Also with streams references to the list
+        * would be not be effected.
+        * */
+
+        Iterator<Comment> iterator = comments.iterator();
+
+        while (iterator.hasNext()){
+            Comment comment = iterator.next();
+            if(comment.getId().equals(commentId))
+                iterator.remove();
+
+        }
+    }
+
 
     @Override
     public String toString() {

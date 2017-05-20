@@ -2,6 +2,7 @@ package gr.personal.story.controller;
 
 import gr.personal.story.aop.annotations.LogExecutionTime;
 import gr.personal.story.domain.Comment;
+import gr.personal.story.domain.CommentRequest;
 import gr.personal.story.domain.Story;
 import gr.personal.story.domain.StoryRequest;
 import gr.personal.story.service.StoryService;
@@ -24,9 +25,9 @@ public class StoryController {
     @LogExecutionTime
     @RequestMapping(path = "/create", method = RequestMethod.POST)
     public String createStory(@RequestBody StoryRequest storyRequest) {
-        logger.debug("Entering createStory (storyId={})", storyRequest.getId());
+        logger.debug("Entering createStory (storyTitle={})", storyRequest.getTitle());
         String result = storyService.createStory(storyRequest);
-        logger.debug("Exiting createStory (storyId={}, result={})", storyRequest.getId(),result);
+        logger.debug("Exiting createStory (storyTitle={}, result={})", storyRequest.getTitle(),result);
         return result;
     }
     @LogExecutionTime
@@ -63,7 +64,7 @@ public class StoryController {
     }
     @LogExecutionTime
     @RequestMapping(path = "/comment/{storyId}", method = RequestMethod.POST)
-    public String createComment(@PathVariable String storyId, @RequestBody Comment comment) {
+    public String createComment(@PathVariable String storyId, @RequestBody CommentRequest comment) {
         logger.debug("Entering createComment (storyId={})", storyId);
         String result = storyService.createComment(storyId, comment);
         logger.debug("Exiting createComment (storyId={}, result={})", storyId, result);

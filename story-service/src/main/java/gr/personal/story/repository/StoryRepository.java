@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Nick Kanakis on 17/5/2017.
  */
-public interface StoryRepository extends MongoRepository<Story, String> {
+public interface StoryRepository extends CommentRepository, MongoRepository<Story, String> {
 
     Story findById(String id);
 

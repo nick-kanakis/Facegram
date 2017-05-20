@@ -1,17 +1,13 @@
 package gr.personal.story.repository;
 
 import gr.personal.story.domain.Comment;
-import org.springframework.data.mongodb.repository.MongoRepository;
-
-import java.util.List;
 
 /**
- * Created by Nick Kanakis on 17/5/2017.
+ * Created by Nick Kanakis on 20/5/2017.
  */
-public interface CommentRepository extends MongoRepository<Comment, String >{
+public interface CommentRepository {
 
-    Comment findById(String id);
+    Comment findCommentById(String commentId);
 
-    List<Comment> findByUserId(String userId);
-
+    void deleteCommentById(String commentId);
 }
