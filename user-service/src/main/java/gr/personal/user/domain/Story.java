@@ -15,6 +15,7 @@ public class Story {
     private Date postDate;
     private long likes;
     private long unlikes;
+    private String groupId;
     private List<Comment> comments;
     private Geolocation geoLocation;
 
@@ -31,6 +32,7 @@ public class Story {
         private Geolocation geoLocation;
         private String id;
         private String story;
+        private String groupId;
 
 
         public Builder geoLocation(Geolocation geoLocation) {
@@ -78,6 +80,10 @@ public class Story {
             return this;
         }
 
+        public Builder groupId(String groupId) {
+            this.groupId = groupId;
+            return this;
+        }
         public Story build(){
             return new Story(this);
         }
@@ -94,6 +100,7 @@ public class Story {
         this.geoLocation = builder.geoLocation;
         this.id = builder.id;
         this.story = builder.story;
+        this.groupId = builder.groupId;
     }
 
     public Geolocation getGeoLocation() {
@@ -168,15 +175,25 @@ public class Story {
         this.story = story;
     }
 
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
     @Override
     public String toString() {
-        return "StoryImpl{" +
-                "username='" + id + '\'' +
+        return "Story{" +
+                "id='" + id + '\'' +
+                ", story='" + story + '\'' +
                 ", title='" + title + '\'' +
                 ", userId='" + userId + '\'' +
                 ", postDate=" + postDate +
                 ", likes=" + likes +
                 ", unlikes=" + unlikes +
+                ", groupId='" + groupId + '\'' +
                 ", comments=" + comments +
                 ", geoLocation=" + geoLocation +
                 '}';

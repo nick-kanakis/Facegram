@@ -9,13 +9,12 @@ import java.util.List;
 /**
  * Created by Nick Kanakis on 17/5/2017.
  */
-public interface StoryRepository extends CommentRepository, MongoRepository<Story, String> {
+public interface StoryRepository extends CustomRepository, MongoRepository<Story, String> {
 
     Story findById(String id);
 
     List<Story> findByGeolocation(Geolocation geolocation);
 
     List<Story> findByUserId(String userId);
-
 
 }

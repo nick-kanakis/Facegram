@@ -11,6 +11,7 @@ public class StoryRequest {
     private String title;
     private String userId;
     private Date postDate;
+    private String groupId;
     private Geolocation geoLocation;
 
     public String getStory() {
@@ -53,14 +54,25 @@ public class StoryRequest {
         this.geoLocation = geoLocation;
     }
 
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
     @Override
     public String toString() {
         return "StoryRequest{" +
-                " story='" + story + '\'' +
+                "story='" + story + '\'' +
                 ", title='" + title + '\'' +
                 ", userId='" + userId + '\'' +
                 ", postDate=" + postDate +
-                ", geolocation=" + geoLocation +
+                ", groupId='" + groupId + '\'' +
+                ", geoLocation=" + geoLocation +
                 '}';
     }
+
 }

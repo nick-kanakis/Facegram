@@ -3,9 +3,11 @@ package gr.personal.story.service;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import gr.personal.story.domain.Geolocation;
 import gr.personal.story.domain.Story;
+import gr.personal.story.repository.StoryRepository;
 import gr.personal.story.util.FakeDataGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -23,22 +25,26 @@ public class NewStoriesService {
 
     Logger logger = LoggerFactory.getLogger(NewStoriesService.class);
 
+    @Autowired
+    StoryRepository storyRepository;
+
     @HystrixCommand(fallbackMethod = "newStoriesOfUserFallback")
     public List<Story> getNewStoriesOfUser(String userId) {
         Assert.hasLength(userId, "getNewStoriesOfUser input was null or empty");
-        return  FakeDataGenerator.generateStories();
+
+        return storyRepository.findNewStoriesOfUser(userId);
     }
 
     @HystrixCommand(fallbackMethod = "newStoriesOfLocationFallback")
     public List<Story> getNewStoriesOfLocation(Geolocation geolocation) {
         Assert.notNull(geolocation,"getNewStoriesOfLocation input is null");
-        return  FakeDataGenerator.generateStories();
+        return  storyRepository.findNewStoriesOfLocation(geolocation);
     }
 
     @HystrixCommand(fallbackMethod = "newStoriesOfGroupFallback")
     public List<Story> getNewStoriesOfGroup(String groupId) {
         Assert.hasLength(groupId, "getNewStoriesOfGroup input was null or empty");
-        return  FakeDataGenerator.generateStories();
+        return storyRepository.findNewStoriesOfGroup(groupId);
     }
 
     private List<Story> newStoriesOfUserFallback(String userId, Throwable t) {

@@ -41,6 +41,7 @@ public class StoryService {
                 .story(storyRequest.getStory())
                 .likes(0)
                 .unlikes(0)
+                .groupId(storyRequest.getGroupId())
                 .build();
 
         storyRepository.save(story);

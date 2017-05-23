@@ -22,6 +22,7 @@ public class Story {
     private Date postDate;
     private long likes;
     private long unlikes;
+    private String groupId;
     private List<Comment> comments;
     private Geolocation geolocation;
 
@@ -36,6 +37,7 @@ public class Story {
         private Geolocation geolocation;
         private String id;
         private String story;
+        private String groupId;
 
 
         public Builder geolocation(Geolocation geoLocation) {
@@ -83,6 +85,11 @@ public class Story {
             return this;
         }
 
+        public Builder groupId(String groupId) {
+            this.groupId = groupId;
+            return this;
+        }
+
         public Story build(){
             return new Story(this);
         }
@@ -99,6 +106,7 @@ public class Story {
         this.geolocation = builder.geolocation;
         this.id = builder.id;
         this.story = builder.story;
+        this.groupId = builder.groupId;
     }
 
     public Story() {
@@ -176,6 +184,16 @@ public class Story {
         this.story = story;
     }
 
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+
+    /*DB helper methods*/
     public Comment getCommentById(String commentId) {
 
         for (Comment comment:comments) {
@@ -184,6 +202,7 @@ public class Story {
         }
         return new Comment();
     }
+
 
     public void deleteCommentById(String commentId) {
 
@@ -203,16 +222,17 @@ public class Story {
         }
     }
 
-
     @Override
     public String toString() {
         return "Story{" +
                 "id='" + id + '\'' +
+                ", story='" + story + '\'' +
                 ", title='" + title + '\'' +
                 ", userId='" + userId + '\'' +
                 ", postDate=" + postDate +
                 ", likes=" + likes +
                 ", unlikes=" + unlikes +
+                ", groupId='" + groupId + '\'' +
                 ", comments=" + comments +
                 ", geolocation=" + geolocation +
                 '}';

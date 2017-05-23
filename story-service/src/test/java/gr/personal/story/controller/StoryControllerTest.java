@@ -68,6 +68,7 @@ public class StoryControllerTest {
         storyRequest.setStory("test");
         storyRequest.setTitle("Test");
         storyRequest.setUserId("1");
+        storyRequest.setGroupId("1");
         storyRequest.setGeoLocation(new Geolocation(0.0,0.0));
 
 

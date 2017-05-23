@@ -3,7 +3,6 @@ package gr.personal.story.service;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import gr.personal.story.domain.Geolocation;
 import gr.personal.story.domain.Story;
-import gr.personal.story.repository.GroupStoryRepository;
 import gr.personal.story.repository.StoryRepository;
 import gr.personal.story.util.FakeDataGenerator;
 import org.slf4j.Logger;
@@ -29,25 +28,23 @@ public class HotStoriesService {
     @Autowired
     StoryRepository storyRepository;
 
-    @Autowired
-    GroupStoryRepository groupStoryRepository;
 
     @HystrixCommand(fallbackMethod = "hotStoriesOfGroupFallback")
     public List<Story> getHotStoriesOfGroup(String groupId) {
         Assert.hasLength(groupId, "getHotStoriesOfGroup input was null or empty");
-        return FakeDataGenerator.generateStories();
+        return storyRepository.findHotStoriesOfGroup(groupId);
     }
 
     @HystrixCommand(fallbackMethod = "hotStoriesOfLocationFallback")
     public List<Story> getHotStoriesOfLocation(Geolocation geolocation) {
         Assert.notNull(geolocation,"getHotStoriesOfLocation input is null");
-        return  FakeDataGenerator.generateStories();
+        return  storyRepository.findHotStoriesOfLocation(geolocation);
     }
 
     @HystrixCommand(fallbackMethod = "hotStoriesOfUserFallback")
     public List<Story> getHotStoriesOfUser(String userId) {
         Assert.hasLength(userId, "getHotStoriesOfUser input was null or empty");
-        return  FakeDataGenerator.generateStories();
+        return  storyRepository.findHotStoriesOfUser(userId);
     }
 
     private List<Story> hotStoriesOfUserFallback(String userId, Throwable t) {

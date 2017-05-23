@@ -42,6 +42,7 @@ public class StoryRepositoryTest {
         story.setUserId("testUserId");
         story.setStory("My story");
         story.setGeolocation(geolocation);
+        story.setGroupId("1");
 
         Assert.assertNull(story.getId());
         this.storyRepository.save(story);
