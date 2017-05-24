@@ -17,7 +17,7 @@ public class Story {
     private long unlikes;
     private String groupId;
     private List<Comment> comments;
-    private Geolocation geoLocation;
+    private Geolocation geolocation;
 
     public Story() {
     }
@@ -29,14 +29,14 @@ public class Story {
         private long likes;
         private long unlikes;
         private List<Comment> comments;
-        private Geolocation geoLocation;
+        private Geolocation geolocation;
         private String id;
         private String story;
         private String groupId;
 
 
-        public Builder geoLocation(Geolocation geoLocation) {
-            this.geoLocation = geoLocation;
+        public Builder geolocation(Geolocation geolocation) {
+            this.geolocation = geolocation;
             return this;
         }
 
@@ -97,18 +97,18 @@ public class Story {
         this.likes = builder.likes;
         this.unlikes = builder.unlikes;
         this.comments = builder.comments;
-        this.geoLocation = builder.geoLocation;
+        this.geolocation = builder.geolocation;
         this.id = builder.id;
         this.story = builder.story;
         this.groupId = builder.groupId;
     }
 
-    public Geolocation getGeoLocation() {
-        return geoLocation;
+    public Geolocation getGeolocation() {
+        return geolocation;
     }
 
-    public void setGeoLocation(Geolocation geoLocation) {
-        this.geoLocation = geoLocation;
+    public void setGeolocation(Geolocation geolocation) {
+        this.geolocation = geolocation;
     }
 
     public String getUserId() {
@@ -195,7 +195,7 @@ public class Story {
                 ", unlikes=" + unlikes +
                 ", groupId='" + groupId + '\'' +
                 ", comments=" + comments +
-                ", geoLocation=" + geoLocation +
+                ", geolocation=" + geolocation +
                 '}';
     }
 
