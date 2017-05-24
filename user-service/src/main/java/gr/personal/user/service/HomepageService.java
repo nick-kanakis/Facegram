@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Created by Nick Kanakis on 11/5/2017.
@@ -26,7 +27,12 @@ public class HomepageService {
         List<Story> newStoriesOfUser = client.getNewStoriesOfUser(userId);
         List<Story> newStoriesOfLocation = client.getNewStoriesOfLocation(geolocation.getLatitude(), geolocation.getLongitude());
 
-        return mergeAndShuffle(newStoriesOfUser, newStoriesOfLocation);
+        List<Story> stories = mergeUniqueStories(newStoriesOfUser, newStoriesOfLocation);
+        //TODO: Fix sorting
+        //TODO: Fix null geolocation
+        Collections.sort(stories, Comparator.comparing(Story::getPostDate).reversed());
+
+        return stories;
     }
 
     public List<Story> retrieveHotStories(String userId, Geolocation geolocation) {
@@ -36,7 +42,10 @@ public class HomepageService {
         List<Story> hotStoriesOfUser = client.getHotStoriesOfUser(userId);
         List<Story> hotStoriesOfLocation = client.getHotStoriesOfLocation(geolocation.getLatitude(), geolocation.getLongitude());
 
-        return mergeAndShuffle(hotStoriesOfUser, hotStoriesOfLocation);
+        List<Story> stories = mergeUniqueStories(hotStoriesOfUser, hotStoriesOfLocation);
+
+        Collections.sort(stories, ((o1, o2) -> o1.getComments().size() - o2.getComments().size()));
+        return stories;
     }
 
     public List<Story> retrieveTopStories(String userId, Geolocation geolocation) {
@@ -46,13 +55,16 @@ public class HomepageService {
         List<Story> topStoriesOfUser = client.getTopStoriesOfUser(userId);
         List<Story> topStoriesOfLocation = client.getTopStoriesOfLocation(geolocation.getLatitude(), geolocation.getLongitude());
 
-        return mergeAndShuffle(topStoriesOfUser, topStoriesOfLocation);
+        List<Story> stories = mergeUniqueStories(topStoriesOfUser, topStoriesOfLocation);
+        Collections.sort(stories, Comparator.comparing(Story::getPostDate));
+
+        return stories;
     }
 
-    private List<Story> mergeAndShuffle(List<Story> list1, List<Story> list2){
+    private List<Story> mergeUniqueStories(List<Story> list1, List<Story> list2){
+        //remove duplicates
+        list2.removeAll(list1);
         list1.addAll(list2);
-        Collections.shuffle(list1);
-
         return list1;
     }
 }

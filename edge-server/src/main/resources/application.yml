@@ -1,3 +1,7 @@
+spring:
+  application:
+    name: edge-server
+
 server:
   port: 8765
 
@@ -24,17 +28,17 @@ zuul:
     #Disable all auto-registering services from Eureka
   ignoreServices: '*'
   routes:
-    hot-stories-service:
-      path: /hotStories/**
+    story-service:
+      path: /story/**
       serviceId: story-service
       strip-prefix: false
-    new-stories-service:
-      path: /newStories/**
-      serviceId: story-service
+    homepage-service:
+      path: /homepage/**
+      serviceId: user-service
       strip-prefix: false
-    top-stories-service:
-      path: /topStories/**
-      serviceId: story-service
+    administrative-service:
+      path: /administrative/**
+      serviceId: user-service
       strip-prefix: false
 
   host:
