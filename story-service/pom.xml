@@ -49,7 +49,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
-        <!--Generate Fake Data todo: replace with actual data-->
+        <!--Generate Fake Data todo: Remove JFairy-->
         <dependency>
             <groupId>io.codearte.jfairy</groupId>
             <artifactId>jfairy</artifactId>

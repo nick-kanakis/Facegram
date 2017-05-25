@@ -27,7 +27,6 @@ public class StoryService {
     @Autowired
     StoryRepository storyRepository;
 
-    //TODO: use persistence layer
     @HystrixCommand(fallbackMethod = "fallbackCreateStory")
     public String createStory(StoryRequest storyRequest) {
         Assert.notNull(storyRequest, "createStory input is null");

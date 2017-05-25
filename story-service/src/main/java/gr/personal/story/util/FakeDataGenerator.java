@@ -12,8 +12,6 @@ import java.util.List;
 /**
  * Created by Nick Kanakis on 5/5/2017.
  */
-
-//TODO: Replace it with Persistence layer!!
 public class FakeDataGenerator {
 
     public static List<Story> generateStories(){

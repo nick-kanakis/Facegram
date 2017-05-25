@@ -21,8 +21,6 @@ import java.util.List;
 @Service
 public class TopStoriesService {
 
-    //TODO: apply the specific criteria
-
     Logger logger = LoggerFactory.getLogger(TopStoriesService.class);
 
     @Autowired

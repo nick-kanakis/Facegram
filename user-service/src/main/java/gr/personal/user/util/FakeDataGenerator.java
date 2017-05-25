@@ -13,7 +13,6 @@ import java.util.List;
  * Created by Nick Kanakis on 13/5/2017.
  */
 
-//TODO: Remove class
 @Deprecated
 public class FakeDataGenerator {
 

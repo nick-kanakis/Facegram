@@ -26,7 +26,6 @@ public class HomepageService {
         List<Story> newStoriesOfLocation = client.getNewStoriesOfLocation(geolocation.getLatitude(), geolocation.getLongitude());
 
         List<Story> stories = mergeAndRemoveDuplicates(newStoriesOfUser, newStoriesOfLocation);
-        //TODO: Fix null geolocation
         Collections.sort(stories, Comparator.comparing(Story::getPostDate).reversed());
         return stories;
     }
