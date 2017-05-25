@@ -1,18 +1,16 @@
 package gr.personal.user.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Nick Kanakis on 1/5/2017.
  */
-public class Story {
+public class Story extends AbstractEntity{
 
-    private String id;
     private String story;
     private String title;
-    private String userId;
-    private Date postDate;
     private long likes;
     private long unlikes;
     private String groupId;
@@ -23,14 +21,10 @@ public class Story {
     }
 
     public static class Builder<T extends Builder>{
+        private String id;
         private String title;
         private String userId;
-        private Date postDate;
-        private long likes;
-        private long unlikes;
-        private List<Comment> comments;
         private Geolocation geolocation;
-        private String id;
         private String story;
         private String groupId;
 
@@ -42,26 +36,6 @@ public class Story {
 
         public Builder userId(String userId) {
             this.userId = userId;
-            return this;
-        }
-
-        public Builder postDate(Date postDate) {
-            this.postDate = postDate;
-            return this;
-        }
-
-        public Builder likes(long likes) {
-            this.likes = likes;
-            return this;
-        }
-
-        public Builder unlikes(long unlikes) {
-            this.unlikes = unlikes;
-            return this;
-        }
-
-        public Builder comments(List<Comment> comments) {
-            this.comments = comments;
             return this;
         }
 
@@ -92,13 +66,13 @@ public class Story {
 
     protected Story(Builder builder){
         this.title = builder.title;
-        this.userId = builder.userId;
-        this.postDate = builder.postDate;
-        this.likes = builder.likes;
-        this.unlikes = builder.unlikes;
-        this.comments = builder.comments;
+        setUserId(builder.userId);
+        setPostDate(new Date());
+        this.likes = 0;
+        this.unlikes = 0;
+        this.comments = new ArrayList<>();
         this.geolocation = builder.geolocation;
-        this.id = builder.id;
+        setId(builder.id);
         this.story = builder.story;
         this.groupId = builder.groupId;
     }
@@ -107,90 +81,38 @@ public class Story {
         return geolocation;
     }
 
-    public void setGeolocation(Geolocation geolocation) {
-        this.geolocation = geolocation;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public Date getPostDate() {
-        return postDate;
-    }
-
-    public void setPostDate(Date postDate) {
-        this.postDate = postDate;
-    }
-
     public long getLikes() {
         return likes;
-    }
-
-    public void setLikes(long likes) {
-        this.likes = likes;
     }
 
     public long getUnlikes() {
         return unlikes;
     }
 
-    public void setUnlikes(long unlikes) {
-        this.unlikes = unlikes;
-    }
-
     public List<Comment> getComments() {
         return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getStory() {
         return story;
-    }
-
-    public void setStory(String story) {
-        this.story = story;
     }
 
     public String getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
     @Override
     public String toString() {
         return "Story{" +
-                "id='" + id + '\'' +
+                "id='" + getId() + '\'' +
                 ", story='" + story + '\'' +
                 ", title='" + title + '\'' +
-                ", userId='" + userId + '\'' +
-                ", postDate=" + postDate +
+                ", userId='" + getUserId() + '\'' +
+                ", postDate=" + getPostDate() +
                 ", likes=" + likes +
                 ", unlikes=" + unlikes +
                 ", groupId='" + groupId + '\'' +
@@ -206,11 +128,11 @@ public class Story {
 
         Story story = (Story) o;
 
-        return id.equals(story.id);
+        return getId().equals(story.getId());
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return getId().hashCode();
     }
 }

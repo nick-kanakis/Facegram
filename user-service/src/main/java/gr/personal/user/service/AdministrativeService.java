@@ -35,7 +35,6 @@ public class AdministrativeService {
         }
 
         User user = new User.Builder()
-                .followings(new ArrayList<>())
                 .gender(userRequest.getGender())
                 .name(userRequest.getName())
                 .surname(userRequest.getSurname())

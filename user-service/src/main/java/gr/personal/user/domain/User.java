@@ -3,6 +3,7 @@ package gr.personal.user.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,16 +19,46 @@ public class User {
     private List<String> followingIds;
     private Gender gender;
 
-    public User() {
-
+    public String getUsername() {
+        return username;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public List<String> getFollowingIds() {
+        return followingIds;
+    }
+
+    public void addFollowingId(String followingId) {
+        this.followingIds.add(followingId);
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 
     public static class Builder{
         String username;
         String name;
         String surname;
-        List<String> followingIds;
         Gender gender;
 
         public Builder username(String id) {
@@ -45,11 +76,6 @@ public class User {
             return this;
         }
 
-        public Builder followings(List<String> followingIds) {
-            this.followingIds = followingIds;
-            return this;
-        }
-
         public Builder gender(Gender gender) {
             this.gender = gender;
             return this;
@@ -64,55 +90,12 @@ public class User {
         username = builder.username;
         name = builder.name;
         surname = builder.surname;
-        followingIds = builder.followingIds;
+        followingIds = new ArrayList<>();
         gender = builder.gender;
     }
 
-    public User(String username, Gender gender, String name, String surname, List<String> followingIds) {
-        this.username = username;
-        this.gender = gender;
-        this.name = name;
-        this.surname = surname;
-        this.followingIds = followingIds;
+    //Will be used only to avoid returning null object in case of exception
+    public User() {
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public List<String> getFollowingIds() {
-        return followingIds;
-    }
-
-    public void setFollowingIds(List<String> followingIds) {
-        this.followingIds = followingIds;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
 }

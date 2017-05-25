@@ -5,6 +5,7 @@ import gr.personal.user.domain.Gender;
 import gr.personal.user.domain.User;
 import gr.personal.user.domain.UserRequest;
 import gr.personal.user.service.AdministrativeService;
+import gr.personal.user.util.FakeDataGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
+import static gr.personal.user.util.FakeDataGenerator.generateUser;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
@@ -52,11 +54,7 @@ public class AdministrativeControllerTest {
 
     @Test
     public void shouldCreateUser() throws Exception{
-        UserRequest userRequest = new UserRequest();
-        userRequest.setGender(Gender.FEMALE);
-        userRequest.setUsername("1");
-        userRequest.setName("test");
-        userRequest.setSurname("test");
+        UserRequest userRequest = new UserRequest("testUsername","testName","testSurname",Gender.FEMALE);
 
         when(administrativeService.createUser(any(UserRequest.class))).thenReturn("testUserId");
 
@@ -69,11 +67,8 @@ public class AdministrativeControllerTest {
 
     @Test
     public void shouldUpdateUser() throws Exception {
-        UserRequest userRequest = new UserRequest();
-        userRequest.setGender(Gender.FEMALE);
-        userRequest.setUsername("1");
-        userRequest.setName("test");
-        userRequest.setSurname("test");
+        UserRequest userRequest = new UserRequest("testUsername","testName","testSurname",Gender.FEMALE);
+
 
         when(administrativeService.updateUser(any(UserRequest.class))).thenReturn("OK");
 
@@ -96,12 +91,7 @@ public class AdministrativeControllerTest {
     @Test
     public void shouldRetrieveUser() throws Exception {
 
-        User user = new User();
-        user.setGender(Gender.FEMALE);
-        user.setUsername("1");
-        user.setName("test");
-        user.setSurname("test");
-        user.setFollowingIds(new ArrayList<>());
+        User user = generateUser();
 
         when(administrativeService.retrieveUser(anyString())).thenReturn(user);
 
@@ -134,12 +124,7 @@ public class AdministrativeControllerTest {
     @Test
     public void shouldRetrieveFollowings() throws Exception {
 
-        User user = new User();
-        user.setGender(Gender.FEMALE);
-        user.setUsername("1");
-        user.setName("test");
-        user.setSurname("test");
-        user.setFollowingIds(new ArrayList<>());
+        User user = generateUser();
 
         List<User> users = new ArrayList<>();
         users.add(user);

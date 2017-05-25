@@ -62,13 +62,7 @@ public class StoryControllerTest {
     @Test
     public void shouldCreateStory() throws Exception {
 
-        StoryRequest storyRequest = new StoryRequest();
-        storyRequest.setStory("test");
-        storyRequest.setTitle("Test");
-        storyRequest.setUserId("1");
-        storyRequest.setGroupId("1");
-        storyRequest.setGeolocation(new Geolocation(0.0,0.0));
-
+        StoryRequest storyRequest = new StoryRequest("test","test","1","1",new Geolocation(0.0,0.0));
 
         when(storyService.createStory(any(StoryRequest.class))).thenReturn("OK");
 
@@ -117,10 +111,8 @@ public class StoryControllerTest {
     @Test
     public void shouldCreateComment() throws Exception{
 
-        CommentRequest comment = new CommentRequest();
-        comment.setDescription("test");
-        comment.setHeader("testHeader");
-        comment.setUserId("1");
+        CommentRequest comment = new CommentRequest("testHeader","1","test");
+
 
         when(storyService.createComment(anyString(), any(CommentRequest.class))).thenReturn("OK");
 

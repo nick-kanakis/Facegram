@@ -50,7 +50,7 @@ public class HomepageService {
         List<Story> topStoriesOfLocation = client.getTopStoriesOfLocation(geolocation.getLatitude(), geolocation.getLongitude());
 
         List<Story> stories = mergeAndRemoveDuplicates(topStoriesOfUser, topStoriesOfLocation);
-        Collections.sort(stories, Comparator.comparing(Story::getPostDate).reversed());
+        Collections.sort(stories, Comparator.comparing(Story::getLikes).reversed());
         return stories;
     }
 

@@ -1,10 +1,13 @@
 package gr.personal.user.util;
 
 import gr.personal.user.domain.Gender;
+import gr.personal.user.domain.Geolocation;
+import gr.personal.user.domain.Story;
 import gr.personal.user.domain.User;
 import io.codearte.jfairy.Fairy;
 import io.codearte.jfairy.producer.BaseProducer;
 import io.codearte.jfairy.producer.person.Person;
+import io.codearte.jfairy.producer.text.TextProducer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +16,6 @@ import java.util.List;
  * Created by Nick Kanakis on 13/5/2017.
  */
 
-@Deprecated
 public class FakeDataGenerator {
 
 
@@ -27,7 +29,6 @@ public class FakeDataGenerator {
                 .username(String.valueOf(baseProducer.randomBetween(1, 999999999)))
                 .name(person.getFirstName())
                 .surname(person.getLastName())
-                .followings(randomIds())
                 .build();
 
         return user;
@@ -52,5 +53,30 @@ public class FakeDataGenerator {
             users.add(generateUser());
         }
         return users;
+    }
+
+    public static Story generateStory(){
+
+        Fairy fairy = Fairy.create();
+        TextProducer textProducer = fairy.textProducer();
+        BaseProducer baseProducer = fairy.baseProducer();
+
+        Story story = new Story.Builder<>()
+                .title(textProducer.sentence())
+                .userId(String.valueOf(baseProducer.randomBetween(0, 999999999)))
+                .geolocation(getRandomGeoLocation())
+                .story(textProducer.paragraph())
+                .build();
+
+        return story;
+    }
+
+
+    public static Geolocation getRandomGeoLocation(){
+
+        Fairy fairy = Fairy.create();
+        BaseProducer baseProducer = fairy.baseProducer();
+
+        return new Geolocation(baseProducer.randomBetween(-90.0, 90.0),baseProducer.randomBetween(-180.0, 180.0));
     }
 }

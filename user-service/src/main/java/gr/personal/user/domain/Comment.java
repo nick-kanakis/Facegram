@@ -5,65 +5,82 @@ import java.util.Date;
 /**
  * Created by Nick Kanakis on 4/5/2017.
  */
-public class Comment {
+public class Comment extends AbstractEntity {
 
-    private String id;
     private String header;
-    private String userId;
     private String description;
-    private Date postDate;
+    //TODO: Should I store storyId?
+    private String storyId;
 
     public String getHeader() {
         return header;
     }
-
-    public void setHeader(String header) {
-        this.header = header;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public String getDescription() {
         return description;
     }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public String getStoryId() {
+        return storyId;
     }
 
-    public Date getPostDate() {
-        return postDate;
+
+    public class Builder{
+        private String id;
+        private String userId;
+        private String storyId;
+        private String header;
+        private String description;
+
+        public Builder id(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder userId(String userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        public Builder storyId(String storyId) {
+            this.storyId = storyId;
+            return this;
+        }
+
+        public Builder header(String header) {
+            this.header = header;
+            return this;
+        }
+
+        public Builder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        private Comment build(){
+            return new Comment(this);
+        }
     }
 
-    public void setPostDate(Date postDate) {
-        this.postDate = postDate;
+    private Comment(Builder builder){
+        this.description = builder.description;
+        this.header = builder.header;
+        this.storyId = builder.storyId;
+        setId(builder.id);
+        setUserId(builder.userId);
+        setPostDate(new Date());
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
+    //Will be used only to avoid returning null object in case of exception
     public Comment() {
     }
 
     @Override
     public String toString() {
         return "Comment{" +
-                "username='" + id + '\'' +
+                "username='" + getId() + '\'' +
                 ", header='" + header + '\'' +
-                ", userId='" + userId + '\'' +
+                ", userId='" + getUserId() + '\'' +
                 ", description='" + description + '\'' +
-                ", postDate=" + postDate +
+                ", postDate=" + getPostDate() +
                 '}';
     }
 }

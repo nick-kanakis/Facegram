@@ -19,24 +19,21 @@ public class CommentRequest {
         return header;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
-    }
-
     public String getUserId() {
         return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public CommentRequest(String header, String userId, String description) {
+        this.header = header;
+        this.userId = userId;
         this.description = description;
+    }
+
+    public CommentRequest() {
     }
 
     @Override

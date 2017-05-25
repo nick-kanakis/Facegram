@@ -4,6 +4,9 @@ import com.google.common.collect.ImmutableList;
 import gr.personal.user.domain.Geolocation;
 import gr.personal.user.domain.Story;
 import gr.personal.user.service.HomepageService;
+import gr.personal.user.util.FakeDataGenerator;
+import io.codearte.jfairy.Fairy;
+import io.codearte.jfairy.producer.BaseProducer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import static gr.personal.user.util.FakeDataGenerator.generateStory;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
@@ -50,8 +54,7 @@ public class HomepageControllerTest {
     @Test
     public void shouldRetrieveTopStories() throws Exception {
 
-        Story story = new Story();
-        story.setId("test");
+        Story story = generateStory();
 
         Geolocation geolocation = new Geolocation();
         geolocation.setLatitude(0);
@@ -71,8 +74,7 @@ public class HomepageControllerTest {
     @Test
     public void shouldRetrieveHotStories() throws Exception{
 
-        Story story = new Story();
-        story.setId("test");
+        Story story = generateStory();
 
         Geolocation geolocation = new Geolocation();
         geolocation.setLatitude(0);
@@ -92,8 +94,7 @@ public class HomepageControllerTest {
 
     @Test
     public void shouldRetrieveNewStories() throws Exception{
-        Story story = new Story();
-        story.setId("test");
+        Story story = generateStory();
 
         Geolocation geolocation = new Geolocation();
         geolocation.setLatitude(0);
@@ -108,8 +109,7 @@ public class HomepageControllerTest {
         mockMvc.perform(get("/homepage/retrieveNewStories/testUserId").params(params))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(story.getId()));
-
-
     }
+
 
 }

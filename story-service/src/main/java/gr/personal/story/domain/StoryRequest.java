@@ -14,42 +14,28 @@ public class StoryRequest {
     public String getStory() {
         return story;
     }
-
-    public void setStory(String story) {
-        this.story = story;
-    }
-
     public String getTitle() {
         return title;
     }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getUserId() {
         return userId;
     }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public Geolocation getGeolocation() {
         return geolocation;
     }
-
-    public void setGeolocation(Geolocation geolocation) {
-        this.geolocation = geolocation;
-    }
-
-
     public String getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(String groupId) {
+    public StoryRequest(String story, String title, String userId, String groupId, Geolocation geolocation) {
+        this.story = story;
+        this.title = title;
+        this.userId = userId;
         this.groupId = groupId;
+        this.geolocation = geolocation;
+    }
+
+    public StoryRequest() {
     }
 
     @Override

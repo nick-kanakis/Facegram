@@ -15,7 +15,7 @@ public abstract class AbstractEntity {
         return id;
     }
 
-    public void setId(String id) {
+    protected void setId(String id) {
         this.id = id;
     }
 
@@ -23,7 +23,7 @@ public abstract class AbstractEntity {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    protected void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -31,7 +31,7 @@ public abstract class AbstractEntity {
         return postDate;
     }
 
-    public void setPostDate(Date postDate) {
+    protected void setPostDate(Date postDate) {
         this.postDate = postDate;
     }
 

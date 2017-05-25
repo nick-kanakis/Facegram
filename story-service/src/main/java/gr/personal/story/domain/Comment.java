@@ -14,18 +14,15 @@ public class Comment extends AbstractEntity {
 
     private String header;
     private String description;
-
-    //TODO: Should I store storyId
+    //TODO: Should I store storyId?
     private String storyId;
 
     public String getHeader() {
         return header;
     }
-
     public String getDescription() {
         return description;
     }
-
     public String getStoryId() {
         return storyId;
     }
@@ -46,6 +43,7 @@ public class Comment extends AbstractEntity {
             this.userId = userId;
             return this;
         }
+
         public Builder storyId(String storyId) {
             this.storyId = storyId;
             return this;

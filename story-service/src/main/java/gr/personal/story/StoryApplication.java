@@ -12,7 +12,7 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
  */
 
 @SpringBootApplication
-//@EnableEurekaClient
+@EnableEurekaClient
 @EnableHystrix
 public class StoryApplication {
 
