@@ -2,6 +2,7 @@ package gr.personal.story.repository;
 
 import gr.personal.story.domain.Geolocation;
 import gr.personal.story.domain.Story;
+import gr.personal.story.util.FakeDataGenerator;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static gr.personal.story.util.FakeDataGenerator.generateComment;
+import static gr.personal.story.util.FakeDataGenerator.generateStory;
+
 /**
  * Created by Nick Kanakis on 17/5/2017.
  */
@@ -26,6 +30,8 @@ public class StoryRepositoryTest {
     @Autowired
     private StoryRepository storyRepository;
 
+    private Story story;
+
     @Before
     public void setUp(){
 
@@ -33,44 +39,33 @@ public class StoryRepositoryTest {
         geolocation.setLatitude(0);
         geolocation.setLongitude(0);
 
-        Story story = new Story();
-        story.setLikes(2);
-        story.setComments(new ArrayList<>());
-        story.setPostDate(new Date());
-        story.setUnlikes(1);
-        story.setTitle("Test Title");
-        story.setUserId("testUserId");
-        story.setStory("My story");
-        story.setGeolocation(geolocation);
-        story.setGroupId("1");
+        story = generateStory();
 
         Assert.assertNull(story.getId());
         this.storyRepository.save(story);
         Assert.assertNotNull(story.getId());
-
-    }
-    @Test
-    public void shouldFetchData(){
-        List<Story> stories = storyRepository.findByUserId("testUserId");
-        Assert.assertNotNull(stories);
-        Assert.assertEquals("Test Title", stories.get(0).getTitle());
-
-    }
-
-    @Test
-    public void shouldUpdateDate(){
-
-        List<Story> stories = storyRepository.findByUserId("testUserId");
-        stories.get(0).setTitle("Test Title 2");
-        storyRepository.save(stories);
-        List<Story> storiesAfterUpdate = storyRepository.findByUserId("testUserId");
-        Assert.assertEquals("Test Title 2", storiesAfterUpdate.get(0).getTitle());
-
-
     }
 
     @After
     public void tearDown() throws Exception{
-        this.storyRepository.deleteAll();
+        this.storyRepository.delete(story.getId());
     }
+
+    @Test
+    public void shouldFetchData(){
+        Story retrievedStory = storyRepository.findById(story.getId());
+        Assert.assertNotNull(retrievedStory);
+        Assert.assertEquals(story.getTitle(), retrievedStory.getTitle());
+    }
+
+    @Test
+    public void shouldUpdateData(){
+
+        Story retrievedStory = storyRepository.findById(story.getId());
+        retrievedStory.addComment(generateComment());
+        storyRepository.save(retrievedStory);
+        Story updatedStory = storyRepository.findById(story.getId());
+        Assert.assertNotNull(updatedStory.getComments());
+    }
+
 }

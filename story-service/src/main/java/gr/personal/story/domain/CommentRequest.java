@@ -14,7 +14,6 @@ public class CommentRequest {
     private String header;
     private String userId;
     private String description;
-    private Date postDate;
 
     public String getHeader() {
         return header;
@@ -40,22 +39,12 @@ public class CommentRequest {
         this.description = description;
     }
 
-    public Date getPostDate() {
-        return postDate;
-    }
-
-    public void setPostDate(Date postDate) {
-        this.postDate = postDate;
-    }
-
-
     @Override
     public String toString() {
         return "Comment{" +
                 " header='" + header + '\'' +
                 ", userId='" + userId + '\'' +
-                ", description='" + description + '\'' +
-                ", postDate=" + postDate +
+                ", description='" + description  +
                 '}';
     }
 }

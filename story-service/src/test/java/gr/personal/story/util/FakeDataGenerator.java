@@ -30,17 +30,11 @@ public class FakeDataGenerator {
         Fairy fairy = Fairy.create();
         TextProducer textProducer = fairy.textProducer();
         BaseProducer baseProducer = fairy.baseProducer();
-        DateProducer dateProducer = fairy.dateProducer();
 
         Story story = new Story.Builder<>()
-                .likes(baseProducer.randomBetween(0, 1000))
                 .title(textProducer.sentence())
-                .unlikes(baseProducer.randomBetween(0, 500))
                 .userId(String.valueOf(baseProducer.randomBetween(0, 999999999)))
-                .postDate(dateProducer.randomDateInThePast(10).toDate())
                 .geolocation(getRandomGeoLocation())
-                .comments(generateComments())
-                .id(String.valueOf(baseProducer.randomBetween(0, 999999999)))
                 .story(textProducer.paragraph())
                 .build();
 
@@ -66,12 +60,13 @@ public class FakeDataGenerator {
         BaseProducer baseProducer = fairy.baseProducer();
         DateProducer dateProducer = fairy.dateProducer();
 
-        Comment comment = new Comment();
-        comment.setPostDate(dateProducer.randomDateInThePast(10).toDate());
-        comment.setDescription(textProducer.paragraph(10));
-        comment.setHeader(textProducer.sentence());
-        comment.setId(String.valueOf(baseProducer.randomBetween(0, 999999999)));
-        comment.setUserId(String.valueOf(baseProducer.randomBetween(0, 999999999)));
+        Comment comment = new Comment.Builder()
+                .storyId(String.valueOf(baseProducer.randomBetween(0, 999999999)))
+                .description(textProducer.paragraph(10))
+                .userId(String.valueOf(baseProducer.randomBetween(0, 999999999)))
+                .header(textProducer.sentence())
+                .id(String.valueOf(baseProducer.randomBetween(0, 999999999)))
+                .build();
 
         return comment;
     }

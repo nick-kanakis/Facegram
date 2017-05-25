@@ -1,7 +1,5 @@
 package gr.personal.story.domain;
 
-import java.util.Date;
-
 /**
  * Created by Nick Kanakis on 11/5/2017.
  */
@@ -10,9 +8,8 @@ public class StoryRequest {
     private String story;
     private String title;
     private String userId;
-    private Date postDate;
     private String groupId;
-    private Geolocation geoLocation;
+    private Geolocation geolocation;
 
     public String getStory() {
         return story;
@@ -38,20 +35,12 @@ public class StoryRequest {
         this.userId = userId;
     }
 
-    public Date getPostDate() {
-        return postDate;
+    public Geolocation getGeolocation() {
+        return geolocation;
     }
 
-    public void setPostDate(Date postDate) {
-        this.postDate = postDate;
-    }
-
-    public Geolocation getGeoLocation() {
-        return geoLocation;
-    }
-
-    public void setGeoLocation(Geolocation geoLocation) {
-        this.geoLocation = geoLocation;
+    public void setGeolocation(Geolocation geolocation) {
+        this.geolocation = geolocation;
     }
 
 
@@ -69,9 +58,8 @@ public class StoryRequest {
                 "story='" + story + '\'' +
                 ", title='" + title + '\'' +
                 ", userId='" + userId + '\'' +
-                ", postDate=" + postDate +
                 ", groupId='" + groupId + '\'' +
-                ", geoLocation=" + geoLocation +
+                ", geolocation=" + geolocation +
                 '}';
     }
 

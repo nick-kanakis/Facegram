@@ -4,6 +4,10 @@ import com.google.common.collect.ImmutableList;
 import gr.personal.story.domain.Geolocation;
 import gr.personal.story.domain.Story;
 import gr.personal.story.service.HotStoriesService;
+import io.codearte.jfairy.Fairy;
+import io.codearte.jfairy.producer.BaseProducer;
+import io.codearte.jfairy.producer.DateProducer;
+import io.codearte.jfairy.producer.text.TextProducer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +21,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import static gr.personal.story.util.FakeDataGenerator.generateStory;
+import static gr.personal.story.util.FakeDataGenerator.getRandomGeoLocation;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -49,8 +55,7 @@ public class HotStoriesControllerTest {
     @Test
     public void shouldGetHotStoriesOfUser() throws Exception{
 
-        Story story = new Story();
-        story.setId("test");
+        Story story = generateStory();
 
         when(hotStoriesService.getHotStoriesOfUser("test")).thenReturn(ImmutableList.of(story));
 
@@ -61,8 +66,7 @@ public class HotStoriesControllerTest {
     @Test
     public void shouldGetHotStoriesOfLocation() throws Exception{
 
-        Story story = new Story();
-        story.setId("test");
+        Story story = generateStory();
 
         Geolocation geolocation = new Geolocation();
         geolocation.setLatitude(0);
@@ -82,8 +86,7 @@ public class HotStoriesControllerTest {
     @Test
     public void shouldGetHotStoriesOfGroup() throws Exception{
 
-        Story story = new Story();
-        story.setId("test");
+        Story story = generateStory();
 
         when(hotStoriesService.getHotStoriesOfGroup("test")).thenReturn(ImmutableList.of(story));
 

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import gr.personal.story.domain.Geolocation;
 import gr.personal.story.domain.Story;
 import gr.personal.story.service.TopStoriesService;
+import gr.personal.story.util.FakeDataGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import static gr.personal.story.util.FakeDataGenerator.generateStory;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -48,8 +50,7 @@ public class TopStoriesControllerTest {
     @Test
     public void shouldGetTopStoriesOfUser() throws Exception{
 
-        Story story = new Story();
-        story.setId("test");
+        Story story = generateStory();
 
         when(topStoriesService.getTopStoriesOfUser("test")).thenReturn(ImmutableList.of(story));
 
@@ -60,8 +61,7 @@ public class TopStoriesControllerTest {
     @Test
     public void shouldGetTopStoriesOfLocation() throws Exception{
 
-        Story story = new Story();
-        story.setId("test");
+        Story story = generateStory();
 
         Geolocation geolocation = new Geolocation();
         geolocation.setLatitude(0);
@@ -81,8 +81,7 @@ public class TopStoriesControllerTest {
     @Test
     public void shouldGetTopStoriesOfGroup() throws Exception{
 
-        Story story = new Story();
-        story.setId("test");
+        Story story = generateStory();
 
         when(topStoriesService.getTopStoriesOfGroup("test")).thenReturn(ImmutableList.of(story));
 

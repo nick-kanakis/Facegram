@@ -4,7 +4,6 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import gr.personal.story.domain.Geolocation;
 import gr.personal.story.domain.Story;
 import gr.personal.story.repository.StoryRepository;
-import gr.personal.story.util.FakeDataGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

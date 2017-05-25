@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-
 /**
  * Created by Nick Kanakis on 1/5/2017.
  */
@@ -32,14 +30,10 @@ public class StoryService {
         Assert.notNull(storyRequest, "createStory input is null");
 
         Story story = new Story.Builder<>()
-                .comments(new ArrayList<>())
-                .postDate(storyRequest.getPostDate())
                 .userId(storyRequest.getUserId())
-                .geolocation(storyRequest.getGeoLocation())
+                .geolocation(storyRequest.getGeolocation())
                 .title(storyRequest.getTitle())
                 .story(storyRequest.getStory())
-                .likes(0)
-                .unlikes(0)
                 .groupId(storyRequest.getGroupId())
                 .build();
 
@@ -74,7 +68,7 @@ public class StoryService {
             return "NOK";
         }
 
-        story.setLikes(story.getLikes()+1);
+        story.like();
         storyRepository.save(story);
         return "OK";
     }
@@ -90,7 +84,7 @@ public class StoryService {
             return "NOK";
         }
 
-        story.setUnlikes(story.getUnlikes()+1);
+        story.unlike();
         storyRepository.save(story);
         return "OK";
     }
@@ -99,12 +93,14 @@ public class StoryService {
     public String createComment(String storyId, CommentRequest commentRequest) {
         Assert.notNull(commentRequest, "createComment input is null");
 
-        Comment comment = new Comment();
-        comment.setHeader(commentRequest.getHeader());
-        comment.setPostDate(commentRequest.getPostDate());
-        comment.setUserId(commentRequest.getUserId());
-        comment.setDescription(commentRequest.getDescription());
-        comment.setId(String.valueOf(new ObjectId()));
+        Comment comment = new Comment.Builder()
+                .header(commentRequest.getHeader())
+                .description(commentRequest.getDescription())
+                .userId(commentRequest.getUserId())
+                .description(commentRequest.getDescription())
+                .storyId(storyId)
+                .id(String.valueOf(new ObjectId()))
+                .build();
 
         Story story = storyRepository.findById(storyId);
 

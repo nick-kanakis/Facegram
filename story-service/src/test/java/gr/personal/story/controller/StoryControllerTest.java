@@ -15,8 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Date;
-
+import static gr.personal.story.util.FakeDataGenerator.generateComment;
+import static gr.personal.story.util.FakeDataGenerator.generateStory;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
@@ -50,8 +50,7 @@ public class StoryControllerTest {
 
     @Test
     public void shouldFetchStory() throws Exception {
-        Story story = new Story();
-        story.setId("test");
+        Story story = generateStory();
 
         when(storyService.fetchStory(anyString())).thenReturn(story);
 
@@ -64,12 +63,11 @@ public class StoryControllerTest {
     public void shouldCreateStory() throws Exception {
 
         StoryRequest storyRequest = new StoryRequest();
-        storyRequest.setPostDate(new Date());
         storyRequest.setStory("test");
         storyRequest.setTitle("Test");
         storyRequest.setUserId("1");
         storyRequest.setGroupId("1");
-        storyRequest.setGeoLocation(new Geolocation(0.0,0.0));
+        storyRequest.setGeolocation(new Geolocation(0.0,0.0));
 
 
         when(storyService.createStory(any(StoryRequest.class))).thenReturn("OK");
@@ -85,8 +83,7 @@ public class StoryControllerTest {
 
     @Test
     public void shouldDeleteStory() throws Exception {
-        Story story = new Story();
-        story.setId("test");
+        Story story = generateStory();
 
         when(storyService.deleteStory(anyString())).thenReturn("OK");
 
@@ -97,8 +94,7 @@ public class StoryControllerTest {
 
     @Test
     public void shouldLikeStory() throws Exception {
-        Story story = new Story();
-        story.setId("test");
+        Story story = generateStory();
 
         when(storyService.likeStory(anyString())).thenReturn("OK");
 
@@ -109,8 +105,7 @@ public class StoryControllerTest {
 
     @Test
     public void shouldUnLikeStory() throws Exception {
-        Story story = new Story();
-        story.setId("test");
+        Story story = generateStory();
 
         when(storyService.unlikeStory(anyString())).thenReturn("OK");
 
@@ -126,7 +121,6 @@ public class StoryControllerTest {
         comment.setDescription("test");
         comment.setHeader("testHeader");
         comment.setUserId("1");
-        comment.setPostDate(new Date());
 
         when(storyService.createComment(anyString(), any(CommentRequest.class))).thenReturn("OK");
 
@@ -149,12 +143,7 @@ public class StoryControllerTest {
     @Test
     public void shouldFetchComment() throws Exception{
 
-        Comment comment = new Comment();
-        comment.setDescription("test");
-        comment.setHeader("testHeader");
-        comment.setUserId("1");
-        comment.setId("1");
-        comment.setPostDate(new Date());
+        Comment comment = generateComment();
 
         when(storyService.fetchComment(anyString())).thenReturn(comment);
 
