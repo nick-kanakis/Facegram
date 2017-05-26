@@ -9,11 +9,16 @@ import gr.personal.story.service.StoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * Created by Nick Kanakis on 4/5/2017.
  */
+
+//TODO: Change every return Object to ResponseEntity<>!!!!!!
 @RestController
 @RequestMapping("/story")
 public class StoryController {
@@ -24,7 +29,7 @@ public class StoryController {
 
     @LogExecutionTime
     @RequestMapping(path = "/create", method = RequestMethod.POST)
-    public String createStory(@RequestBody StoryRequest storyRequest) {
+    public String createStory(@Valid @RequestBody StoryRequest storyRequest) {
         logger.debug("Entering createStory (storyTitle={})", storyRequest.getTitle());
         String result = storyService.createStory(storyRequest);
         logger.debug("Exiting createStory (storyTitle={}, result={})", storyRequest.getTitle(),result);
@@ -64,7 +69,7 @@ public class StoryController {
     }
     @LogExecutionTime
     @RequestMapping(path = "/comment/{storyId}", method = RequestMethod.POST)
-    public String createComment(@PathVariable String storyId, @RequestBody CommentRequest comment) {
+    public String createComment(@PathVariable String storyId,@Valid @RequestBody CommentRequest comment) {
         logger.debug("Entering createComment (storyId={})", storyId);
         String result = storyService.createComment(storyId, comment);
         logger.debug("Exiting createComment (storyId={}, result={})", storyId, result);

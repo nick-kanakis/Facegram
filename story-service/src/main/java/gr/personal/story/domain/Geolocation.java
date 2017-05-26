@@ -1,5 +1,7 @@
 package gr.personal.story.domain;
 
+import org.hibernate.validator.constraints.Range;
+
 /**
  * Created by Nick Kanakis on 4/5/2017.
  */

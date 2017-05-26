@@ -1,9 +1,7 @@
 package gr.personal.story.domain;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.hibernate.validator.constraints.NotBlank;
 
-import java.util.Date;
 
 /**
  * Created by Nick Kanakis on 4/5/2017.
