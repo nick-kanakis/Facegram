@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ public class AdministrativeController {
 
     @LogTimeExecution
     @RequestMapping(value = "/createUser", method = RequestMethod.POST)
-    public String createUser(@RequestBody UserRequest user){
+    public String createUser(@Valid @RequestBody UserRequest user){
         logger.debug("Entering createUser (username = {})",user.getUsername());
         String result = administrativeService.createUser(user);
         logger.debug("Exiting createUser (username ={}, result={})",user.getUsername(), result);
@@ -34,7 +35,7 @@ public class AdministrativeController {
 
     @LogTimeExecution
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-    public String updateUser(@RequestBody UserRequest user){
+    public String updateUser(@Valid @RequestBody UserRequest user){
         logger.debug("Entering updateUser (username = {})",user.getUsername());
         String result =  administrativeService.updateUser(user);
         logger.debug("Exiting updateUser (username ={}, result={})",user.getUsername(), result);

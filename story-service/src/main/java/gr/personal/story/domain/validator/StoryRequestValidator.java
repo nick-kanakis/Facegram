@@ -23,8 +23,8 @@ public class StoryRequestValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
 
-        ValidationUtils.rejectIfEmpty(errors,"userId","userId.empty");
-        ValidationUtils.rejectIfEmpty(errors,"title","title.empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"userId","userId.empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"title","title.empty");
 
 
         StoryRequest storyRequest = (StoryRequest) o;
