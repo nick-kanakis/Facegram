@@ -17,6 +17,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
+        <jfairy.version>0.5.7</jfairy.version>
+        <guava.version>20.0</guava.version>
+        <ehcache-core.version>2.6.11</ehcache-core.version>
     </properties>
 
     <dependencies>
@@ -52,13 +55,18 @@
         <dependency>
             <groupId>io.codearte.jfairy</groupId>
             <artifactId>jfairy</artifactId>
-            <version>0.5.7</version>
+            <version>${jfairy.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>20.0</version>
+            <version>${guava.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache-core</artifactId>
+            <version>${ehcache-core.version}</version>
         </dependency>
     </dependencies>
 

@@ -7,6 +7,10 @@ import gr.personal.story.repository.StoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.interceptor.SimpleKey;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -25,19 +29,24 @@ public class HotStoriesService {
     @Autowired
     StoryRepository storyRepository;
 
+    @Autowired
+    private CacheManager cacheManager;
 
+    @CachePut(cacheNames = "HotStoriesOfGroup", key = "#groupId")
     @HystrixCommand(fallbackMethod = "hotStoriesOfGroupFallback")
     public List<Story> getHotStoriesOfGroup(String groupId) {
         Assert.hasLength(groupId, "getHotStoriesOfGroup input was null or empty");
         return storyRepository.findHotStoriesOfGroup(groupId);
     }
 
+    @CachePut(cacheNames = "HotStoriesOfLocation", key = "#geolocation")
     @HystrixCommand(fallbackMethod = "hotStoriesOfLocationFallback")
     public List<Story> getHotStoriesOfLocation(Geolocation geolocation) {
         Assert.notNull(geolocation,"getHotStoriesOfLocation input is null");
         return  storyRepository.findHotStoriesOfLocation(geolocation);
     }
 
+    @CachePut(cacheNames = "HotStoriesOfUser", key = "#userId")
     @HystrixCommand(fallbackMethod = "hotStoriesOfUserFallback")
     public List<Story> getHotStoriesOfUser(String userId) {
         Assert.hasLength(userId, "getHotStoriesOfUser input was null or empty");
@@ -45,17 +54,36 @@ public class HotStoriesService {
     }
 
     private List<Story> hotStoriesOfUserFallback(String userId, Throwable t) {
-        logger.error("Hot Stories Fallback for userId: "+ userId +". Returning empty list", t);
-        return new ArrayList<>();
+        logger.error("Hot Stories Fallback for userId: "+ userId +". Returning list from cache", t);
+        if (cacheManager.getCache("HotStoriesOfUser") != null && cacheManager.getCache("HotStoriesOfUser").get(userId) != null) {
+            return cacheManager.getCache("HotStoriesOfUser").get(userId, List.class);
+        }
+        else {
+            logger.error("Hot Stories Fallback for userId: "+ userId +". Cache is empty.");
+            return new ArrayList<>();
+        }
     }
 
     private List<Story> hotStoriesOfGroupFallback(String groupId, Throwable t) {
-        logger.error("Hot Stories Fallback for groupId: "+ groupId+". Returning empty list", t);
-        return new ArrayList<>();
+        logger.error("Hot Stories Fallback for groupId: "+ groupId+". Returning list from cache", t);
+        if (cacheManager.getCache("HotStoriesOfGroup") != null && cacheManager.getCache("HotStoriesOfGroup").get(groupId) != null) {
+            return cacheManager.getCache("HotStoriesOfGroup").get(groupId, List.class);
+        }
+        else {
+            logger.error("Hot Stories Fallback for groupId: "+ groupId +". Cache is empty.");
+            return new ArrayList<>();
+        }
+
     }
 
     private List<Story> hotStoriesOfLocationFallback(Geolocation geolocation, Throwable t) {
-        logger.error("Hot Stories Fallback for Location: "+ geolocation+". Returning empty list", t);
-        return new ArrayList<>();
+        logger.error("Hot Stories Fallback for Location: "+ geolocation+". Returning list from cache", t);
+        if (cacheManager.getCache("HotStoriesOfLocation") != null && cacheManager.getCache("HotStoriesOfLocation").get(geolocation) != null) {
+            return cacheManager.getCache("HotStoriesOfLocation").get(geolocation, List.class);
+        }
+        else {
+            logger.error("Hot Stories Fallback for geolocation: "+ geolocation +". Cache is empty.");
+            return new ArrayList<>();
+        }
     }
 }

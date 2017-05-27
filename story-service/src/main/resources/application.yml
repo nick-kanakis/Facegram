@@ -22,3 +22,7 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 30000
+
+cache:
+ ehcache:
+  config: classpath:ehcache.xml
