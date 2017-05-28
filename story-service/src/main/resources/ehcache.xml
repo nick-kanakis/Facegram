@@ -20,9 +20,40 @@
            memoryStoreEvictionPolicy="LFU" transactionalMode="off">
     </cache>
 
-    <cache name=""
+    <cache name="NewStoriesOfUser"
            maxElementsInMemory="100" eternal="true"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LFU" transactionalMode="off">
     </cache>
+
+    <cache name="NewStoriesOfLocation"
+           maxElementsInMemory="100" eternal="true"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LFU" transactionalMode="off">
+    </cache>
+
+    <cache name="NewStoriesOfGroup"
+           maxElementsInMemory="100" eternal="true"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LFU" transactionalMode="off">
+    </cache>
+
+    <cache name="TopStoriesOfUser"
+           maxElementsInMemory="100" eternal="true"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LFU" transactionalMode="off">
+    </cache>
+
+    <cache name="TopStoriesOfLocation"
+           maxElementsInMemory="100" eternal="true"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LFU" transactionalMode="off">
+    </cache>
+
+    <cache name="TopStoriesOfGroup"
+           maxElementsInMemory="100" eternal="true"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LFU" transactionalMode="off">
+    </cache>
+
 </ehcache>

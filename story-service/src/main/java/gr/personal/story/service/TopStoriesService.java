@@ -7,6 +7,8 @@ import gr.personal.story.repository.StoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -25,18 +27,24 @@ public class TopStoriesService {
     @Autowired
     StoryRepository storyRepository;
 
+    @Autowired
+    private CacheManager cacheManager;
+
+    @CachePut(cacheNames = "TopStoriesOfUser", key = "#userId")
     @HystrixCommand(fallbackMethod = "topStoriesOfUserFallback")
     public List<Story> getTopStoriesOfUser(String userId) {
         Assert.hasLength(userId, "getTopStoriesOfUser input was null or empty");
         return  storyRepository.findTopStoriesOfUser(userId);
     }
 
+    @CachePut(cacheNames = "TopStoriesOfLocation", key = "#geolocation")
     @HystrixCommand(fallbackMethod = "topStoriesOfLocationFallback")
     public List<Story> getTopStoriesOfLocation(Geolocation geolocation) {
         Assert.notNull(geolocation,"getTopStoriesOfLocation input is null");
         return  storyRepository.findTopStoriesOfLocation(geolocation);
     }
 
+    @CachePut(cacheNames = "TopStoriesOfGroup", key = "#groupId")
     @HystrixCommand(fallbackMethod = "topStoriesOfGroupFallback")
     public List<Story> getTopStoriesOfGroup(String groupId) {
         Assert.hasLength(groupId, "getTopStoriesOfGroup input was null or empty");
@@ -44,17 +52,35 @@ public class TopStoriesService {
     }
 
     private List<Story> topStoriesOfUserFallback(String userId, Throwable t) {
-        logger.error("Top Stories Fallback for userId: "+ userId+". Returning empty list", t);
-        return new ArrayList<>();
+        logger.error("Top Stories Fallback for userId: "+ userId+". Returning list from cache", t);
+        if (cacheManager.getCache("TopStoriesOfUser") != null && cacheManager.getCache("TopStoriesOfUser").get(userId) != null) {
+            return cacheManager.getCache("TopStoriesOfUser").get(userId, List.class);
+        }
+        else {
+            logger.error("Top Stories Fallback for userId: "+ userId +". Cache is empty.");
+            return new ArrayList<>();
+        }
     }
 
     private List<Story> topStoriesOfGroupFallback(String groupId, Throwable t) {
-        logger.error("Top Stories Fallback for groupId: "+ groupId+". Returning empty list", t);
-        return new ArrayList<>();
+        logger.error("Top Stories Fallback for groupId: "+ groupId+". Returning list from cache", t);
+        if (cacheManager.getCache("TopStoriesOfGroup") != null && cacheManager.getCache("TopStoriesOfGroup").get(groupId) != null) {
+            return cacheManager.getCache("TopStoriesOfGroup").get(groupId, List.class);
+        }
+        else {
+            logger.error("Top Stories Fallback for groupId: "+ groupId +". Cache is empty.");
+            return new ArrayList<>();
+        }
     }
 
     private List<Story> topStoriesOfLocationFallback(Geolocation geolocation, Throwable t) {
-        logger.error("Top Stories Fallback for Location: "+ geolocation+". Returning empty list", t);
-        return new ArrayList<>();
+        logger.error("Top Stories Fallback for Location: "+ geolocation+". Returning list from cache", t);
+        if (cacheManager.getCache("TopStoriesOfLocation") != null && cacheManager.getCache("TopStoriesOfLocation").get(geolocation) != null) {
+            return cacheManager.getCache("TopStoriesOfLocation").get(geolocation, List.class);
+        }
+        else {
+            logger.error("Top Stories Fallback for geolocation: "+ geolocation +". Cache is empty.");
+            return new ArrayList<>();
+        }
     }
 }
