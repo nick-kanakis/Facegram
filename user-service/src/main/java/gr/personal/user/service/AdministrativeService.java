@@ -8,6 +8,8 @@ import gr.personal.user.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -24,6 +26,9 @@ public class AdministrativeService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    CacheManager cacheManager;
 
     @HystrixCommand(fallbackMethod = "createUserFallback")
     public String createUser(UserRequest userRequest) {
@@ -102,6 +107,7 @@ public class AdministrativeService {
         return "OK";
     }
 
+
     @HystrixCommand(fallbackMethod = "removeFollowingFallback")
     public String removeFollowing(String username, String followingUsername) {
         Assert.hasLength(username, "removeFollowing input is empty or null");
@@ -121,6 +127,7 @@ public class AdministrativeService {
         return "OK";
     }
 
+    @CachePut(cacheNames = "RetrieveFollowings", key = "#username")
     @HystrixCommand(fallbackMethod = "retrieveFollowingsFallback")
     public List<User> retrieveFollowings(String username) {
         Assert.hasLength(username, "retrieveFollowings input is empty or null");
@@ -141,44 +148,50 @@ public class AdministrativeService {
 
     public String createUserFallback(UserRequest user, Throwable t){
 
-        logger.warn("Create User fallback for user: "+ user.getUsername()+ ". Returning empty object", t);
+        logger.error("Create User fallback for user: "+ user.getUsername()+ ". Returning empty object", t);
 
         return "NOK";
     }
 
     public String updateUserFallback(UserRequest user, Throwable t) {
-        logger.warn("Update User fallback for user: "+ user.getUsername()+ ". Returning empty object", t);
+        logger.error("Update User fallback for user: "+ user.getUsername()+ ". Returning empty object", t);
 
         return "NOK";
     }
 
     public String deleteUserFallback(String username, Throwable t) {
-        logger.warn("Delete User fallback for user: "+ username+ ". Returning empty object", t);
+        logger.error("Delete User fallback for user: "+ username+ ". Returning empty object", t);
 
        return "NOK";
     }
 
     private User retrieveUserFallback(String username, Throwable t) {
-        logger.warn("Retrieve User fallback for user: "+ username+ ". Returning empty object", t);
+        logger.error("Retrieve User fallback for user: "+ username+ ". Returning empty object", t);
 
         return new User();
     }
 
     private String addFollowingFallback(String username, String followingUsername, Throwable t) {
-        logger.warn("Add Following fallback for user: "+ username + ". Returning empty object", t);
+        logger.error("Add Following fallback for user: "+ username + ". Returning empty object", t);
 
         return "NOK";
     }
 
     private String removeFollowingFallback(String username, String followingUsername, Throwable t) {
-        logger.warn("Remove following fallback for user: "+ username + ". Returning empty object", t);
+        logger.error("Remove following fallback for user: "+ username + ". Returning empty object", t);
 
         return "NOK";
     }
 
     private List<User> retrieveFollowingsFallback(String username, Throwable t) {
-        logger.warn("Retrieve followings fallback for user: "+ username + ". Returning empty List", t);
+        logger.error("Retrieve followings fallback for user: "+ username + ". Returning List from Cache", t);
 
-        return new ArrayList<>();
+        if (cacheManager.getCache("RetrieveFollowings") != null && cacheManager.getCache("RetrieveFollowings").get(username) != null) {
+            return cacheManager.getCache("RetrieveFollowings").get(username, List.class);
+        }
+        else {
+            logger.error("Retrieve followings Fallback for username: "+ username +". Cache is empty.");
+            return new ArrayList<>();
+        }
     }
 }

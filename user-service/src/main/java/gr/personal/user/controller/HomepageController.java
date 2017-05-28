@@ -7,6 +7,8 @@ import gr.personal.user.service.HomepageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,26 +28,35 @@ public class HomepageController {
     @LogTimeExecution
     @RequestMapping(value = "/retrieveTopStories/{userId}", method = RequestMethod.GET)
     //In order to map Geolocation for GET command do not use @RequestParam
-    public List<Story> retrieveTopStories(@PathVariable String userId, Geolocation geolocation){
+    public ResponseEntity<List<Story>> retrieveTopStories(@PathVariable String userId, Geolocation geolocation){
         logger.debug("Entering retrieveTopStories (userId = {}, geolocation ={})", userId, geolocation);
         List<Story> stories = homepageService.retrieveTopStories(userId, geolocation);
         logger.debug("Exiting retrieveTopStories (userId = {}, numberOfStories={})", userId, stories.size());
-        return stories;
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body(stories);
     }
     @LogTimeExecution
     @RequestMapping(value = "/retrieveHotStories/{userId}", method = RequestMethod.GET)
-    public List<Story> retrieveHotStories(@PathVariable String userId,  Geolocation geolocation){
+    public ResponseEntity<List<Story>> retrieveHotStories(@PathVariable String userId,  Geolocation geolocation){
         logger.debug("Entering retrieveHotStories (userId = {}, geolocation ={})", userId, geolocation);
         List<Story> stories = homepageService.retrieveHotStories(userId, geolocation);
         logger.debug("Exiting retrieveHotStories (userId = {}, numberOfStories={})", userId, stories.size());
-        return stories;
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body(stories);
     }
     @LogTimeExecution
     @RequestMapping(value = "/retrieveNewStories/{userId}", method = RequestMethod.GET)
-    public List<Story> retrieveNewStories(@PathVariable String userId, Geolocation geolocation){
+    public ResponseEntity<List<Story>> retrieveNewStories(@PathVariable String userId, Geolocation geolocation){
         logger.debug("Entering retrieveNewStories (userId = {}, geolocation ={})", userId, geolocation);
         List<Story> stories = homepageService.retrieveNewStories(userId, geolocation);
         logger.debug("Exiting retrieveNewStories (userId = {}, numberOfStories={})", userId, stories.size());
-        return stories;
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body(stories);
     }
 }
