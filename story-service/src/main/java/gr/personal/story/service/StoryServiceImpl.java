@@ -26,7 +26,7 @@ public class StoryServiceImpl implements StoryService{
     StoryRepository storyRepository;
 
     @Override
-    @HystrixCommand(fallbackMethod = "fallbackCreateStory")
+    @HystrixCommand(fallbackMethod = "fallbackCreateStory", ignoreExceptions = IllegalArgumentException.class)
     public String createStory(StoryRequest storyRequest) {
         Assert.notNull(storyRequest, "createStory input is null");
 
@@ -44,14 +44,14 @@ public class StoryServiceImpl implements StoryService{
     }
 
     @Override
-    @HystrixCommand(fallbackMethod = "fallbackFetchStory")
+    @HystrixCommand(fallbackMethod = "fallbackFetchStory", ignoreExceptions = IllegalArgumentException.class)
     public Story fetchStory(String storyId) {
         Assert.hasLength(storyId, "fetchStory input was null or empty");
         return storyRepository.findById(storyId);
     }
 
     @Override
-    @HystrixCommand(fallbackMethod = "fallbackDeleteStory")
+    @HystrixCommand(fallbackMethod = "fallbackDeleteStory", ignoreExceptions = IllegalArgumentException.class)
     public String deleteStory(String storyId) {
         Assert.hasLength(storyId, "deleteStory input was null or empty");
          storyRepository.delete(storyId);
@@ -60,7 +60,7 @@ public class StoryServiceImpl implements StoryService{
     }
 
     @Override
-    @HystrixCommand(fallbackMethod = "fallbackLikeStory")
+    @HystrixCommand(fallbackMethod = "fallbackLikeStory", ignoreExceptions = IllegalArgumentException.class)
     public String likeStory(String storyId) {
         Assert.hasLength(storyId, "likeStory input was null or empty");
 
@@ -78,7 +78,7 @@ public class StoryServiceImpl implements StoryService{
     }
 
     @Override
-    @HystrixCommand(fallbackMethod = "fallbackUnlikeStory")
+    @HystrixCommand(fallbackMethod = "fallbackUnlikeStory", ignoreExceptions = IllegalArgumentException.class)
     public String unlikeStory(String storyId) {
         Assert.hasLength(storyId, "unlikeStory input was null or empty");
 
@@ -95,7 +95,7 @@ public class StoryServiceImpl implements StoryService{
     }
 
     @Override
-    @HystrixCommand(fallbackMethod = "fallbackCreateComment")
+    @HystrixCommand(fallbackMethod = "fallbackCreateComment", ignoreExceptions = IllegalArgumentException.class)
     public String createComment(String storyId, CommentRequest commentRequest) {
         Assert.notNull(commentRequest, "createComment input is null");
 
@@ -120,7 +120,7 @@ public class StoryServiceImpl implements StoryService{
     }
 
     @Override
-    @HystrixCommand(fallbackMethod = "fallbackDeleteComment")
+    @HystrixCommand(fallbackMethod = "fallbackDeleteComment", ignoreExceptions = IllegalArgumentException.class)
     public String deleteComment(String commentId) {
         //TODO: refactor, remove all asserts with AOP
         Assert.hasLength(commentId, "deleteComment input was null or empty");
@@ -129,7 +129,7 @@ public class StoryServiceImpl implements StoryService{
     }
 
     @Override
-    @HystrixCommand(fallbackMethod = "fallbackFetchComment")
+    @HystrixCommand(fallbackMethod = "fallbackFetchComment", ignoreExceptions = IllegalArgumentException.class)
     public Comment fetchComment(String commentId) {
         Assert.hasLength(commentId, "fetchComment input was null or empty");
         return storyRepository.findCommentById(commentId);

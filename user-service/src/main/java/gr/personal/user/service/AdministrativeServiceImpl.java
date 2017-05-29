@@ -31,7 +31,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     CacheManager cacheManager;
 
     @Override
-    @HystrixCommand(fallbackMethod = "createUserFallback")
+    @HystrixCommand(fallbackMethod = "createUserFallback", ignoreExceptions = IllegalArgumentException.class)
     public String createUser(UserRequest userRequest) {
         Assert.notNull(userRequest, "createUser input is null");
 
@@ -53,7 +53,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     }
 
     @Override
-    @HystrixCommand(fallbackMethod = "updateUserFallback")
+    @HystrixCommand(fallbackMethod = "updateUserFallback", ignoreExceptions = IllegalArgumentException.class)
     public String updateUser(UserRequest userRequest) {
         Assert.notNull(userRequest, "updateUser input is null");
 
@@ -76,7 +76,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     }
 
     @Override
-    @HystrixCommand(fallbackMethod = "deleteUserFallback")
+    @HystrixCommand(fallbackMethod = "deleteUserFallback", ignoreExceptions = IllegalArgumentException.class)
     public String deleteUser(String username) {
         Assert.hasLength(username, "deleteUser input is empty or null");
         
@@ -86,14 +86,14 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     }
 
     @Override
-    @HystrixCommand(fallbackMethod = "retrieveUserFallback")
+    @HystrixCommand(fallbackMethod = "retrieveUserFallback", ignoreExceptions = IllegalArgumentException.class)
     public User retrieveUser(String username) {
         Assert.hasLength(username, "retrieveUser input is empty or null");
         return userRepository.findByUsername(username);
     }
 
     @Override
-    @HystrixCommand(fallbackMethod = "addFollowingFallback")
+    @HystrixCommand(fallbackMethod = "addFollowingFallback", ignoreExceptions = IllegalArgumentException.class)
     public String addFollowing(String username, String followingUsername) {
         Assert.hasLength(followingUsername, "addFollowing input is empty");
         User user = userRepository.findByUsername(username);
@@ -114,7 +114,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
 
 
     @Override
-    @HystrixCommand(fallbackMethod = "removeFollowingFallback")
+    @HystrixCommand(fallbackMethod = "removeFollowingFallback", ignoreExceptions = IllegalArgumentException.class)
     public String removeFollowing(String username, String followingUsername) {
         Assert.hasLength(username, "removeFollowing input is empty or null");
         Assert.hasLength(followingUsername, "removeFollowing input is empty or null");
@@ -135,7 +135,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
 
     @Override
     @CachePut(cacheNames = "RetrieveFollowings", key = "#username")
-    @HystrixCommand(fallbackMethod = "retrieveFollowingsFallback")
+    @HystrixCommand(fallbackMethod = "retrieveFollowingsFallback", ignoreExceptions = IllegalArgumentException.class)
     public List<User> retrieveFollowings(String username) {
         Assert.hasLength(username, "retrieveFollowings input is empty or null");
 

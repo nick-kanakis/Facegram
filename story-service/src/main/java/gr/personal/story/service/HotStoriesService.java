@@ -34,7 +34,7 @@ public class HotStoriesService implements StoriesService {
 
     @Override
     @CachePut(cacheNames = "HotStoriesOfGroup", key = "#groupId")
-    @HystrixCommand(fallbackMethod = "hotStoriesOfGroupFallback")
+    @HystrixCommand(fallbackMethod = "hotStoriesOfGroupFallback", ignoreExceptions = IllegalArgumentException.class)
     public List<Story> getStoriesOfGroup(String groupId) {
         Assert.hasLength(groupId, "Hot stories of group input was null or empty");
         return storyRepository.findHotStoriesOfGroup(groupId);
@@ -42,7 +42,7 @@ public class HotStoriesService implements StoriesService {
 
     @Override
     @CachePut(cacheNames = "HotStoriesOfLocation", key = "#geolocation")
-    @HystrixCommand(fallbackMethod = "hotStoriesOfLocationFallback")
+    @HystrixCommand(fallbackMethod = "hotStoriesOfLocationFallback", ignoreExceptions = IllegalArgumentException.class)
     public List<Story> getStoriesOfLocation(Geolocation geolocation) {
         Assert.notNull(geolocation,"Hot stories of location input is null");
         return  storyRepository.findHotStoriesOfLocation(geolocation);
@@ -50,7 +50,7 @@ public class HotStoriesService implements StoriesService {
 
     @Override
     @CachePut(cacheNames = "HotStoriesOfUser", key = "#userId")
-    @HystrixCommand(fallbackMethod = "hotStoriesOfUserFallback")
+    @HystrixCommand(fallbackMethod = "hotStoriesOfUserFallback", ignoreExceptions = IllegalArgumentException.class )
     public List<Story> getStoriesOfUser(String userId) {
         Assert.hasLength(userId, "Hot stories of user input was null or empty");
         return  storyRepository.findHotStoriesOfUser(userId);

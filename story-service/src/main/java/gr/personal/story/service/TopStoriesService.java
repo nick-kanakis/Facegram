@@ -31,21 +31,21 @@ public class TopStoriesService implements StoriesService {
     private CacheManager cacheManager;
 
     @CachePut(cacheNames = "TopStoriesOfUser", key = "#userId")
-    @HystrixCommand(fallbackMethod = "topStoriesOfUserFallback")
+    @HystrixCommand(fallbackMethod = "topStoriesOfUserFallback", ignoreExceptions = IllegalArgumentException.class)
     public List<Story> getStoriesOfUser(String userId) {
         Assert.hasLength(userId, "Top stories of user input was null or empty");
         return  storyRepository.findTopStoriesOfUser(userId);
     }
 
     @CachePut(cacheNames = "TopStoriesOfLocation", key = "#geolocation")
-    @HystrixCommand(fallbackMethod = "topStoriesOfLocationFallback")
+    @HystrixCommand(fallbackMethod = "topStoriesOfLocationFallback", ignoreExceptions = IllegalArgumentException.class)
     public List<Story> getStoriesOfLocation(Geolocation geolocation) {
         Assert.notNull(geolocation,"Top stories of location input is null");
         return  storyRepository.findTopStoriesOfLocation(geolocation);
     }
 
     @CachePut(cacheNames = "TopStoriesOfGroup", key = "#groupId")
-    @HystrixCommand(fallbackMethod = "topStoriesOfGroupFallback")
+    @HystrixCommand(fallbackMethod = "topStoriesOfGroupFallback", ignoreExceptions = IllegalArgumentException.class)
     public List<Story> getStoriesOfGroup(String groupId) {
         Assert.hasLength(groupId, "Top stories of group input was null or empty");
         return  storyRepository.findTopStoriesOfGroup(groupId);

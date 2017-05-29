@@ -32,7 +32,7 @@ public class NewStoriesService implements StoriesService {
     private CacheManager cacheManager;
 
     @CachePut(cacheNames = "NewStoriesOfUser", key = "#userId")
-    @HystrixCommand(fallbackMethod = "newStoriesOfUserFallback")
+    @HystrixCommand(fallbackMethod = "newStoriesOfUserFallback", ignoreExceptions = IllegalArgumentException.class)
     public List<Story> getStoriesOfUser(String userId) {
         Assert.hasLength(userId, "New stories of user input was null or empty");
 
@@ -40,14 +40,14 @@ public class NewStoriesService implements StoriesService {
     }
 
     @CachePut(cacheNames = "NewStoriesOfLocation", key = "#geolocation")
-    @HystrixCommand(fallbackMethod = "newStoriesOfLocationFallback")
+    @HystrixCommand(fallbackMethod = "newStoriesOfLocationFallback", ignoreExceptions = IllegalArgumentException.class)
     public List<Story> getStoriesOfLocation(Geolocation geolocation) {
         Assert.notNull(geolocation,"New stories of location input is null");
         return  storyRepository.findNewStoriesOfLocation(geolocation);
     }
 
     @CachePut(cacheNames = "NewStoriesOfGroup", key = "#groupId")
-    @HystrixCommand(fallbackMethod = "newStoriesOfGroupFallback")
+    @HystrixCommand(fallbackMethod = "newStoriesOfGroupFallback", ignoreExceptions = IllegalArgumentException.class)
     public List<Story> getStoriesOfGroup(String groupId) {
         Assert.hasLength(groupId, "New stories of user group input was null or empty");
         return storyRepository.findNewStoriesOfGroup(groupId);
