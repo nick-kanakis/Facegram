@@ -13,7 +13,7 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
 @SpringBootApplication
 @EnableFeignClients
-@EnableEurekaClient
+//@EnableEurekaClient
 @EnableCaching
 @EnableHystrix
 public class UserApplication {

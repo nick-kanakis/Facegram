@@ -4,10 +4,6 @@ import com.google.common.collect.ImmutableList;
 import gr.personal.story.domain.Geolocation;
 import gr.personal.story.domain.Story;
 import gr.personal.story.service.HotStoriesService;
-import io.codearte.jfairy.Fairy;
-import io.codearte.jfairy.producer.BaseProducer;
-import io.codearte.jfairy.producer.DateProducer;
-import io.codearte.jfairy.producer.text.TextProducer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +18,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import static gr.personal.story.util.FakeDataGenerator.generateStory;
-import static gr.personal.story.util.FakeDataGenerator.getRandomGeoLocation;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -57,7 +52,7 @@ public class HotStoriesControllerTest {
 
         Story story = generateStory();
 
-        when(hotStoriesService.getHotStoriesOfUser("test")).thenReturn(ImmutableList.of(story));
+        when(hotStoriesService.getStoriesOfUser("test")).thenReturn(ImmutableList.of(story));
 
         mockMvc.perform(get("/hotStories/user/test")).andExpect(jsonPath("$[0].id").value(story.getId()))
                 .andExpect(status().isOk());
@@ -72,7 +67,7 @@ public class HotStoriesControllerTest {
         geolocation.setLatitude(0);
         geolocation.setLongitude(0);
 
-        when(hotStoriesService.getHotStoriesOfLocation(any(Geolocation.class))).thenReturn(ImmutableList.of(story));
+        when(hotStoriesService.getStoriesOfLocation(any(Geolocation.class))).thenReturn(ImmutableList.of(story));
 
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
         params.add("latitude",String.valueOf(geolocation.getLatitude()));
@@ -88,7 +83,7 @@ public class HotStoriesControllerTest {
 
         Story story = generateStory();
 
-        when(hotStoriesService.getHotStoriesOfGroup("test")).thenReturn(ImmutableList.of(story));
+        when(hotStoriesService.getStoriesOfGroup("test")).thenReturn(ImmutableList.of(story));
 
         mockMvc.perform(get("/hotStories/group/test")).andExpect(jsonPath("$[0].id").value(story.getId()))
                 .andExpect(status().isOk());

@@ -52,7 +52,7 @@ public class TopStoriesControllerTest {
 
         Story story = generateStory();
 
-        when(topStoriesService.getTopStoriesOfUser("test")).thenReturn(ImmutableList.of(story));
+        when(topStoriesService.getStoriesOfUser("test")).thenReturn(ImmutableList.of(story));
 
         mockMvc.perform(get("/topStories/user/test")).andExpect(jsonPath("$[0].id").value(story.getId()))
                 .andExpect(status().isOk());
@@ -67,7 +67,7 @@ public class TopStoriesControllerTest {
         geolocation.setLatitude(0);
         geolocation.setLongitude(0);
 
-        when(topStoriesService.getTopStoriesOfLocation(any(Geolocation.class))).thenReturn(ImmutableList.of(story));
+        when(topStoriesService.getStoriesOfLocation(any(Geolocation.class))).thenReturn(ImmutableList.of(story));
 
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
         params.add("latitude",String.valueOf(geolocation.getLatitude()));
@@ -83,7 +83,7 @@ public class TopStoriesControllerTest {
 
         Story story = generateStory();
 
-        when(topStoriesService.getTopStoriesOfGroup("test")).thenReturn(ImmutableList.of(story));
+        when(topStoriesService.getStoriesOfGroup("test")).thenReturn(ImmutableList.of(story));
 
         mockMvc.perform(get("/topStories/group/test")).andExpect(jsonPath("$[0].id").value(story.getId()))
                 .andExpect(status().isOk());

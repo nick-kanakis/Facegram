@@ -20,8 +20,8 @@ import java.util.List;
  * Created by Nick Kanakis on 1/5/2017.
  */
 
-@Service
-public class NewStoriesService {
+@Service("NewStoriesService")
+public class NewStoriesService implements StoriesService {
 
     Logger logger = LoggerFactory.getLogger(NewStoriesService.class);
 
@@ -33,23 +33,23 @@ public class NewStoriesService {
 
     @CachePut(cacheNames = "NewStoriesOfUser", key = "#userId")
     @HystrixCommand(fallbackMethod = "newStoriesOfUserFallback")
-    public List<Story> getNewStoriesOfUser(String userId) {
-        Assert.hasLength(userId, "getNewStoriesOfUser input was null or empty");
+    public List<Story> getStoriesOfUser(String userId) {
+        Assert.hasLength(userId, "New stories of user input was null or empty");
 
         return storyRepository.findNewStoriesOfUser(userId);
     }
 
     @CachePut(cacheNames = "NewStoriesOfLocation", key = "#geolocation")
     @HystrixCommand(fallbackMethod = "newStoriesOfLocationFallback")
-    public List<Story> getNewStoriesOfLocation(Geolocation geolocation) {
-        Assert.notNull(geolocation,"getNewStoriesOfLocation input is null");
+    public List<Story> getStoriesOfLocation(Geolocation geolocation) {
+        Assert.notNull(geolocation,"New stories of location input is null");
         return  storyRepository.findNewStoriesOfLocation(geolocation);
     }
 
     @CachePut(cacheNames = "NewStoriesOfGroup", key = "#groupId")
     @HystrixCommand(fallbackMethod = "newStoriesOfGroupFallback")
-    public List<Story> getNewStoriesOfGroup(String groupId) {
-        Assert.hasLength(groupId, "getNewStoriesOfGroup input was null or empty");
+    public List<Story> getStoriesOfGroup(String groupId) {
+        Assert.hasLength(groupId, "New stories of user group input was null or empty");
         return storyRepository.findNewStoriesOfGroup(groupId);
     }
 

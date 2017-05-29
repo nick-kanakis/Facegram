@@ -3,10 +3,9 @@ package gr.personal.story.service;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.swing.*;
 
 /**
  * Created by Nick Kanakis on 14/5/2017.
@@ -16,22 +15,22 @@ import javax.swing.*;
 @SpringBootTest
 public class HotStoriesServiceTest {
 
-    @InjectMocks
+    @Autowired
     private HotStoriesService hotStoriesService;
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToGetHotStoriesOfGroup(){
-        hotStoriesService.getHotStoriesOfGroup("");
+        hotStoriesService.getStoriesOfGroup("");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToGetHotStoriesOfLocation(){
-        hotStoriesService.getHotStoriesOfLocation(null);
+        hotStoriesService.getStoriesOfLocation(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToGetHotStoriesOfUser(){
-        hotStoriesService.getHotStoriesOfUser("");
+        hotStoriesService.getStoriesOfUser("");
     }
 
 

@@ -21,8 +21,8 @@ import java.util.List;
  * Created by Nick Kanakis on 1/5/2017.
  */
 
-@Service
-public class HotStoriesService {
+@Service("HotStoriesService")
+public class HotStoriesService implements StoriesService {
 
     Logger logger = LoggerFactory.getLogger(HotStoriesService.class);
 
@@ -32,24 +32,27 @@ public class HotStoriesService {
     @Autowired
     private CacheManager cacheManager;
 
+    @Override
     @CachePut(cacheNames = "HotStoriesOfGroup", key = "#groupId")
     @HystrixCommand(fallbackMethod = "hotStoriesOfGroupFallback")
-    public List<Story> getHotStoriesOfGroup(String groupId) {
-        Assert.hasLength(groupId, "getHotStoriesOfGroup input was null or empty");
+    public List<Story> getStoriesOfGroup(String groupId) {
+        Assert.hasLength(groupId, "Hot stories of group input was null or empty");
         return storyRepository.findHotStoriesOfGroup(groupId);
     }
 
+    @Override
     @CachePut(cacheNames = "HotStoriesOfLocation", key = "#geolocation")
     @HystrixCommand(fallbackMethod = "hotStoriesOfLocationFallback")
-    public List<Story> getHotStoriesOfLocation(Geolocation geolocation) {
-        Assert.notNull(geolocation,"getHotStoriesOfLocation input is null");
+    public List<Story> getStoriesOfLocation(Geolocation geolocation) {
+        Assert.notNull(geolocation,"Hot stories of location input is null");
         return  storyRepository.findHotStoriesOfLocation(geolocation);
     }
 
+    @Override
     @CachePut(cacheNames = "HotStoriesOfUser", key = "#userId")
     @HystrixCommand(fallbackMethod = "hotStoriesOfUserFallback")
-    public List<Story> getHotStoriesOfUser(String userId) {
-        Assert.hasLength(userId, "getHotStoriesOfUser input was null or empty");
+    public List<Story> getStoriesOfUser(String userId) {
+        Assert.hasLength(userId, "Hot stories of user input was null or empty");
         return  storyRepository.findHotStoriesOfUser(userId);
     }
 

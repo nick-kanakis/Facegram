@@ -97,7 +97,7 @@ public class AdministrativeControllerTest {
 
         mockMvc.perform(get("/administrative/retrieveUser/testUserId"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.username").value("1"));
+                .andExpect(jsonPath("$.username").value(user.getUsername()));
     }
 
     @Test
