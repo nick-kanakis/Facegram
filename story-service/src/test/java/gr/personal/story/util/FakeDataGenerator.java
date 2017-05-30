@@ -35,6 +35,8 @@ public class FakeDataGenerator {
                 .title(textProducer.sentence())
                 .userId(String.valueOf(baseProducer.randomBetween(0, 999999999)))
                 .geolocation(getRandomGeoLocation())
+                .groupId(null)
+                .id(String.valueOf(baseProducer.randomBetween(0, 999999999)))
                 .story(textProducer.paragraph())
                 .build();
 
@@ -80,5 +82,21 @@ public class FakeDataGenerator {
     }
 
 
+    public static StoryRequest generateStoryRequest() {
 
+        Fairy fairy = Fairy.create();
+        TextProducer textProducer = fairy.textProducer();
+        BaseProducer baseProducer = fairy.baseProducer();
+
+        return new StoryRequest(textProducer.paragraph(),textProducer.sentence(),String.valueOf(baseProducer.randomBetween(0, 999999999)),null, getRandomGeoLocation());
+
+    }
+
+    public static CommentRequest generateCommentRequest(){
+        Fairy fairy = Fairy.create();
+        TextProducer textProducer = fairy.textProducer();
+        BaseProducer baseProducer = fairy.baseProducer();
+
+       return new CommentRequest(textProducer.sentence(),String.valueOf(baseProducer.randomBetween(0, 999999999)),textProducer.sentence());
+    }
 }
