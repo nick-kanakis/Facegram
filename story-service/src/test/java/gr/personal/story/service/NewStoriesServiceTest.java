@@ -6,7 +6,6 @@ import gr.personal.story.repository.StoryRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,8 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import static gr.personal.story.util.FakeDataGenerator.generateStories;
-import static gr.personal.story.util.FakeDataGenerator.getRandomGeoLocation;
+import static gr.personal.story.helper.FakeDataGenerator.generateStories;
+import static gr.personal.story.helper.FakeDataGenerator.getRandomGeoLocation;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;

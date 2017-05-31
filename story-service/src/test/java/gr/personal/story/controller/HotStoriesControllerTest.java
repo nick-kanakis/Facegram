@@ -3,21 +3,23 @@ package gr.personal.story.controller;
 import com.google.common.collect.ImmutableList;
 import gr.personal.story.domain.Geolocation;
 import gr.personal.story.domain.Story;
-import gr.personal.story.service.HotStoriesService;
+import gr.personal.story.service.StoriesService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import static gr.personal.story.util.FakeDataGenerator.generateStory;
+import static gr.personal.story.helper.FakeDataGenerator.generateStory;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,8 +38,9 @@ public class HotStoriesControllerTest {
     @InjectMocks
     private HotStoriesController hotStoriesController;
 
+    @Qualifier("HotStoriesService")
     @Mock
-    private HotStoriesService hotStoriesService;
+    private StoriesService hotStoriesService;
 
     private MockMvc mockMvc;
 

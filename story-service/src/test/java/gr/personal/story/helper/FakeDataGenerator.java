@@ -1,4 +1,4 @@
-package gr.personal.story.util;
+package gr.personal.story.helper;
 
 import gr.personal.story.domain.*;
 import io.codearte.jfairy.Fairy;

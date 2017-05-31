@@ -15,8 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static gr.personal.story.util.FakeDataGenerator.generateComment;
-import static gr.personal.story.util.FakeDataGenerator.generateStory;
+import static gr.personal.story.helper.FakeDataGenerator.generateComment;
+import static gr.personal.story.helper.FakeDataGenerator.generateStory;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;

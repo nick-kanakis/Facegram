@@ -5,7 +5,6 @@ import gr.personal.story.domain.CommentRequest;
 import gr.personal.story.domain.Story;
 import gr.personal.story.domain.StoryRequest;
 import gr.personal.story.repository.StoryRepository;
-import gr.personal.story.util.FakeDataGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static gr.personal.story.util.FakeDataGenerator.*;
+import static gr.personal.story.helper.FakeDataGenerator.*;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -23,9 +22,6 @@ import static org.mockito.Matchers.anyString;
 /**
  * Created by Nick Kanakis on 14/5/2017.
  */
-
-//TODO : REMOVE fakedatagenerator with mock objects!!
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class StoryServiceTest {

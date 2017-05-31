@@ -1,27 +1,22 @@
 package gr.personal.story.repository;
 
-import gr.personal.story.domain.Geolocation;
 import gr.personal.story.domain.Story;
-import gr.personal.story.util.FakeDataGenerator;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import static gr.personal.story.util.FakeDataGenerator.generateComment;
-import static gr.personal.story.util.FakeDataGenerator.generateStory;
+import static gr.personal.story.helper.FakeDataGenerator.generateComment;
+import static gr.personal.story.helper.FakeDataGenerator.generateStory;
 
 /**
  * Created by Nick Kanakis on 17/5/2017.
  */
+
+//TODO: Try embedded mongo db or separate integration tests with unit test!
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,10 +29,6 @@ public class StoryRepositoryTest {
 
     @Before
     public void setUp(){
-
-        Geolocation geolocation = new Geolocation();
-        geolocation.setLatitude(0);
-        geolocation.setLongitude(0);
 
         story = generateStory();
 

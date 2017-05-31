@@ -20,7 +20,6 @@ import javax.validation.Valid;
  * Created by Nick Kanakis on 4/5/2017.
  */
 
-//TODO: Change every return Object to ResponseEntity<>!!!!!!
 @RestController
 @RequestMapping("/story")
 public class StoryController {

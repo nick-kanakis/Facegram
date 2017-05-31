@@ -10,7 +10,6 @@ import org.springframework.validation.Validator;
  * Created by nkanakis on 5/26/2017. Custom Validator for Geolocation object
  */
 
-/*TODO: replace it with validators*/
 public class GeolocationValidator implements Validator {
     @Override
     public boolean supports(Class<?> aClass) {

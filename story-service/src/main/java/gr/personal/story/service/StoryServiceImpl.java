@@ -63,8 +63,6 @@ public class StoryServiceImpl implements StoryService{
     @HystrixCommand(fallbackMethod = "fallbackLikeStory", ignoreExceptions = IllegalArgumentException.class)
     public String likeStory(String storyId) {
         Assert.hasLength(storyId, "likeStory input was null or empty");
-
-        //TODO: refactor move  the following lines in separate private method
         Story story = storyRepository.findById(storyId);
 
         if(story ==null){

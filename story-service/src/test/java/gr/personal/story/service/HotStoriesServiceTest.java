@@ -11,16 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static gr.personal.story.util.FakeDataGenerator.getRandomGeoLocation;
+import static gr.personal.story.helper.FakeDataGenerator.getRandomGeoLocation;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 
 import java.util.List;
 
-import static gr.personal.story.util.FakeDataGenerator.generateStories;
+import static gr.personal.story.helper.FakeDataGenerator.generateStories;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 
