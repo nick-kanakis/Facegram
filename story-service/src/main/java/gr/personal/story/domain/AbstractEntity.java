@@ -2,6 +2,8 @@ package gr.personal.story.domain;
 
 import org.springframework.data.annotation.Id;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -12,7 +14,7 @@ public abstract class AbstractEntity {
     @Id
     private String id;
     private String userId;
-    private Date postDate;
+    private LocalDateTime postDate;
 
 
     public String getId() {
@@ -23,7 +25,7 @@ public abstract class AbstractEntity {
         return userId;
     }
 
-    public Date getPostDate() {
+    public LocalDateTime getPostDate() {
         return postDate;
     }
 
@@ -35,7 +37,7 @@ public abstract class AbstractEntity {
         this.userId = userId;
     }
 
-    protected void setPostDate(Date postDate) {
+    protected void setPostDate(LocalDateTime postDate) {
         this.postDate = postDate;
     }
 

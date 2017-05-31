@@ -10,7 +10,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static gr.personal.story.helper.FakeDataGenerator.generateComment;
-import static gr.personal.story.helper.FakeDataGenerator.generateStory;
+import static gr.personal.story.helper.FakeDataGenerator.generateStoryWithoutId;
 
 /**
  * Created by Nick Kanakis on 17/5/2017.
@@ -30,7 +30,7 @@ public class StoryRepositoryTest {
     @Before
     public void setUp(){
 
-        story = generateStory();
+        story = generateStoryWithoutId();
 
         Assert.assertNull(story.getId());
         this.storyRepository.save(story);

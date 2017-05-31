@@ -3,6 +3,7 @@ package gr.personal.story.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -72,7 +73,7 @@ public class Story extends AbstractEntity{
     protected Story(Builder builder){
         this.title = builder.title;
         setUserId(builder.userId);
-        setPostDate(new Date());
+        setPostDate(LocalDateTime.now());
         this.likes = 0;
         this.unlikes = 0;
         this.comments = new ArrayList<>();

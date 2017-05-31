@@ -43,6 +43,24 @@ public class FakeDataGenerator {
         return story;
     }
 
+
+    public static Story generateStoryWithoutId(){
+
+        Fairy fairy = Fairy.create();
+        TextProducer textProducer = fairy.textProducer();
+        BaseProducer baseProducer = fairy.baseProducer();
+
+        Story story = new Story.Builder<>()
+                .title(textProducer.sentence())
+                .userId(String.valueOf(baseProducer.randomBetween(0, 999999999)))
+                .geolocation(getRandomGeoLocation())
+                .groupId(null)
+                .story(textProducer.paragraph())
+                .build();
+
+        return story;
+    }
+
     public static List<Comment> generateComments() {
 
         Fairy fairy = Fairy.create();

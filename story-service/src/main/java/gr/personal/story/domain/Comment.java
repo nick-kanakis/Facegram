@@ -3,6 +3,7 @@ package gr.personal.story.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -68,7 +69,7 @@ public class Comment extends AbstractEntity {
         this.description = builder.description;
         this.storyId = builder.storyId;
         setUserId(builder.userId);
-        setPostDate(new Date());
+        setPostDate(LocalDateTime.now());
         setId(builder.id);
     }
 
