@@ -120,7 +120,6 @@ public class StoryServiceImpl implements StoryService{
     @Override
     @HystrixCommand(fallbackMethod = "fallbackDeleteComment", ignoreExceptions = IllegalArgumentException.class)
     public String deleteComment(String commentId) {
-        //TODO: refactor, remove all asserts with AOP
         Assert.hasLength(commentId, "deleteComment input was null or empty");
         storyRepository.deleteCommentById(commentId);
         return "OK";

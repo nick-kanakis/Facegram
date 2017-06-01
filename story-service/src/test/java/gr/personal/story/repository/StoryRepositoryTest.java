@@ -18,7 +18,7 @@ import static gr.personal.story.helper.FakeDataGenerator.generateStoryWithoutId;
  * Created by Nick Kanakis on 17/5/2017.
  */
 
-//TODO: Try embedded mongo db or separate integration tests with unit test!
+//TODO: Add integration testing!
 
 @RunWith(SpringRunner.class)
 @DataMongoTest

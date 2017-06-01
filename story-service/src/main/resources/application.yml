@@ -14,14 +14,14 @@ logging:
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   file: story-service.logs
 
-# Increase the Hystrix timeout to 30s (globally)
+# Increase the Hystrix timeout to 10s (globally)
 hystrix:
   command:
     default:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 30000
+            timeoutInMilliseconds: 10000
 
 cache:
  ehcache:

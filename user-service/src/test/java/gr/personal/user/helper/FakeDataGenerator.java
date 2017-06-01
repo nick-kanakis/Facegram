@@ -1,4 +1,4 @@
-package gr.personal.user.util;
+package gr.personal.user.helper;
 
 import gr.personal.user.domain.Gender;
 import gr.personal.user.domain.Geolocation;

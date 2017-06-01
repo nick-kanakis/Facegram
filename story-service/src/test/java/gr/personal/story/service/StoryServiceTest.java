@@ -22,6 +22,7 @@ import static gr.personal.story.helper.FakeDataGenerator.*;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Nick Kanakis on 14/5/2017.
@@ -36,7 +37,7 @@ public class StoryServiceTest {
     static class StoryServiceTestContextConfiguration {
 
         @Bean
-        public StoryService StoryService() {
+        public StoryService storyService() {
             return new StoryServiceImpl();
         }
         @Bean
@@ -55,9 +56,9 @@ public class StoryServiceTest {
         originalStory = generateStory();
         originalComment = generateComment();
 
-        Mockito.when(storyRepository.findById(anyString())).thenReturn(originalStory);
-        Mockito.when(storyRepository.findCommentById(anyString())).thenReturn(originalComment);
-        Mockito.when(storyRepository.save(any(Story.class))).thenReturn(originalStory);
+        when(storyRepository.findById(anyString())).thenReturn(originalStory);
+        when(storyRepository.findCommentById(anyString())).thenReturn(originalComment);
+        when(storyRepository.save(any(Story.class))).thenReturn(originalStory);
     }
 
     @Test
