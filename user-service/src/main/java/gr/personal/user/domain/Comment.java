@@ -1,6 +1,6 @@
 package gr.personal.user.domain;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Created by Nick Kanakis on 4/5/2017.
@@ -66,7 +66,7 @@ public class Comment extends AbstractEntity {
         this.storyId = builder.storyId;
         setId(builder.id);
         setUserId(builder.userId);
-        setPostDate(new Date());
+        setPostDate(LocalDateTime.now());
     }
 
     //Will be used only to avoid returning null object in case of exception
@@ -79,6 +79,7 @@ public class Comment extends AbstractEntity {
                 "username='" + getId() + '\'' +
                 ", header='" + header + '\'' +
                 ", userId='" + getUserId() + '\'' +
+                ", storyId='" + getStoryId() + '\'' +
                 ", description='" + description + '\'' +
                 ", postDate=" + getPostDate() +
                 '}';

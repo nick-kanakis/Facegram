@@ -18,6 +18,8 @@ import static org.mockito.Matchers.anyDouble;
  * Created by Nick Kanakis on 14/5/2017.
  */
 
+//TODO: review the unit testing of Feign client
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class StoryClientTest {

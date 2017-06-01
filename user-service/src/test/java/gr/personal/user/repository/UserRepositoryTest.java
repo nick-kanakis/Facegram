@@ -1,28 +1,25 @@
 package gr.personal.user.repository;
 
-import gr.personal.user.domain.Gender;
 import gr.personal.user.domain.User;
-import gr.personal.user.util.FakeDataGenerator;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static gr.personal.user.util.FakeDataGenerator.generateUser;
+import static gr.personal.user.helper.FakeDataGenerator.generateUser;
 
 /**
  * Created by Nick Kanakis on 18/5/2017.
  */
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@DataMongoTest
+@ActiveProfiles("repository")
 public class UserRepositoryTest {
 
     @Autowired

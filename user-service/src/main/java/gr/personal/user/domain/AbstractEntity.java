@@ -1,6 +1,6 @@
 package gr.personal.user.domain;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Created by nkanakis on 5/25/2017.
@@ -9,7 +9,7 @@ public abstract class AbstractEntity {
 
     private String id;
     private String userId;
-    private Date postDate;
+    private LocalDateTime postDate;
 
     public String getId() {
         return id;
@@ -27,11 +27,11 @@ public abstract class AbstractEntity {
         this.userId = userId;
     }
 
-    public Date getPostDate() {
+    public LocalDateTime getPostDate() {
         return postDate;
     }
 
-    protected void setPostDate(Date postDate) {
+    protected void setPostDate(LocalDateTime postDate) {
         this.postDate = postDate;
     }
 

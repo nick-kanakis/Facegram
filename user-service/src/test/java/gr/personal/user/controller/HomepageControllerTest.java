@@ -4,23 +4,18 @@ import com.google.common.collect.ImmutableList;
 import gr.personal.user.domain.Geolocation;
 import gr.personal.user.domain.Story;
 import gr.personal.user.service.HomepageService;
-import gr.personal.user.util.FakeDataGenerator;
-import io.codearte.jfairy.Fairy;
-import io.codearte.jfairy.producer.BaseProducer;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import static gr.personal.user.util.FakeDataGenerator.generateStory;
+import static gr.personal.user.helper.FakeDataGenerator.generateStory;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
@@ -32,24 +27,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by Nick Kanakis on 15/5/2017.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@WebMvcTest(HomepageController.class)
+@ActiveProfiles("noEureka")
 public class HomepageControllerTest {
 
-    @InjectMocks
-    private HomepageController homepageController;
 
-    @Mock
+    @MockBean
     private HomepageService homepageService;
 
+    @Autowired
     private MockMvc mockMvc;
 
-    @Before
-    public void setup(){
-
-        MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(homepageController).build();
-
-    }
 
     @Test
     public void shouldRetrieveTopStories() throws Exception {
