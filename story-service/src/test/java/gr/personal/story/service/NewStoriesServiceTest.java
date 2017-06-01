@@ -10,7 +10,11 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -27,12 +31,23 @@ import static org.mockito.Matchers.anyString;
  */
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
 public class NewStoriesServiceTest {
 
-    @Qualifier("NewStoriesService")
     @Autowired
     private StoriesService newStoriesService;
+
+    @TestConfiguration
+    static class StoriesServiceTestContextConfiguration {
+
+        @Bean
+        public StoriesService newStoriesService() {
+            return new NewStoriesService();
+        }
+        @Bean
+        public CacheManager serviceCacheManager(){
+            return new ConcurrentMapCacheManager("testCache");
+        }
+    }
 
     @MockBean
     private StoryRepository storyRepository;

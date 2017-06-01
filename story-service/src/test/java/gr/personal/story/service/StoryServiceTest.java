@@ -11,7 +11,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static gr.personal.story.helper.FakeDataGenerator.*;
@@ -23,11 +27,24 @@ import static org.mockito.Matchers.anyString;
  * Created by Nick Kanakis on 14/5/2017.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
 public class StoryServiceTest {
 
     @Autowired
     private StoryService storyService;
+
+    @TestConfiguration
+    static class StoryServiceTestContextConfiguration {
+
+        @Bean
+        public StoryService StoryService() {
+            return new StoryServiceImpl();
+        }
+        @Bean
+        public CacheManager serviceCacheManager(){
+            return new ConcurrentMapCacheManager("testCache");
+        }
+    }
+
     @MockBean
     private StoryRepository storyRepository;
     private Comment originalComment;

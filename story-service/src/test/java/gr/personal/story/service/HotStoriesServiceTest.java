@@ -6,11 +6,18 @@ import gr.personal.story.repository.StoryRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -30,15 +37,27 @@ import static org.mockito.Matchers.anyString;
  */
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
 public class HotStoriesServiceTest {
 
-    @Qualifier("HotStoriesService")
     @Autowired
     private StoriesService hotStoriesService;
 
+    @TestConfiguration
+    static class StoriesServiceTestContextConfiguration {
+
+        @Bean
+        public StoriesService hotStoriesService() {
+            return new HotStoriesService();
+        }
+        @Bean
+        public CacheManager serviceCacheManager(){
+            return new ConcurrentMapCacheManager("testCache");
+        }
+    }
+
     @MockBean
     private StoryRepository storyRepository;
+
     private List<Story> originalStories;
 
     @Before

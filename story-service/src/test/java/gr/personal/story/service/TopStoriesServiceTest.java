@@ -10,7 +10,11 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -27,12 +31,28 @@ import static org.mockito.Matchers.anyString;
  */
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
 public class TopStoriesServiceTest {
 
-    @Qualifier("TopStoriesService")
     @Autowired
     private StoriesService topStoriesService;
+
+    @TestConfiguration
+    static class StoriesServiceTestContextConfiguration {
+
+        @Bean
+        public StoriesService topStoriesService() {
+            return new TopStoriesService();
+        }
+        @Bean
+        public CacheManager serviceCacheManager(){
+            return new ConcurrentMapCacheManager("testCache");
+        }
+    }
+
+    @MockBean
+    private StoryRepository storyRepository;
+    private List<Story> originalStories;
+
 
     @Before
     public void setUp() throws Exception {
@@ -60,11 +80,6 @@ public class TopStoriesServiceTest {
         List<Story> stories = topStoriesService.getStoriesOfLocation(getRandomGeoLocation());
         assertThat(stories,is(originalStories));
     }
-
-
-    @MockBean
-    private StoryRepository storyRepository;
-    private List<Story> originalStories;
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToGetTopStoriesOfGroup(){

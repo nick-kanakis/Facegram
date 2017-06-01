@@ -1,0 +1,16 @@
+eureka:
+  client:
+    enabled: false
+
+spring:
+  data:
+    mongodb:
+      port: 0
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds:

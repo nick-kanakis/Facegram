@@ -10,8 +10,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -30,31 +34,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@WebMvcTest(NewStoriesController.class)
+@ActiveProfiles("noEureka")
 public class NewStoriesControllerTest {
 
-    /**
-     * Inject Mock creates an instance of the class and injects the mocks that are created with @Mock into
-     * this instance.
-     */
-    @InjectMocks
-    private NewStoriesController newStoriesController;
 
     @Qualifier("NewStoriesService")
-    @Mock
+    @MockBean
     private StoriesService newStoriesService;
 
+    @Autowired
     private MockMvc mockMvc;
 
-    @Before
-    public void setup(){
-        /**
-         * We can not use @RunWith(MockitoJUnitRunner.class) in this test as we use @RunWith(SpringRunner.class)
-         * for this reason we use MockitoAnnotations.initMocks(this) in order to initialize mock objects
-         */
-        MockitoAnnotations.initMocks(this);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(newStoriesController).build();
-    }
 
     @Test
     public void shouldGetNewStoriesOfUser() throws Exception{
