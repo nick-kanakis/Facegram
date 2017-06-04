@@ -19,25 +19,25 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
  */
 
 @Configuration
+@Order(1)
 @EnableWebSecurity
-@Order(101)
+/*
+* This class is responsible for gluing everything together.
+* Endpoint /oauth/token is used to request a token [access or refresh].
+* */
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Configuration
-    @EnableWebSecurity
-    protected static class webSecurityConfig extends WebSecurityConfigurerAdapter {
 
         @Autowired
         private UserService userDetailsService;
 
         /*
-        * Authenticate all urls except from home {/}
+        * Authenticate all urls except from home {/} and /users etc.
         * */
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            http.antMatcher("/**").authorizeRequests()
-                    .antMatchers("/","/login/**").permitAll()
-                    .anyRequest().authenticated();
+            http.csrf().disable();
+            http.authorizeRequests()
+                    .antMatchers("/","/login").permitAll();
         }
 
         @Override
@@ -52,4 +52,3 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             return super.authenticationManagerBean();
         }
     }
-}

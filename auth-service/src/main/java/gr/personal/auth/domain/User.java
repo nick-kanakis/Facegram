@@ -3,9 +3,12 @@ package gr.personal.auth.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Nick Kanakis on 3/6/2017.
@@ -16,15 +19,19 @@ public class User implements UserDetails{
     @Id
     private String username;
     private String password;
+    private List<SimpleGrantedAuthority> authorities;
 
-    public User(String username, String password) {
+    public User(String username, String password, List<SimpleGrantedAuthority> authorities) {
         this.username = username;
         this.password = password;
+        this.authorities = authorities;
     }
+
+    public User() { }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
@@ -32,13 +39,13 @@ public class User implements UserDetails{
         return password;
     }
 
-    public void setHashedPassword(String password) {
-        this.password = password;
-    }
-
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

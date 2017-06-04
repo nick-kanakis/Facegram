@@ -12,9 +12,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -46,19 +49,19 @@ public class UserServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        user = new User("testUsername", "testPassword");
+        user = new User("testUsername", "testPassword", new ArrayList<>());
         Mockito.when(userRepository.findByUsername(anyString())).thenReturn(user);
         Mockito.when(userRepository.findByUsername("myUsername")).thenReturn(null);
     }
 
     @Test
     public void shouldCreateUser() throws Exception{
-        userService.create(new User("myUsername","myPass"));
+        userService.create(new User("myUsername","myPass", new ArrayList<>()));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotCreateUser() throws Exception{
-        userService.create(new User("myUsername2","myPass2"));
+        userService.create(new User("myUsername2","myPass2", new ArrayList<>()));
     }
     @Test
     public void shouldLoadUserByUsername() throws Exception{

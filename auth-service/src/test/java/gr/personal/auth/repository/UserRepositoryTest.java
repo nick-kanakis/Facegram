@@ -9,6 +9,8 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -26,7 +28,7 @@ public class UserRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        user = new User("testUsername", "testPassword");
+        user = new User("testUsername", "testPassword", new ArrayList<>());
         userRepository.save(user);
     }
 
