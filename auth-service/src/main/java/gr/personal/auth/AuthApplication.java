@@ -4,9 +4,12 @@ import gr.personal.auth.service.UserService;
 import gr.personal.auth.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,9 +25,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
  */
 
 @SpringBootApplication
-@EnableResourceServer
-//@EnableEurekaClient
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableResourceServer
+@EnableEurekaClient
 public class AuthApplication {
 
     public static void main(String[] args) {

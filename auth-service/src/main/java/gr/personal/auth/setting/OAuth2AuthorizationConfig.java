@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -31,7 +33,6 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     private static final String USER_SERVICE_PASSWORD = "userServicePassword";
 
     @Autowired
-    @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -61,9 +62,8 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
         * the client will send: (grant_type = refresh_token, refresh_token, client_id,  )
         *
         * > Client Credentials: Suitable for machine-to-machine authentication, The client sends a POST request with
-        * following body parameters: (grant_type = client_credentials, client_id ,client_secret , scope) the authorization server
-        * respond will a json object containing: (token_type, expires_in , access_token, client_secret, scope) and the authorization
-        * server will respond with (token_type, expires_in, access_token, refresh_token)
+        * following body parameters: (grant_type = client_credentials, client_id, client_secret, scope) the authorization server
+        * respond will a json object containing: (token_type, expires_in , access_token, client_secret, scope)
         *
         *
         * > Resource owner credentials (password): This grant is a great user experience for trusted first party.
@@ -81,11 +81,13 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .secret(STORY_SERVICE_PASSWORD)
                 .authorizedGrantTypes("client_credentials", "refresh_token")
                 .scopes("server")
+                .autoApprove(true)
                 .and()
                 .withClient("user-service")
                 .secret(USER_SERVICE_PASSWORD)
                 .authorizedGrantTypes("client_credentials", "refresh_token")
-                .scopes("server");
+                .scopes("server")
+                .autoApprove(true);
     }
 
     /*Defines the security constraints on the token endpoint*/
@@ -95,4 +97,5 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");
     }
+
 }
