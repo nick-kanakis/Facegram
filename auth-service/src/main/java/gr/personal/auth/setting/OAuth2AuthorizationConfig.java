@@ -3,6 +3,7 @@ package gr.personal.auth.setting;
 import gr.personal.auth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -29,8 +30,10 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 @EnableAuthorizationServer
 public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
-    private static final String STORY_SERVICE_PASSWORD = "storyServicePassword";
-    private static final String USER_SERVICE_PASSWORD = "userServicePassword";
+    @Value("${password.user-service}")
+    private String USER_SERVICE_PASSWORD;
+    @Value("${password.story-service}")
+    private String STORY_SERVICE_PASSWORD;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -50,8 +53,6 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
         // TODO: persist clients details using MongoDB (or JdbcTokenStore)
-        // TODO: get secrets by env or yml files
-
         /*
         * In the following lines we register 3 clients (browser, story-service, user-service).
         * Each has a scope (ui, server), that specifies the limits of the client. Grand type is the "method" by which
@@ -81,13 +82,11 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .secret(STORY_SERVICE_PASSWORD)
                 .authorizedGrantTypes("client_credentials", "refresh_token")
                 .scopes("server")
-                .autoApprove(true)
                 .and()
                 .withClient("user-service")
                 .secret(USER_SERVICE_PASSWORD)
                 .authorizedGrantTypes("client_credentials", "refresh_token")
-                .scopes("server")
-                .autoApprove(true);
+                .scopes("server");
     }
 
     /*Defines the security constraints on the token endpoint*/

@@ -9,6 +9,15 @@ feign:
   hystrix:
     enabled: true
 
+security:
+  oauth2:
+    client:
+      clientId: user-service
+      clientSecret: userServicePassword
+      accessTokenUri: http://auth-service:1002/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
+
 logging:
   level:
     org.springframework.web: INFO

@@ -2,12 +2,19 @@ spring:
   application:
     name: auth-service
 
+
+
 server:
   port: 1002
+  context-path: /uaa
+
+password:
+  user-service: userServicePassword
+  story-service: storyServicePassword
 
 logging:
   level:
-    org.springframework.web: INFO
+    org.springframework.web: DEBUG
     gr.personal.story: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
