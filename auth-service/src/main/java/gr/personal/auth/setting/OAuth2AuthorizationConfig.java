@@ -1,13 +1,17 @@
 package gr.personal.auth.setting;
 
 import gr.personal.auth.service.UserService;
+import gr.personal.auth.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -35,11 +39,12 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     @Value("${password.story-service}")
     private String STORY_SERVICE_PASSWORD;
 
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserService userService;
+    UserServiceImpl userService;
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
@@ -76,6 +81,7 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
         clients.inMemory()
                 .withClient("browser")
                 .authorizedGrantTypes("refresh_token", "password")
+                .secret("12345")
                 .scopes("ui")
                 .and()
                 .withClient("story-service")

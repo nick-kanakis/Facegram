@@ -8,11 +8,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 /**
  * Created by Nick Kanakis on 3/6/2017.
  */
-public interface UserService extends UserDetailsService {
+public interface UserService {
 
 
     void create(User user);
 
-    @Override
-    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 }
