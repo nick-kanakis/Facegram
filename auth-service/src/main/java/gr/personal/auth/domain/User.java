@@ -17,9 +17,9 @@ public class User implements UserDetails{
     @Id
     private String username;
     private String password;
-    private List<SimpleGrantedAuthority> authorities;
+    private List<CustomSimpleGrantedAuthority> authorities;
 
-    public User(String username, String password, List<SimpleGrantedAuthority> authorities) {
+    public User(String username, String password, List<CustomSimpleGrantedAuthority> authorities) {
         this.username = username;
         this.password = password;
         this.authorities = authorities;

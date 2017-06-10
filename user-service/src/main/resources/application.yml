@@ -16,7 +16,8 @@ security:
       clientSecret: userServicePassword
 #TODO: Acquare endpoints by Eureka
       userInfoUri: http://localhost:5000/uaa/users/current
-      tokenInfoUri: http://localhost:5000/uaa/oauth/token
+      tokenInfoUri: http://localhost:5000/uaa/oauth/check_token
+      accessTokenUri: http://localhost:5000/uaa/oauth/token
       grant-type: client_credentials
       scope: server
 

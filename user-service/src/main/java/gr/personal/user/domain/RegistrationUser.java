@@ -16,7 +16,7 @@ public class RegistrationUser {
 
     private String username;
     private String password;
-    private List<SimpleGrantedAuthority> authorities;
+    private List<CustomSimpleGrantedAuthority> authorities;
 
     public RegistrationUser(String username, String password, List<String> roles) {
         this.username = username;
@@ -25,7 +25,7 @@ public class RegistrationUser {
 
         //TODO do it with streams
             for (String role:roles) {
-            this.authorities.add(new SimpleGrantedAuthority(role));
+            this.authorities.add(new CustomSimpleGrantedAuthority(role));
         }
     }
 
@@ -33,7 +33,7 @@ public class RegistrationUser {
         return username;
     }
 
-    public List<SimpleGrantedAuthority> getAuthorities() {
+    public List<CustomSimpleGrantedAuthority> getAuthorities() {
         return authorities;
     }
 

@@ -17,11 +17,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 
@@ -38,7 +40,7 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
 @EnableHystrix
 @EnableConfigurationProperties
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class UserApplication {
+public class UserApplication extends ResourceServerConfigurerAdapter {
 
     public static void main(String[] args) {
         SpringApplication.run(UserApplication.class, args);
@@ -68,6 +70,13 @@ public class UserApplication {
     @Primary
     public ResourceServerTokenServices tokenServices() {
         return new UserInfoTokenServices(resourceServerProperties.getUserInfoUri(), resourceServerProperties.getClientId());
+    }
+
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/administrative/createUser").permitAll()
+                .anyRequest().authenticated();
     }
 
 }

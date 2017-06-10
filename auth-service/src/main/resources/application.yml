@@ -14,7 +14,7 @@ password:
 
 logging:
   level:
-    org.springframework.web: INFO
+    org.springframework: INFO
     gr.personal.story: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
