@@ -28,6 +28,10 @@ zuul:
     #Disable all auto-registering services from Eureka
   ignoreServices: '*'
   routes:
+    auth-service:
+      path: /uaa/**
+      serviceId: auth-service
+      stripPrefix: false
     story-service:
       path: /story/**
       serviceId: story-service

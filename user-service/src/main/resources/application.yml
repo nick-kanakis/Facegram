@@ -11,10 +11,12 @@ feign:
 
 security:
   oauth2:
-    client:
+    resource:
       clientId: user-service
       clientSecret: userServicePassword
-      accessTokenUri: http://auth-service:1002/uaa/oauth/token
+#TODO: Acquare endpoints by Eureka
+      userInfoUri: http://localhost:5000/uaa/users/current
+      tokenInfoUri: http://localhost:5000/uaa/oauth/token
       grant-type: client_credentials
       scope: server
 

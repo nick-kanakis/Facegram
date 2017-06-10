@@ -68,7 +68,7 @@ public class FakeDataGenerator {
         Fairy fairy = Fairy.create();
         Person person = fairy.person();
         BaseProducer baseProducer = fairy.baseProducer();
-        return new UserRequest(String.valueOf(baseProducer.randomBetween(1, 999999999)),person.getFirstName(), person.getLastName(), Gender.MALE);
+        return new UserRequest(String.valueOf(baseProducer.randomBetween(1, 999999999)),String.valueOf(baseProducer.randomBetween(1, 999999999)),person.getFirstName(), person.getLastName(), Gender.MALE);
     }
     public static Story generateStory(){
 

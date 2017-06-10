@@ -8,13 +8,15 @@ public class UserRequest {
     private String username;
     private String name;
     private String surname;
+    private String password;
     private Gender gender;
 
-    public UserRequest(String username, String name, String surname, Gender gender) {
+    public UserRequest(String username, String password, String name, String surname, Gender gender) {
         this.username = username;
         this.name = name;
         this.surname = surname;
         this.gender = gender;
+        this.password = password;
     }
 
     public UserRequest() {
@@ -34,5 +36,9 @@ public class UserRequest {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

@@ -44,7 +44,7 @@ public class AdministrativeControllerTest {
 
     @Test
     public void shouldCreateUser() throws Exception{
-        UserRequest userRequest = new UserRequest("testUsername","testName","testSurname",Gender.FEMALE);
+        UserRequest userRequest = new UserRequest("testUsername","testPassword","testName","testSurname",Gender.FEMALE);
 
         when(administrativeService.createUser(any(UserRequest.class))).thenReturn("testUserId");
 
@@ -57,7 +57,7 @@ public class AdministrativeControllerTest {
 
     @Test
     public void shouldUpdateUser() throws Exception {
-        UserRequest userRequest = new UserRequest("testUsername","testName","testSurname",Gender.FEMALE);
+        UserRequest userRequest = new UserRequest("testUsername","testPassword","testName","testSurname",Gender.FEMALE);
 
 
         when(administrativeService.updateUser(any(UserRequest.class))).thenReturn("OK");

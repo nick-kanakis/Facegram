@@ -2,6 +2,8 @@ package gr.personal.user.service;
 
 import com.google.common.collect.Lists;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import gr.personal.user.client.AuthClient;
+import gr.personal.user.domain.RegistrationUser;
 import gr.personal.user.domain.User;
 import gr.personal.user.domain.UserRequest;
 import gr.personal.user.repository.UserRepository;
@@ -30,6 +32,9 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     @Autowired
     CacheManager cacheManager;
 
+    @Autowired
+    AuthClient client;
+
     @Override
     @HystrixCommand(fallbackMethod = "createUserFallback", ignoreExceptions = IllegalArgumentException.class)
     public String createUser(UserRequest userRequest) {
@@ -39,6 +44,8 @@ public class AdministrativeServiceImpl implements AdministrativeService {
             logger.warn("User with id={} is already registered.", userRequest.getUsername());
             return "NOK";
         }
+
+        client.createUser(generateRegistrationUser(userRequest));
 
         User user = new User.Builder()
                 .gender(userRequest.getGender())
@@ -50,6 +57,12 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         userRepository.save(user);
 
         return "OK";
+    }
+
+    private RegistrationUser generateRegistrationUser(UserRequest userRequest) {
+        List<String> roles = new ArrayList<>();
+        roles.add("USER");
+        return new RegistrationUser(userRequest.getUsername(), userRequest.getPassword(), roles);
     }
 
     @Override
