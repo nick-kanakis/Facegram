@@ -57,7 +57,7 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
-        // TODO: persist clients details using MongoDB (or JdbcTokenStore)
+        // TODO: persist clients details using MongoDB (create your own MongoTokenStore)
         /*
         * In the following lines we register 3 clients (browser, story-service, user-service).
         * Each has a scope (ui, server), that specifies the limits of the client. Grand type is the "method" by which
