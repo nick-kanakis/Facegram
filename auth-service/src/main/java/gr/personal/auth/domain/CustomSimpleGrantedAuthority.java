@@ -18,7 +18,7 @@ public class CustomSimpleGrantedAuthority implements GrantedAuthority {
         this.role = role;
     }
     public CustomSimpleGrantedAuthority() {
-        this.role = "USER";
+        this.role = "ROLE_USER";
     }
 
     public String getAuthority() {

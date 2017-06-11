@@ -61,7 +61,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
 
     private RegistrationUser generateRegistrationUser(UserRequest userRequest) {
         List<String> roles = new ArrayList<>();
-        roles.add("USER");
+        roles.add("ROLE_USER");
         return new RegistrationUser(userRequest.getUsername(), userRequest.getPassword(), roles);
     }
 

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +45,7 @@ public class AdministrativeController {
     public String updateUser(Principal principal, @Valid @RequestBody UserRequest user){
         logger.debug("Entering updateUser (username = {})",principal.getName());
         if(!checkUsername(principal, user))
-            throw new UnauthorizedUserException("Username does not ");
+            throw new UnauthorizedUserException("Wrong Username");
         String result =  administrativeService.updateUser(user);
         logger.debug("Exiting updateUser (username ={}, result={})", principal.getName(), result);
         return result;
@@ -54,6 +55,7 @@ public class AdministrativeController {
     @LogTimeExecution
     @RequestMapping(value = "/deleteUser/{username}", method = RequestMethod.DELETE)
     @ResponseBody
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteUser(@PathVariable String username){
         logger.debug("Entering deleteUser (username = {})",username);
         String result = administrativeService.deleteUser(username);
