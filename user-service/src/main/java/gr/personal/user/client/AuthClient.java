@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -17,5 +18,9 @@ import javax.validation.Valid;
 public interface AuthClient {
 
     @RequestMapping(value = "/uaa/users/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    void createUser(@Valid @RequestBody RegistrationUser user) ;
+    void createUser(@Valid @RequestBody RegistrationUser user);
+
+    @RequestMapping(value = "/uaa/users/delete", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    void deleteUser(@Valid @RequestBody String username);
 }
+

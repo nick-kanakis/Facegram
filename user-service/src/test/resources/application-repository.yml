@@ -7,10 +7,14 @@ spring:
     mongodb:
       port: 0
 
+security:
+  oauth2:
+    enabled: false
+
 hystrix:
   command:
     default:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds:1000
+            timeoutInMilliseconds: 1000

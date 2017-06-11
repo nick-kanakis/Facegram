@@ -74,22 +74,22 @@ public class AdministrativeController {
     }
 
     @LogTimeExecution
-    @RequestMapping(value = "/addFollowing/{username}/{followingUsername}", method = RequestMethod.POST)
+    @RequestMapping(value = "/addFollowing/{followingUsername}", method = RequestMethod.POST)
     @ResponseBody
-    public String addFollowing(@PathVariable String username, @PathVariable String followingUsername){
-        logger.debug("Entering addFollowing (username = {})",username);
-        String result = administrativeService.addFollowing(username, followingUsername);
-        logger.debug("Exiting addFollowing (username ={}, result={})",username, result);
+    public String addFollowing(Principal principal, @PathVariable String followingUsername){
+        logger.debug("Entering addFollowing (username = {})",principal.getName());
+        String result = administrativeService.addFollowing(principal.getName(), followingUsername);
+        logger.debug("Exiting addFollowing (username ={}, result={})",principal.getName(), result);
         return result;
     }
 
     @LogTimeExecution
-    @RequestMapping(value = "/removeFollowing/{username}/{followingUsername}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/removeFollowing/{followingUsername}", method = RequestMethod.DELETE)
     @ResponseBody
-    public String removeFollowing(@PathVariable String username, @PathVariable String followingUsername){
-        logger.debug("Entering removeFollowing (username = {}, followingUsername={})",username,followingUsername);
-        String result = administrativeService.removeFollowing(username, followingUsername);
-        logger.debug("Exiting removeFollowing (username ={}, result={})",username, result);
+    public String removeFollowing(Principal principal, @PathVariable String followingUsername){
+        logger.debug("Entering removeFollowing (username = {}, followingUsername={})",principal.getName(),followingUsername);
+        String result = administrativeService.removeFollowing(principal.getName(), followingUsername);
+        logger.debug("Exiting removeFollowing (username ={}, result={})",principal.getName(), result);
         return result;
     }
 

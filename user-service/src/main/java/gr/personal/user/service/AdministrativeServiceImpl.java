@@ -33,7 +33,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     CacheManager cacheManager;
 
     @Autowired
-    AuthClient client;
+    AuthClient authClient;
 
     @Override
     @HystrixCommand(fallbackMethod = "createUserFallback", ignoreExceptions = IllegalArgumentException.class)
@@ -45,7 +45,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
             return "NOK";
         }
 
-        client.createUser(generateRegistrationUser(userRequest));
+        authClient.createUser(generateRegistrationUser(userRequest));
 
         User user = new User.Builder()
                 .gender(userRequest.getGender())
@@ -92,7 +92,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     @HystrixCommand(fallbackMethod = "deleteUserFallback", ignoreExceptions = IllegalArgumentException.class)
     public String deleteUser(String username) {
         Assert.hasLength(username, "deleteUser input is empty or null");
-        
+        authClient.deleteUser(username);
         userRepository.delete(username);
         
         return "OK";

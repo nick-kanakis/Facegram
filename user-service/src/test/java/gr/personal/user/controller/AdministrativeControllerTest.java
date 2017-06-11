@@ -1,19 +1,24 @@
 package gr.personal.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.security.auth.UserPrincipal;
 import gr.personal.user.domain.Gender;
 import gr.personal.user.domain.User;
 import gr.personal.user.domain.UserRequest;
 import gr.personal.user.service.AdministrativeService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +27,7 @@ import static gr.personal.user.helper.FakeDataGenerator.generateUser;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -32,15 +38,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by Nick Kanakis on 15/5/2017.
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(AdministrativeController.class)
 @ActiveProfiles("noEureka")
 public class AdministrativeControllerTest {
 
     @MockBean
     AdministrativeService administrativeService;
 
-    @Autowired
     MockMvc mockMvc;
+
+    @InjectMocks
+    private AdministrativeController administrativeController;
+
+    @Before
+    public void setup() {
+        initMocks(this);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(administrativeController).build();
+    }
+
 
     @Test
     public void shouldCreateUser() throws Exception{
@@ -62,7 +76,7 @@ public class AdministrativeControllerTest {
 
         when(administrativeService.updateUser(any(UserRequest.class))).thenReturn("OK");
 
-        mockMvc.perform(post("/administrative/updateUser")
+        mockMvc.perform(post("/administrative/updateUser").principal(new UserPrincipal(userRequest.getUsername()))
                 .content(asJsonString(userRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -73,7 +87,7 @@ public class AdministrativeControllerTest {
     public void shouldDeleteUser() throws Exception {
         when(administrativeService.deleteUser(anyString())).thenReturn("OK");
 
-        mockMvc.perform(delete("/administrative/deleteUser/testUserId"))
+        mockMvc.perform(delete("/administrative/deleteUser/testUserId").principal(new UserPrincipal("testUserId")))
                 .andExpect(status().isOk())
                 .andExpect(mvcResult -> "OK".equals(mvcResult));
     }
@@ -85,7 +99,7 @@ public class AdministrativeControllerTest {
 
         when(administrativeService.retrieveUser(anyString())).thenReturn(user);
 
-        mockMvc.perform(get("/administrative/retrieveUser/testUserId"))
+        mockMvc.perform(get("/administrative/retrieveUser/testUserId").principal(new UserPrincipal("testUserId")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username").value(user.getUsername()));
     }
@@ -95,7 +109,7 @@ public class AdministrativeControllerTest {
 
         when(administrativeService.addFollowing(anyString(), anyString())).thenReturn("OK");
 
-        mockMvc.perform(post("/administrative/addFollowing/testUserId/testFollowingId"))
+        mockMvc.perform(post("/administrative/addFollowing/testFollowingId").principal(new UserPrincipal("testUserId")))
                 .andExpect(status().isOk())
                 .andExpect(mvcResult -> "OK".equals(mvcResult));
 
@@ -106,7 +120,7 @@ public class AdministrativeControllerTest {
 
         when(administrativeService.removeFollowing(anyString(),anyString())).thenReturn("OK");
 
-        mockMvc.perform(delete("/administrative/removeFollowing/testUserId/testFollowingId"))
+        mockMvc.perform(delete("/administrative/removeFollowing/testFollowingId").principal(new UserPrincipal("testUserId")))
                 .andExpect(status().isOk())
                 .andExpect(mvcResult -> "OK".equals(mvcResult));
     }

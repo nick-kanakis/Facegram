@@ -40,6 +40,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public void delete(String username){
+
+        repository.delete(username);
+
+        log.info("New user has been deleted: {}", username);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = repository.findByUsername(username);
         if (user == null) {

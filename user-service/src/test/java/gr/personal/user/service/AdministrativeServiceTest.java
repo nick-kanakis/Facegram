@@ -1,5 +1,8 @@
 package gr.personal.user.service;
 
+import gr.personal.user.client.AuthClient;
+import gr.personal.user.client.StoryClient;
+import gr.personal.user.domain.RegistrationUser;
 import gr.personal.user.domain.User;
 import gr.personal.user.domain.UserRequest;
 import gr.personal.user.repository.UserRepository;
@@ -45,8 +48,10 @@ public class AdministrativeServiceTest {
         public CacheManager cacheManager(){
             return new ConcurrentMapCacheManager("testCache");
         }
-
     }
+
+    @MockBean
+    private AuthClient authClient;
 
     @MockBean
     private UserRepository userRepository;

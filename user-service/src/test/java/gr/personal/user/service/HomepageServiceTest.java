@@ -2,13 +2,10 @@ package gr.personal.user.service;
 
 import gr.personal.user.client.StoryClient;
 import gr.personal.user.domain.Story;
-import gr.personal.user.helper.FakeDataGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.CacheManager;
@@ -48,7 +45,7 @@ public class HomepageServiceTest {
     }
 
     @MockBean
-    private StoryClient client;
+    private StoryClient storyClient;
 
     List<Story> originalStories;
 
@@ -57,12 +54,12 @@ public class HomepageServiceTest {
 
         originalStories = generateStories();
 
-        when(client.getHotStoriesOfLocation(anyDouble(),anyDouble())).thenReturn(originalStories);
-        when(client.getHotStoriesOfUser(anyString())).thenReturn(originalStories);
-        when(client.getNewStoriesOfLocation(anyDouble(),anyDouble())).thenReturn(originalStories);
-        when(client.getNewStoriesOfUser(anyString())).thenReturn(originalStories);
-        when(client.getTopStoriesOfUser(anyString())).thenReturn(originalStories);
-        when(client.getTopStoriesOfLocation(anyDouble(),anyDouble())).thenReturn(originalStories);
+        when(storyClient.getHotStoriesOfLocation(anyDouble(),anyDouble())).thenReturn(originalStories);
+        when(storyClient.getHotStoriesOfUser(anyString())).thenReturn(originalStories);
+        when(storyClient.getNewStoriesOfLocation(anyDouble(),anyDouble())).thenReturn(originalStories);
+        when(storyClient.getNewStoriesOfUser(anyString())).thenReturn(originalStories);
+        when(storyClient.getTopStoriesOfUser(anyString())).thenReturn(originalStories);
+        when(storyClient.getTopStoriesOfLocation(anyDouble(),anyDouble())).thenReturn(originalStories);
 
     }
 
