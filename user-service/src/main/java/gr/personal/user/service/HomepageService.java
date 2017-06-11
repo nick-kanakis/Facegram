@@ -14,4 +14,5 @@ public interface HomepageService {
     List<Story> retrieveHotStories(String username, Geolocation geolocation);
     List<Story> retrieveTopStories(String username, Geolocation geolocation);
     List<Story> mergeAndRemoveDuplicates(List<Story> list1, List<Story> list2);
+    List<Story> retrieveMyStories(String username);
 }

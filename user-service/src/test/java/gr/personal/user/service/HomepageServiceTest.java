@@ -2,6 +2,7 @@ package gr.personal.user.service;
 
 import gr.personal.user.client.StoryClient;
 import gr.personal.user.domain.Story;
+import gr.personal.user.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +20,7 @@ import static gr.personal.user.helper.FakeDataGenerator.generateRandomGeolocatio
 import static gr.personal.user.helper.FakeDataGenerator.generateStories;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
@@ -42,10 +44,14 @@ public class HomepageServiceTest {
         public CacheManager cacheManager(){
             return new ConcurrentMapCacheManager("testCache");
         }
+
     }
 
     @MockBean
     private StoryClient storyClient;
+
+    @MockBean
+    private UserRepository userRepository;
 
     List<Story> originalStories;
 
@@ -66,7 +72,7 @@ public class HomepageServiceTest {
     @Test
     public void shouldRetrieveNewStories() throws Exception {
         List<Story> stories = homepageService.retrieveNewStories("testUserId", generateRandomGeolocation());
-        assertThat(stories,is(originalStories));
+        assertTrue(stories.containsAll(originalStories) &&originalStories.containsAll(stories));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -77,7 +83,7 @@ public class HomepageServiceTest {
     @Test
     public void shouldRetrieveHotStories() throws Exception {
         List<Story> stories = homepageService.retrieveHotStories("testUserId", generateRandomGeolocation());
-        assertThat(stories,is(originalStories));
+        assertTrue(stories.containsAll(originalStories) &&originalStories.containsAll(stories));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -94,5 +100,16 @@ public class HomepageServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToRetrieveTopStories() throws Exception {
         homepageService.retrieveTopStories("", null);
+    }
+
+    @Test
+    public void shouldRetrieveMyStories() throws Exception {
+        List<Story> stories = homepageService.retrieveMyStories("testUserId");
+        assertThat(stories,is(originalStories));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToRetrieveMyStories() throws Exception {
+        homepageService.retrieveMyStories("");
     }
 }

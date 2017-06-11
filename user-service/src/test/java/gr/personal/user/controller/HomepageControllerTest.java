@@ -1,6 +1,7 @@
 package gr.personal.user.controller;
 
 import com.google.common.collect.ImmutableList;
+import com.sun.security.auth.UserPrincipal;
 import gr.personal.user.domain.Geolocation;
 import gr.personal.user.domain.Story;
 import gr.personal.user.service.HomepageService;
@@ -66,7 +67,7 @@ public class HomepageControllerTest {
 
         when(homepageService.retrieveTopStories(anyString(),any(Geolocation.class))).thenReturn(ImmutableList.of(story));
 
-        mockMvc.perform(get("/homepage/retrieveTopStories/testUserId").params(params))
+        mockMvc.perform(get("/homepage/retrieveTopStories").params(params).principal(new UserPrincipal("testUserId")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(story.getId()));
     }
@@ -86,7 +87,7 @@ public class HomepageControllerTest {
 
         when(homepageService.retrieveHotStories(anyString(),any(Geolocation.class))).thenReturn(ImmutableList.of(story));
 
-        mockMvc.perform(get("/homepage/retrieveHotStories/testUserId").params(params))
+        mockMvc.perform(get("/homepage/retrieveHotStories").params(params).principal(new UserPrincipal("testUserId")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(story.getId()));
 
@@ -106,7 +107,19 @@ public class HomepageControllerTest {
 
         when(homepageService.retrieveNewStories(anyString(),any(Geolocation.class))).thenReturn(ImmutableList.of(story));
 
-        mockMvc.perform(get("/homepage/retrieveNewStories/testUserId").params(params))
+        mockMvc.perform(get("/homepage/retrieveNewStories").params(params).principal(new UserPrincipal("testUserId")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(story.getId()));
+    }
+
+
+    @Test
+    public void shouldRetrieveMyStories() throws Exception{
+        Story story = generateStory();
+
+        when(homepageService.retrieveMyStories(anyString())).thenReturn(ImmutableList.of(story));
+
+        mockMvc.perform(get("/homepage/retrieveMyStories").principal(new UserPrincipal("testUserId")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(story.getId()));
     }

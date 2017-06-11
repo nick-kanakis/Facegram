@@ -32,7 +32,7 @@ public class AdministrativeController {
     @LogTimeExecution
     @RequestMapping(value = "/createUser", method = RequestMethod.POST)
     @ResponseBody
-    public String createUser(@Valid @RequestBody UserRequest user){
+    public String createUser(@Valid @RequestBody UserRequest user) {
         logger.debug("Entering createUser (username = {})",user.getUsername());
         String result = administrativeService.createUser(user);
         logger.debug("Exiting createUser (username ={}, result={})",user.getUsername(), result);
