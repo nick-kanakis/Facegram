@@ -2,6 +2,18 @@ spring:
   application:
     name: story-service
 
+security:
+  oauth2:
+    resource:
+      clientId: story-service
+      clientSecret: storyServicePassword
+#TODO: Acquare endpoints by Eureka
+      userInfoUri: http://localhost:5000/uaa/users/current
+      tokenInfoUri: http://localhost:5000/uaa/oauth/check_token
+      accessTokenUri: http://localhost:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
+
 server:
   port: 1000
 

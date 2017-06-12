@@ -10,6 +10,7 @@ import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -52,10 +53,14 @@ public class StoryServiceImpl implements StoryService{
 
     @Override
     @HystrixCommand(fallbackMethod = "fallbackDeleteStory", ignoreExceptions = IllegalArgumentException.class)
-    public String deleteStory(String storyId) {
+    public String deleteStory(String storyId, String userId) {
         Assert.hasLength(storyId, "deleteStory input was null or empty");
-         storyRepository.delete(storyId);
+        Story story = storyRepository.findById(storyId);
 
+        if(!userId.equals(story.getUserId()))
+            throw new UnauthorizedUserException("Unauthorized user for this action");
+
+        storyRepository.delete(storyId);
         return "OK";
     }
 
@@ -119,8 +124,13 @@ public class StoryServiceImpl implements StoryService{
 
     @Override
     @HystrixCommand(fallbackMethod = "fallbackDeleteComment", ignoreExceptions = IllegalArgumentException.class)
-    public String deleteComment(String commentId) {
+    public String deleteComment(String commentId, String userId) {
         Assert.hasLength(commentId, "deleteComment input was null or empty");
+
+        Comment comment = storyRepository.findCommentById(commentId);
+        if(!comment.getUserId().equals(userId))
+            throw new UnauthorizedUserException("Unauthorized user for this action");
+
         storyRepository.deleteCommentById(commentId);
         return "OK";
     }
@@ -142,7 +152,7 @@ public class StoryServiceImpl implements StoryService{
         return new Story();
     }
 
-    private String fallbackDeleteStory(String storyId, Throwable t) {
+    private String fallbackDeleteStory(String storyId, String userId, Throwable t) {
         logger.error("Delete story fallback method for StoryId: " + storyId+". Returning NOK", t);
         return "NOK";
     }
@@ -162,7 +172,7 @@ public class StoryServiceImpl implements StoryService{
         return "NOK";
     }
 
-    private String fallbackDeleteComment(String commentId, Throwable t) {
+    private String fallbackDeleteComment(String commentId, String userId, Throwable t) {
         logger.error("Delete comment fallback method for CommentId: " + commentId+". Returning NOK", t);
         return "NOK";
     }

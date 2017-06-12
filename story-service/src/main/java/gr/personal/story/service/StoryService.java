@@ -17,7 +17,7 @@ public interface StoryService {
     Story fetchStory(String storyId);
 
     @HystrixCommand(fallbackMethod = "fallbackDeleteStory")
-    String deleteStory(String storyId);
+    String deleteStory(String storyId, String userId);
 
     @HystrixCommand(fallbackMethod = "fallbackLikeStory")
     String likeStory(String storyId);
@@ -29,7 +29,7 @@ public interface StoryService {
     String createComment(String storyId, CommentRequest commentRequest);
 
     @HystrixCommand(fallbackMethod = "fallbackDeleteComment")
-    String deleteComment(String commentId);
+    String deleteComment(String commentId, String userId);
 
     @HystrixCommand(fallbackMethod = "fallbackFetchComment")
     Comment fetchComment(String commentId);

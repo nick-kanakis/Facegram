@@ -11,10 +11,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 /**
  * Created by Nick Kanakis on 4/5/2017.
@@ -30,8 +32,12 @@ public class StoryController {
 
     @LogExecutionTime
     @RequestMapping(path = "/create", method = RequestMethod.POST)
-    public ResponseEntity<String> createStory(@Valid @RequestBody StoryRequest storyRequest) {
+    public ResponseEntity<String> createStory(Principal principal, @Valid @RequestBody StoryRequest storyRequest) {
         logger.debug("Entering createStory (storyTitle={})", storyRequest.getTitle());
+
+        if(!principal.getName().equals(storyRequest.getUserId()))
+            throw new UnauthorizedUserException("Unauthorized user for this action");
+
         String result = storyService.createStory(storyRequest);
         logger.debug("Exiting createStory (storyTitle={}, result={})", storyRequest.getTitle(),result);
         return  ResponseEntity
@@ -52,9 +58,9 @@ public class StoryController {
     }
     @LogExecutionTime
     @RequestMapping(path = "/delete/{storyId}", method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteStory(@PathVariable String storyId) {
+    public ResponseEntity<String> deleteStory(Principal principal, @PathVariable String storyId) {
         logger.debug("Entering deleteStory (storyId={})", storyId);
-        String result = storyService.deleteStory(storyId);
+        String result = storyService.deleteStory(storyId, principal.getName());
         logger.debug("Exiting deleteStory (storyId={}, result={})", storyId, result);
         return  ResponseEntity
                 .ok()
@@ -85,8 +91,12 @@ public class StoryController {
     }
     @LogExecutionTime
     @RequestMapping(path = "/comment/{storyId}", method = RequestMethod.POST)
-    public ResponseEntity<String> createComment(@PathVariable String storyId,@Valid @RequestBody CommentRequest comment) {
+    public ResponseEntity<String> createComment(Principal principal, @PathVariable String storyId,@Valid @RequestBody CommentRequest comment) {
         logger.debug("Entering createComment (storyId={})", storyId);
+
+        if(!principal.getName().equals(comment.getUserId()))
+            throw new UnauthorizedUserException("Unauthorized user for this action");
+
         String result = storyService.createComment(storyId, comment);
         logger.debug("Exiting createComment (storyId={}, result={})", storyId, result);
         return  ResponseEntity
@@ -96,9 +106,9 @@ public class StoryController {
     }
     @LogExecutionTime
     @RequestMapping(path = "/uncomment/{commentId}", method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteComment(@PathVariable String commentId) {
+    public ResponseEntity<String> deleteComment(Principal principal, @PathVariable String commentId) {
         logger.debug("Entering deleteComment (commentId={})", commentId);
-        String result = storyService.deleteComment(commentId);
+        String result = storyService.deleteComment(commentId, principal.getName());
         logger.debug("Exiting deleteComment (commentId={}, result={})", commentId, result);
         return  ResponseEntity
                 .ok()

@@ -8,15 +8,15 @@ import gr.personal.story.repository.StoryRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.nio.file.attribute.UserPrincipal;
 
 import static gr.personal.story.helper.FakeDataGenerator.*;
 import static org.junit.Assert.*;
@@ -112,7 +112,7 @@ public class StoryServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToDeleteStory() {
-        storyService.deleteStory("");
+        storyService.deleteStory("", "");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -132,7 +132,7 @@ public class StoryServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToDeleteComment() {
-        storyService.deleteComment("");
+        storyService.deleteComment("", null);
     }
 
 
