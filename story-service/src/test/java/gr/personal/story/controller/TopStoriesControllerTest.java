@@ -25,6 +25,7 @@ import org.springframework.util.MultiValueMap;
 import static gr.personal.story.helper.FakeDataGenerator.generateStory;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,7 +35,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(TopStoriesController.class)
 @ActiveProfiles("noEureka")
 public class TopStoriesControllerTest {
 
@@ -43,8 +43,16 @@ public class TopStoriesControllerTest {
     @MockBean
     private StoriesService topStoriesService;
 
-    @Autowired
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
+
+    @InjectMocks
+    private TopStoriesController topStoriesController;
+
+    @Before
+    public void setup() {
+        initMocks(this);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(topStoriesController).build();
+    }
 
     @Test
     public void shouldGetTopStoriesOfUser() throws Exception{

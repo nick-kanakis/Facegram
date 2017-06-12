@@ -12,9 +12,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -26,6 +31,7 @@ import org.springframework.util.MultiValueMap;
 import static gr.personal.story.helper.FakeDataGenerator.generateStory;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -36,7 +42,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(HotStoriesController.class)
 @ActiveProfiles("noEureka")
 public class HotStoriesControllerTest {
 
@@ -44,8 +49,16 @@ public class HotStoriesControllerTest {
     @MockBean
     private StoriesService hotStoriesService;
 
-    @Autowired
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
+
+    @InjectMocks
+    private HotStoriesController hotStoriesController;
+
+    @Before
+    public void setup() {
+        initMocks(this);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(hotStoriesController).build();
+    }
 
 
     @Test
