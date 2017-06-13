@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -31,6 +32,7 @@ public class HotStoriesController {
 
     @LogExecutionTime
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
+    @PreAuthorize("#oauth2.hasScope('server')")
     public ResponseEntity<List<Story>> getHotStoriesOfUser(@PathVariable String userId) throws ParseException {
         logger.debug("Entering getStoriesOfUser (userId={})", userId);
         List<Story> hotStoriesOfUser = storiesService.getStoriesOfUser(userId);
@@ -43,6 +45,7 @@ public class HotStoriesController {
     }
     @LogExecutionTime
     @RequestMapping(path = "/location", method = RequestMethod.GET)
+    @PreAuthorize("#oauth2.hasScope('server')")
     public ResponseEntity<List<Story>> getHotStoriesOfLocation( Geolocation geolocation) throws ParseException {
         logger.debug("Entering getStoriesOfLocation (geolocation={})", geolocation);
         List<Story> hotStoriesOfLocation = storiesService.getStoriesOfLocation(geolocation);
@@ -54,6 +57,7 @@ public class HotStoriesController {
     }
     @LogExecutionTime
     @RequestMapping(path = "/group/{groupId}", method = RequestMethod.GET)
+    @PreAuthorize("#oauth2.hasScope('server')")
     public ResponseEntity<List<Story>> getHotStoriesOfGroup(@PathVariable String groupId) throws ParseException {
         logger.debug("Entering getStoriesOfGroup (groupId={})", groupId);
         List<Story> hotStoriesOfGroup = storiesService.getStoriesOfGroup(groupId);
