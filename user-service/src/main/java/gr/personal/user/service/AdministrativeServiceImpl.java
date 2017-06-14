@@ -119,6 +119,12 @@ public class AdministrativeServiceImpl implements AdministrativeService {
             logger.warn("No user with id={} was found", followingUsername);
             return "NOK";
         }
+        for (String followingId:user.getFollowingIds() ) {
+            if(followingId.equals(followingUsername)){
+                logger.warn("User with id={} is already following {}", username, followingId);
+                return "NOK";
+            }
+        }
 
         user.getFollowingIds().add(followingUsername);
         userRepository.save(user);
