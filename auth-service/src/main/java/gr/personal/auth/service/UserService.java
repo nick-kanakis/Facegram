@@ -14,4 +14,6 @@ public interface UserService {
     void create(User user);
 
     void delete(String username);
+
+    UserDetails loadUserByUsername(String username);
 }

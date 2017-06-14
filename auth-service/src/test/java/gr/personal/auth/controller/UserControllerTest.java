@@ -63,7 +63,7 @@ public class UserControllerTest {
         final User user = new User("testUsername","testPassword", new ArrayList<>());
        String json = mapper.writeValueAsString(user);
 
-        mockMvc.perform(post("/users")
+        mockMvc.perform(post("/users/create")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk());
     }
