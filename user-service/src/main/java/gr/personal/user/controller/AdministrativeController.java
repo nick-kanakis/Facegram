@@ -1,6 +1,7 @@
 package gr.personal.user.controller;
 
 import gr.personal.user.aop.LogTimeExecution;
+import gr.personal.user.domain.GenericJson;
 import gr.personal.user.domain.User;
 import gr.personal.user.domain.UserRequest;
 import gr.personal.user.service.AdministrativeService;
@@ -30,42 +31,38 @@ public class AdministrativeController {
     AdministrativeService administrativeService;
 
     @LogTimeExecution
-    @RequestMapping(value = "/createUser", method = RequestMethod.POST)
-    @ResponseBody
-    public String createUser(@Valid @RequestBody UserRequest user) {
+    @RequestMapping(value = "/createUser", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public GenericJson createUser(@Valid @RequestBody UserRequest user) {
         logger.debug("Entering createUser (username = {})",user.getUsername());
         String result = administrativeService.createUser(user);
         logger.debug("Exiting createUser (username ={}, result={})",user.getUsername(), result);
-        return result;
+        return new GenericJson(result,null,false);
     }
 
     @LogTimeExecution
-    @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-    @ResponseBody
-    public String updateUser(Principal principal, @Valid @RequestBody UserRequest user){
+    @RequestMapping(value = "/updateUser", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public GenericJson updateUser(Principal principal, @Valid @RequestBody UserRequest user){
         logger.debug("Entering updateUser (username = {})",principal.getName());
         if(!checkUsername(principal, user))
             throw new UnauthorizedUserException("Wrong Username");
         String result =  administrativeService.updateUser(user);
         logger.debug("Exiting updateUser (username ={}, result={})", principal.getName(), result);
-        return result;
+        return new GenericJson(result,null,false);
 
     }
 
     @LogTimeExecution
-    @RequestMapping(value = "/deleteUser/{username}", method = RequestMethod.DELETE)
-    @ResponseBody
+    @RequestMapping(value = "/deleteUser/{username}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String deleteUser(@PathVariable String username){
+    public GenericJson deleteUser(@PathVariable String username){
         logger.debug("Entering deleteUser (username = {})",username);
         String result = administrativeService.deleteUser(username);
         logger.debug("Exiting deleteUser (username ={}, result={})",username, result);
-        return result;
+        return new GenericJson(result,null,false);
     }
 
     @LogTimeExecution
-    @RequestMapping(value = "/retrieveUser/{username}", method = RequestMethod.GET)
-    @ResponseBody
+    @RequestMapping(value = "/retrieveUser/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public User retrieveUser(@PathVariable String username){
         logger.debug("Entering retrieveUser (username = {})",username);
         User user = administrativeService.retrieveUser(username);
@@ -74,28 +71,25 @@ public class AdministrativeController {
     }
 
     @LogTimeExecution
-    @RequestMapping(value = "/addFollowing/{followingUsername}", method = RequestMethod.POST)
-    @ResponseBody
-    public String addFollowing(Principal principal, @PathVariable String followingUsername){
+    @RequestMapping(value = "/addFollowing/{followingUsername}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public GenericJson addFollowing(Principal principal, @PathVariable String followingUsername){
         logger.debug("Entering addFollowing (username = {})",principal.getName());
         String result = administrativeService.addFollowing(principal.getName(), followingUsername);
         logger.debug("Exiting addFollowing (username ={}, result={})",principal.getName(), result);
-        return result;
+        return new GenericJson(result,null,false);
     }
 
     @LogTimeExecution
-    @RequestMapping(value = "/removeFollowing/{followingUsername}", method = RequestMethod.DELETE)
-    @ResponseBody
-    public String removeFollowing(Principal principal, @PathVariable String followingUsername){
+    @RequestMapping(value = "/removeFollowing/{followingUsername}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public GenericJson removeFollowing(Principal principal, @PathVariable String followingUsername){
         logger.debug("Entering removeFollowing (username = {}, followingUsername={})",principal.getName(),followingUsername);
         String result = administrativeService.removeFollowing(principal.getName(), followingUsername);
         logger.debug("Exiting removeFollowing (username ={}, result={})",principal.getName(), result);
-        return result;
+        return new GenericJson(result,null,false);
     }
 
     @LogTimeExecution
-    @RequestMapping(value = "/retrieveFollowings/{username}", method = RequestMethod.GET)
-    @ResponseBody
+    @RequestMapping(value = "/retrieveFollowings/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> retrieveFollowings(@PathVariable String username){
         logger.debug("Entering retrieveFollowings (username = {})",username);
         List<User> users = administrativeService.retrieveFollowings(username);

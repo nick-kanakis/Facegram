@@ -1,6 +1,7 @@
 package gr.personal.user.controller;
 
 import gr.personal.user.domain.ErrorMessage;
+import gr.personal.user.domain.GenericJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -27,8 +28,8 @@ public class ErrorHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ErrorMessage parseError(Exception e){
+    public GenericJson parseError(Exception e){
         logger.error("Returning HTTP 400 Bad Request", e);
-        return new ErrorMessage(e.getMessage());
+        return new GenericJson("Error", "Something went terrible wrong please try again!",true);
     }
 }
