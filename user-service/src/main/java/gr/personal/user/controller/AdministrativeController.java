@@ -97,6 +97,35 @@ public class AdministrativeController {
         return users;
     }
 
+    //TODO: only accessible by Group-Service
+    @LogTimeExecution
+    @RequestMapping(value = "/followGroup/{followingGroupId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public GenericJson followGroup(Principal principal, @PathVariable String followingGroupId){
+        logger.debug("Entering followGroup (username = {})",principal.getName());
+        String result = administrativeService.followGroup(principal.getName(), followingGroupId);
+        logger.debug("Exiting followGroup (username ={}, result={})",principal.getName(), result);
+        return new GenericJson(result,null,false);
+    }
+
+    //TODO: only accessible by Group-Service
+    @LogTimeExecution
+    @RequestMapping(value = "/unfollowGroup/{followingGroupId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public GenericJson unfollowGroup(Principal principal, @PathVariable String followingGroupId){
+        logger.debug("Entering unfollowGroup (username = {}, followingUsername={})",principal.getName(),followingGroupId);
+        String result = administrativeService.unfollowGroup(principal.getName(), followingGroupId);
+        logger.debug("Exiting unfollowGroup (username ={}, result={})",principal.getName(), result);
+        return new GenericJson(result,null,false);
+    }
+
+    @LogTimeExecution
+    @RequestMapping(value = "/retrieveGroupIds/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<User> retrieveGroupIds(@PathVariable String username){
+        logger.debug("Entering retrieveGroupIds (username = {})",username);
+        List<User> users = administrativeService.retrieveGroupIds(username);
+        logger.debug("Exiting retrieveGroupIds (username ={}, numOfFollowings={})",username, users.size());
+        return users;
+    }
+
 
     private boolean checkUsername(Principal principal, UserRequest userRequest){
         if(principal.getName().equals(userRequest.getUsername()))

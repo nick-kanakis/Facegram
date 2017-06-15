@@ -170,6 +170,28 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         return Lists.newArrayList(friends);
     }
 
+    @Override
+    @HystrixCommand(fallbackMethod = "followGroupFallback", ignoreExceptions = IllegalArgumentException.class)
+    public String followGroup(String username, String followingGroupId) {
+       //TODO: Continue
+        return null;
+    }
+
+    @Override
+    @HystrixCommand(fallbackMethod = "unfollowGroupFallback", ignoreExceptions = IllegalArgumentException.class)
+    public String unfollowGroup(String name, String followingGroupId) {
+        //TODO: Continue
+        return null;
+    }
+
+    @Override
+    @CachePut(cacheNames = "RetrieveGroupIds", key = "#username")
+    @HystrixCommand(fallbackMethod = "retrieveGroupIdsFallback", ignoreExceptions = IllegalArgumentException.class)
+    public List<User> retrieveGroupIds(String username) {
+        //TODO: Continue
+        return null;
+    }
+
     //TODO move them in different Class
 
     public String createUserFallback(UserRequest user, Throwable t){
@@ -220,4 +242,29 @@ public class AdministrativeServiceImpl implements AdministrativeService {
             return new ArrayList<>();
         }
     }
+
+    public String followGroupFallback(String username, String followingGroupId, Throwable t) {
+        logger.error("Follow group fallback for user: "+ username + ". Returning empty object", t);
+
+        return "NOK";
+    }
+
+    public String unfollowGroupFallback(String username, String followingGroupId, Throwable t) {
+        logger.error("Unfollow group fallback for user: "+ username + ". Returning empty object", t);
+
+        return "NOK";
+    }
+
+    public List<User> retrieveGroupIdsFallback(String username, Throwable t) {
+        logger.error("Retrieve groupIds fallback for user: "+ username + ". Returning List from Cache", t);
+
+        if (cacheManager.getCache("RetrieveGroupIds") != null && cacheManager.getCache("RetrieveGroupIds").get(username) != null) {
+            return cacheManager.getCache("RetrieveGroupIds").get(username, List.class);
+        }
+        else {
+            logger.error("Retrieve groupIds Fallback for username: "+ username +". Cache is empty.");
+            return new ArrayList<>();
+        }
+    }
+
 }

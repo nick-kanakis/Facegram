@@ -18,6 +18,7 @@ public class User {
     private String surname;
     private List<String> followingIds;
     private Gender gender;
+    private List<String> followingGroupIds;
 
     public String getUsername() {
         return username;
@@ -34,6 +35,8 @@ public class User {
     public List<String> getFollowingIds() {
         return followingIds;
     }
+
+    public List<String> getFollowingGroupIds() {return followingGroupIds;}
 
     public void addFollowingId(String followingId) {
         this.followingIds.add(followingId);
@@ -91,6 +94,7 @@ public class User {
         name = builder.name;
         surname = builder.surname;
         followingIds = new ArrayList<>();
+        followingGroupIds = new ArrayList<>();
         gender = builder.gender;
     }
 
