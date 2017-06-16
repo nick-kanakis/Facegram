@@ -28,11 +28,11 @@ public class StoryServiceImpl implements StoryService{
 
     @Override
     @HystrixCommand(fallbackMethod = "fallbackCreateStory", ignoreExceptions = IllegalArgumentException.class)
-    public String createStory(StoryRequest storyRequest) {
+    public String createStory(String username, StoryRequest storyRequest) {
         Assert.notNull(storyRequest, "createStory input is null");
 
         Story story = new Story.Builder<>()
-                .userId(storyRequest.getUserId())
+                .userId(username)
                 .geolocation(storyRequest.getGeolocation())
                 .title(storyRequest.getTitle())
                 .story(storyRequest.getStory())
@@ -99,13 +99,13 @@ public class StoryServiceImpl implements StoryService{
 
     @Override
     @HystrixCommand(fallbackMethod = "fallbackCreateComment", ignoreExceptions = IllegalArgumentException.class)
-    public String createComment(String storyId, CommentRequest commentRequest) {
+    public String createComment(String username, String storyId, CommentRequest commentRequest) {
         Assert.notNull(commentRequest, "createComment input is null");
 
         Comment comment = new Comment.Builder()
                 .header(commentRequest.getHeader())
                 .description(commentRequest.getDescription())
-                .userId(commentRequest.getUserId())
+                .userId(username)
                 .description(commentRequest.getDescription())
                 .storyId(storyId)
                 .id(String.valueOf(new ObjectId()))
@@ -142,7 +142,7 @@ public class StoryServiceImpl implements StoryService{
         return storyRepository.findCommentById(commentId);
     }
 
-    private String fallbackCreateStory(StoryRequest story, Throwable t) {
+    private String fallbackCreateStory(String username, StoryRequest story, Throwable t) {
         logger.error("Create story fallback method for Story Title: " + story.getTitle()+". Returning NOK", t);
         return "NOK";
     }
@@ -167,7 +167,7 @@ public class StoryServiceImpl implements StoryService{
         return "NOK";
     }
 
-    private String fallbackCreateComment(String storyId, CommentRequest comment, Throwable t) {
+    private String fallbackCreateComment(String username, String storyId, CommentRequest comment, Throwable t) {
         logger.error("Create comment fallback method for StoryId: " + storyId+". Returning NOK", t);
         return "NOK";
     }

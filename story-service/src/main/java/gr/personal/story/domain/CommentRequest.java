@@ -10,24 +10,19 @@ import org.hibernate.validator.constraints.NotBlank;
 public class CommentRequest {
 
     private String header;
-    private String userId;
     private String description;
 
     public String getHeader() {
         return header;
     }
 
-    public String getUserId() {
-        return userId;
-    }
 
     public String getDescription() {
         return description;
     }
 
-    public CommentRequest(String header, String userId, String description) {
+    public CommentRequest(String header, String description) {
         this.header = header;
-        this.userId = userId;
         this.description = description;
     }
 
@@ -38,7 +33,6 @@ public class CommentRequest {
     public String toString() {
         return "Comment{" +
                 " header='" + header + '\'' +
-                ", userId='" + userId + '\'' +
                 ", description='" + description  +
                 '}';
     }

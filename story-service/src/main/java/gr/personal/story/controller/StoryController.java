@@ -31,11 +31,7 @@ public class StoryController {
     @RequestMapping(path = "/create", method = RequestMethod.POST)
     public GenericJson createStory(Principal principal, @Valid @RequestBody StoryRequest storyRequest) {
         logger.debug("Entering createStory (storyTitle={})", storyRequest.getTitle());
-
-        if(!principal.getName().equals(storyRequest.getUserId()))
-            throw new UnauthorizedUserException("Unauthorized user for this action");
-
-        String result = storyService.createStory(storyRequest);
+        String result = storyService.createStory(principal.getName(), storyRequest);
         logger.debug("Exiting createStory (storyTitle={}, result={})", storyRequest.getTitle(),result);
         return new GenericJson(result,null,false);
     }
@@ -79,10 +75,8 @@ public class StoryController {
     public GenericJson createComment(Principal principal, @PathVariable String storyId,@Valid @RequestBody CommentRequest comment) {
         logger.debug("Entering createComment (storyId={})", storyId);
 
-        if(!principal.getName().equals(comment.getUserId()))
-            throw new UnauthorizedUserException("Unauthorized user for this action");
 
-        String result = storyService.createComment(storyId, comment);
+        String result = storyService.createComment(principal.getName(), storyId, comment);
         logger.debug("Exiting createComment (storyId={}, result={})", storyId, result);
         return  new GenericJson(result,null,false);
     }

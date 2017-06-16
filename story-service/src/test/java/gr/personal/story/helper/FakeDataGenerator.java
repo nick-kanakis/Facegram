@@ -106,7 +106,7 @@ public class FakeDataGenerator {
         TextProducer textProducer = fairy.textProducer();
         BaseProducer baseProducer = fairy.baseProducer();
 
-        return new StoryRequest(textProducer.paragraph(),textProducer.sentence(),String.valueOf(baseProducer.randomBetween(0, 999999999)),null, getRandomGeoLocation());
+        return new StoryRequest(textProducer.paragraph(),textProducer.sentence(),null, getRandomGeoLocation());
 
     }
 
@@ -115,6 +115,6 @@ public class FakeDataGenerator {
         TextProducer textProducer = fairy.textProducer();
         BaseProducer baseProducer = fairy.baseProducer();
 
-       return new CommentRequest(textProducer.sentence(),String.valueOf(baseProducer.randomBetween(0, 999999999)),textProducer.sentence());
+       return new CommentRequest(textProducer.sentence(),textProducer.sentence());
     }
 }

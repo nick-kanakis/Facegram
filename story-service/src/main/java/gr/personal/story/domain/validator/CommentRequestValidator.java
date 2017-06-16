@@ -25,7 +25,5 @@ public class CommentRequestValidator implements Validator {
         CommentRequest commentRequest = (CommentRequest) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"header","header.empty");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"userId","userId.empty");
-
     }
 }

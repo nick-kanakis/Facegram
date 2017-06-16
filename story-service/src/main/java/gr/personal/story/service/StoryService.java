@@ -11,7 +11,7 @@ import gr.personal.story.domain.StoryRequest;
  */
 public interface StoryService {
     @HystrixCommand(fallbackMethod = "fallbackCreateStory")
-    String createStory(StoryRequest storyRequest);
+    String createStory(String name, StoryRequest storyRequest);
 
     @HystrixCommand(fallbackMethod = "fallbackFetchStory")
     Story fetchStory(String storyId);
@@ -26,7 +26,7 @@ public interface StoryService {
     String unlikeStory(String storyId);
 
     @HystrixCommand(fallbackMethod = "fallbackCreateComment")
-    String createComment(String storyId, CommentRequest commentRequest);
+    String createComment(String name, String storyId, CommentRequest commentRequest);
 
     @HystrixCommand(fallbackMethod = "fallbackDeleteComment")
     String deleteComment(String commentId, String userId);

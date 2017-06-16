@@ -8,8 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
@@ -66,9 +64,9 @@ public class StoryControllerTest {
     @Test
     public void shouldCreateStory() throws Exception {
 
-        StoryRequest storyRequest = new StoryRequest("test","test","testUserId","1",new Geolocation(0.0,0.0));
+        StoryRequest storyRequest = new StoryRequest("test","test","1",new Geolocation(0.0,0.0));
 
-        when(storyService.createStory(any(StoryRequest.class))).thenReturn("OK");
+        when(storyService.createStory(anyString(), any(StoryRequest.class))).thenReturn("OK");
 
         mockMvc.perform(post("/story/create")
                     .content(asJsonString(storyRequest))
@@ -115,10 +113,10 @@ public class StoryControllerTest {
     @Test
     public void shouldCreateComment() throws Exception{
 
-        CommentRequest comment = new CommentRequest("testHeader","testUserId","test");
+        CommentRequest comment = new CommentRequest("testHeader","test");
 
 
-        when(storyService.createComment(anyString(), any(CommentRequest.class))).thenReturn("OK");
+        when(storyService.createComment("testUserId", anyString(), any(CommentRequest.class))).thenReturn("OK");
 
         mockMvc.perform(post("/story/comment/testStoryId").contentType(MediaType.APPLICATION_JSON)
                             .content(asJsonString(comment)).principal(new UserPrincipal("testUserId")))

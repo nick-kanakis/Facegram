@@ -16,8 +16,6 @@ import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.nio.file.attribute.UserPrincipal;
-
 import static gr.personal.story.helper.FakeDataGenerator.*;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
@@ -64,14 +62,14 @@ public class StoryServiceTest {
     @Test
     public void shouldCreateComment() throws Exception {
         CommentRequest commentRequest = generateCommentRequest();
-        String response = storyService.createComment("testStoryId",commentRequest);
+        String response = storyService.createComment("testUserId", "testStoryId",commentRequest);
         assertEquals(response, "OK");
     }
 
     @Test
     public void shouldCreateStory() throws Exception {
         StoryRequest storyRequest = generateStoryRequest();
-        String response = storyService.createStory(storyRequest);
+        String response = storyService.createStory("testUserId", storyRequest);
         assertEquals(response, "OK");
     }
     @Test
@@ -102,7 +100,7 @@ public class StoryServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToCreateStory() {
-        storyService.createStory(null);
+        storyService.createStory("", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -127,7 +125,7 @@ public class StoryServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToCreateComment() {
-        storyService.createComment("", null);
+        storyService.createComment("", "", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
