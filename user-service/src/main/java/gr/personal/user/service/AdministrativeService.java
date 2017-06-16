@@ -1,11 +1,10 @@
 package gr.personal.user.service;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import gr.personal.user.domain.User;
 import gr.personal.user.domain.UserRequest;
-import org.springframework.cache.annotation.CachePut;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Nick Kanakis on 29/5/2017.
@@ -20,6 +19,6 @@ public interface AdministrativeService {
     String removeFollowing(String username, String followingUsername);
     List<User> retrieveFollowings(String username);
     String followGroup(String name, String followingGroupId);
-    String unfollowGroup(String name, String followingGroupId);
-    List<User> retrieveGroupIds(String username);
+    String unFollowGroup(String name, String followingGroupId);
+    Optional<List<String>> retrieveGroupIds(String username);
 }

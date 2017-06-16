@@ -42,6 +42,19 @@ public class User {
         this.followingIds.add(followingId);
     }
 
+    public void removeFollowingId(String followingId) {
+        this.followingIds.remove(followingId);
+    }
+
+    public void addFollowingGroupId(String followingGroupId) {
+        this.followingGroupIds.add(followingGroupId);
+    }
+
+    public void removeFollowingGroupId(String followingGroupId) {
+        this.followingGroupIds.remove(followingGroupId);
+    }
+
+
     public Gender getGender() {
         return gender;
     }

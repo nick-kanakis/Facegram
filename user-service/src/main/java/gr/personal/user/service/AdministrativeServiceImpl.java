@@ -3,6 +3,7 @@ package gr.personal.user.service;
 import com.google.common.collect.Lists;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import gr.personal.user.client.AuthClient;
+import gr.personal.user.client.GroupClient;
 import gr.personal.user.domain.RegistrationUser;
 import gr.personal.user.domain.User;
 import gr.personal.user.domain.UserRequest;
@@ -17,6 +18,7 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Nick Kanakis on 11/5/2017.
@@ -28,19 +30,19 @@ public class AdministrativeServiceImpl implements AdministrativeService {
 
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     CacheManager cacheManager;
-
     @Autowired
     AuthClient authClient;
+    @Autowired
+    GroupClient groupClient;
 
     @Override
     @HystrixCommand(fallbackMethod = "createUserFallback", ignoreExceptions = IllegalArgumentException.class)
     public String createUser(UserRequest userRequest) {
         Assert.notNull(userRequest, "createUser input is null");
 
-        if(userRepository.exists(userRequest.getUsername())){
+        if (userRepository.exists(userRequest.getUsername())) {
             logger.warn("User with id={} is already registered.", userRequest.getUsername());
             return "NOK";
         }
@@ -73,7 +75,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         //TODO: do it in one operation with query (?)
         User user = userRepository.findByUsername(userRequest.getUsername());
 
-        if(user == null){
+        if (user == null) {
             logger.warn("No user with id={} was found.", userRequest.getUsername());
             return "NOK";
         }
@@ -94,7 +96,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         Assert.hasLength(username, "deleteUser input is empty or null");
         authClient.deleteUser(username);
         userRepository.delete(username);
-        
+
         return "OK";
     }
 
@@ -111,16 +113,16 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         Assert.hasLength(followingUsername, "addFollowing input is empty");
         User user = userRepository.findByUsername(username);
 
-        if(user == null){
+        if (user == null) {
             logger.warn("No user with id={} was found.", username);
             return "NOK";
         }
-        if(!userRepository.exists(followingUsername)){
+        if (!userRepository.exists(followingUsername)) {
             logger.warn("No user with id={} was found", followingUsername);
             return "NOK";
         }
-        for (String followingId:user.getFollowingIds() ) {
-            if(followingId.equals(followingUsername)){
+        for (String followingId : user.getFollowingIds()) {
+            if (followingId.equals(followingUsername)) {
                 logger.warn("User with id={} is already following {}", username, followingId);
                 return "NOK";
             }
@@ -128,6 +130,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
 
         user.getFollowingIds().add(followingUsername);
         userRepository.save(user);
+
         return "OK";
     }
 
@@ -140,13 +143,12 @@ public class AdministrativeServiceImpl implements AdministrativeService {
 
         User user = userRepository.findByUsername(username);
 
-        if(user == null){
+        if (user == null) {
             logger.warn("No user with id={} was found.", username);
             return "NOK";
         }
 
-        user.getFollowingIds().remove(followingUsername);
-
+        user.removeFollowingId(followingUsername);
         userRepository.save(user);
 
         return "OK";
@@ -160,7 +162,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
 
         User user = userRepository.findByUsername(username);
 
-        if(user == null){
+        if (user == null) {
             logger.warn("No user with id={} was found.", username);
             return new ArrayList<>();
         }
@@ -173,96 +175,133 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     @Override
     @HystrixCommand(fallbackMethod = "followGroupFallback", ignoreExceptions = IllegalArgumentException.class)
     public String followGroup(String username, String followingGroupId) {
-       //TODO: Continue
-        return null;
+        Assert.hasLength(username, "followGroup input is empty");
+        Assert.hasLength(followingGroupId, "followGroup input is empty");
+
+        String groupResponse = groupClient.follow(username);
+
+        if (groupResponse != "OK") {
+            logger.warn("Group {} subscription of user {} failed", followingGroupId, username);
+            return "NOK";
+        }
+
+        User user = userRepository.findByUsername(username);
+
+        if (user == null) {
+            logger.warn("No user with id={} was found.", username);
+            return "NOK";
+        }
+
+        user.addFollowingGroupId(followingGroupId);
+        userRepository.save(user);
+
+        return "OK";
     }
 
     @Override
     @HystrixCommand(fallbackMethod = "unfollowGroupFallback", ignoreExceptions = IllegalArgumentException.class)
-    public String unfollowGroup(String name, String followingGroupId) {
-        //TODO: Continue
-        return null;
+    public String unFollowGroup(String username, String followingGroupId) {
+        Assert.hasLength(username, "unFollowGroup input is empty");
+        Assert.hasLength(followingGroupId, "unFollowGroup input is empty");
+
+        groupClient.unFollow(username);
+
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            logger.warn("No user with id={} was found.", username);
+            return "NOK";
+        }
+
+        user.removeFollowingGroupId(followingGroupId);
+        userRepository.save(user);
+
+        return "OK";
     }
 
     @Override
     @CachePut(cacheNames = "RetrieveGroupIds", key = "#username")
     @HystrixCommand(fallbackMethod = "retrieveGroupIdsFallback", ignoreExceptions = IllegalArgumentException.class)
-    public List<User> retrieveGroupIds(String username) {
-        //TODO: Continue
-        return null;
+    public Optional<List<String>> retrieveGroupIds(String username) {
+        Assert.hasLength(username, "retrieveGroupIds input is empty or null");
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            logger.warn("No user with id={} was found.", username);
+            return Optional.empty();
+        }
+        Optional<List<String>> followingGroupIds = Optional.ofNullable(userRepository.getGroupIdsByUsername(username).getFollowingGroupIds());
+
+        return followingGroupIds;
     }
 
     //TODO move them in different Class
 
-    public String createUserFallback(UserRequest user, Throwable t){
+    public String createUserFallback(UserRequest user, Throwable t) {
 
-        logger.error("Create User fallback for user: "+ user.getUsername()+ ". Returning empty object", t);
+        logger.error("Create User fallback for user: " + user.getUsername() + ". Returning empty object", t);
 
         return "NOK";
     }
 
     public String updateUserFallback(UserRequest user, Throwable t) {
-        logger.error("Update User fallback for user: "+ user.getUsername()+ ". Returning empty object", t);
+        logger.error("Update User fallback for user: " + user.getUsername() + ". Returning empty object", t);
 
         return "NOK";
     }
 
     public String deleteUserFallback(String username, Throwable t) {
-        logger.error("Delete User fallback for user: "+ username+ ". Returning empty object", t);
+        logger.error("Delete User fallback for user: " + username + ". Returning empty object", t);
 
-       return "NOK";
+        return "NOK";
     }
 
     public User retrieveUserFallback(String username, Throwable t) {
-        logger.error("Retrieve User fallback for user: "+ username+ ". Returning empty object", t);
+        logger.error("Retrieve User fallback for user: " + username + ". Returning empty object", t);
 
         return new User();
     }
 
     public String addFollowingFallback(String username, String followingUsername, Throwable t) {
-        logger.error("Add Following fallback for user: "+ username + ". Returning empty object", t);
+        logger.error("Add Following fallback for user: " + username + ". Returning empty object", t);
 
         return "NOK";
     }
 
     public String removeFollowingFallback(String username, String followingUsername, Throwable t) {
-        logger.error("Remove following fallback for user: "+ username + ". Returning empty object", t);
+        logger.error("Remove following fallback for user: " + username + ". Returning empty object", t);
 
         return "NOK";
     }
 
     public List<User> retrieveFollowingsFallback(String username, Throwable t) {
-        logger.error("Retrieve followings fallback for user: "+ username + ". Returning List from Cache", t);
+        logger.error("Retrieve followings fallback for user: " + username + ". Returning List from Cache", t);
 
         if (cacheManager.getCache("RetrieveFollowings") != null && cacheManager.getCache("RetrieveFollowings").get(username) != null) {
             return cacheManager.getCache("RetrieveFollowings").get(username, List.class);
-        }
-        else {
-            logger.error("Retrieve followings Fallback for username: "+ username +". Cache is empty.");
+        } else {
+            logger.error("Retrieve followings Fallback for username: " + username + ". Cache is empty.");
             return new ArrayList<>();
         }
     }
 
     public String followGroupFallback(String username, String followingGroupId, Throwable t) {
-        logger.error("Follow group fallback for user: "+ username + ". Returning empty object", t);
+        logger.error("Follow group fallback for user: " + username + ". Returning empty object", t);
 
         return "NOK";
     }
 
     public String unfollowGroupFallback(String username, String followingGroupId, Throwable t) {
-        logger.error("Unfollow group fallback for user: "+ username + ". Returning empty object", t);
+        logger.error("Unfollow group fallback for user: " + username + ". Returning empty object", t);
 
         return "NOK";
     }
 
     public List<User> retrieveGroupIdsFallback(String username, Throwable t) {
-        logger.error("Retrieve groupIds fallback for user: "+ username + ". Returning List from Cache", t);
+        logger.error("Retrieve groupIds fallback for user: " + username + ". Returning List from Cache", t);
 
         if (cacheManager.getCache("RetrieveGroupIds") != null && cacheManager.getCache("RetrieveGroupIds").get(username) != null) {
             return cacheManager.getCache("RetrieveGroupIds").get(username, List.class);
-        }
-        else {
-            logger.error("Retrieve groupIds Fallback for username: "+ username +". Cache is empty.");
+        } else {
+            logger.error("Retrieve groupIds Fallback for username: " + username + ". Cache is empty.");
             return new ArrayList<>();
         }
     }

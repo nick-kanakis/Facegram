@@ -9,14 +9,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Nick Kanakis on 9/5/2017.
@@ -97,9 +98,9 @@ public class AdministrativeController {
         return users;
     }
 
-    //TODO: only accessible by Group-Service
     @LogTimeExecution
     @RequestMapping(value = "/followGroup/{followingGroupId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("#oauth2.hasScope('server')")
     public GenericJson followGroup(Principal principal, @PathVariable String followingGroupId){
         logger.debug("Entering followGroup (username = {})",principal.getName());
         String result = administrativeService.followGroup(principal.getName(), followingGroupId);
@@ -107,23 +108,29 @@ public class AdministrativeController {
         return new GenericJson(result,null,false);
     }
 
-    //TODO: only accessible by Group-Service
     @LogTimeExecution
-    @RequestMapping(value = "/unfollowGroup/{followingGroupId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public GenericJson unfollowGroup(Principal principal, @PathVariable String followingGroupId){
-        logger.debug("Entering unfollowGroup (username = {}, followingUsername={})",principal.getName(),followingGroupId);
-        String result = administrativeService.unfollowGroup(principal.getName(), followingGroupId);
-        logger.debug("Exiting unfollowGroup (username ={}, result={})",principal.getName(), result);
+    @RequestMapping(value = "/unFollowGroup/{followingGroupId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("#oauth2.hasScope('server')")
+    public GenericJson unFollowGroup(Principal principal, @PathVariable String followingGroupId){
+        logger.debug("Entering unFollowGroup (username = {}, followingUsername={})",principal.getName(),followingGroupId);
+        String result = administrativeService.unFollowGroup(principal.getName(), followingGroupId);
+        logger.debug("Exiting unFollowGroup (username ={}, result={})",principal.getName(), result);
         return new GenericJson(result,null,false);
     }
 
     @LogTimeExecution
     @RequestMapping(value = "/retrieveGroupIds/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> retrieveGroupIds(@PathVariable String username){
+    public List<String> retrieveGroupIds(@PathVariable String username){
         logger.debug("Entering retrieveGroupIds (username = {})",username);
-        List<User> users = administrativeService.retrieveGroupIds(username);
-        logger.debug("Exiting retrieveGroupIds (username ={}, numOfFollowings={})",username, users.size());
-        return users;
+        Optional<List<String>> optionalGroupIds = administrativeService.retrieveGroupIds(username);
+        if(optionalGroupIds.isPresent()) {
+            logger.debug("Exiting retrieveGroupIds (username ={}, numOfFollowings={})",username, optionalGroupIds.get().size());
+            return optionalGroupIds.get();
+        }
+        else {
+            logger.debug("Exiting retrieveGroupIds (username ={}, numOfFollowings={})",username, 0);
+            return new ArrayList<>();
+        }
     }
 
 
