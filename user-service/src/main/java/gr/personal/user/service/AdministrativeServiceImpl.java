@@ -295,7 +295,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         return "NOK";
     }
 
-    public List<User> retrieveGroupIdsFallback(String username, Throwable t) {
+    public List<String> retrieveGroupIdsFallback(String username, Throwable t) {
         logger.error("Retrieve groupIds fallback for user: " + username + ". Returning List from Cache", t);
 
         if (cacheManager.getCache("RetrieveGroupIds") != null && cacheManager.getCache("RetrieveGroupIds").get(username) != null) {
