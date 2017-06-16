@@ -1,6 +1,7 @@
 package gr.personal.user.service;
 
 import gr.personal.user.client.AuthClient;
+import gr.personal.user.client.GroupClient;
 import gr.personal.user.client.StoryClient;
 import gr.personal.user.domain.RegistrationUser;
 import gr.personal.user.domain.User;
@@ -18,14 +19,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 import static gr.personal.user.helper.FakeDataGenerator.generateUser;
 import static gr.personal.user.helper.FakeDataGenerator.generateUserRequest;
 import static gr.personal.user.helper.FakeDataGenerator.generateUsers;
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyCollection;
-import static org.mockito.Matchers.anyString;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -54,6 +56,9 @@ public class AdministrativeServiceTest {
     private AuthClient authClient;
 
     @MockBean
+    private GroupClient groupClient;
+
+    @MockBean
     private UserRepository userRepository;
 
     private User originalUser;
@@ -63,6 +68,7 @@ public class AdministrativeServiceTest {
     public void setUp() throws Exception {
 
         originalUser = generateUser();
+        originalUser.addFollowingGroupId("testGroupId");
         originalUsers = generateUsers();
 
 
@@ -72,6 +78,8 @@ public class AdministrativeServiceTest {
         when(userRepository.exists("testFollowingUsername")).thenReturn(true);
         when(userRepository.findByUsername(anyString())).thenReturn(originalUser);
         when(userRepository.save(any(User.class))).thenReturn(originalUser);
+        when(userRepository.getGroupIdsByUsername(anyString())).thenReturn(originalUser);
+        when(groupClient.follow(anyString())).thenReturn("OK");
     }
 
     @Test
@@ -152,4 +160,41 @@ public class AdministrativeServiceTest {
     public void shouldFailToRetrieveFollowings(){
         administrativeService.retrieveFollowings("");
     }
+
+    /*Group */
+
+    @Test
+    public void shouldFollowGroup(){
+        String result = administrativeService.followGroup("testUsername", "testFollowingUsername");
+        assertEquals("OK", result);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToFollowGroup(){
+        administrativeService.followGroup("",null);
+    }
+
+    @Test
+    public void shouldUnFollowGroup(){
+        String result = administrativeService.unFollowGroup("testUsername", "testFollowingUsername");
+        assertEquals(result, "OK");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToUnFollowGroup(){
+        administrativeService.unFollowGroup("","");
+    }
+
+    @Test
+    public void shouldRetrieveGroupIds(){
+        Optional<List<String>> followings = administrativeService.retrieveGroupIds("testUsername");
+        assertTrue(followings.get().contains("testGroupId"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToRetrieveGroupIds(){
+        administrativeService.retrieveGroupIds("");
+    }
+
+
 }

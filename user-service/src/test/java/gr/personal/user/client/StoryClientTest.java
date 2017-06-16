@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.oauth2.client.resource.OAuth2AccessDeniedException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -27,43 +29,26 @@ public class StoryClientTest {
     @Autowired
     private StoryClient client;
 
+    @MockBean
+    private  GroupClient groupClient;
+
     @Test
-    public void shouldGetHotStoriesOfUser(){
+    public void shouldGetHotStoriesOfUserFromCache(){
         List<Story> stories = client.getHotStoriesOfUser("test");
         Assert.assertNotNull(stories);
     }
 
     @Test
-    public void shouldGetHotStoriesOfLocation(){
-        List<Story> stories = client.getHotStoriesOfLocation(anyDouble(), anyDouble());
-        Assert.assertNotNull(stories);
-    }
-
-    @Test
-    public void shouldGetNewtStoriesOfUser(){
+    public void shouldGetNewtStoriesOfUserFromCache(){
         List<Story> stories = client.getNewStoriesOfUser("test");
         Assert.assertNotNull(stories);
     }
 
     @Test
-    public void shouldGetNewStoriesOfLocation(){
-        List<Story> stories = client.getNewStoriesOfLocation(anyDouble(), anyDouble());
-        Assert.assertNotNull(stories);
-    }
-
-    @Test
-    public void shouldGetToptStoriesOfUser(){
+    public void shouldGetTopStoriesOfUserFromCache(){
         List<Story> stories = client.getTopStoriesOfUser("test");
         Assert.assertNotNull(stories);
     }
-
-    @Test
-    public void shouldGetTopStoriesOfLocation(){
-        List<Story> stories = client.getTopStoriesOfLocation(anyDouble(), anyDouble());
-        Assert.assertNotNull(stories);
-    }
-
-
 
 
 }

@@ -10,18 +10,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static gr.personal.user.helper.FakeDataGenerator.generateUser;
 import static org.mockito.Matchers.any;
@@ -141,6 +140,37 @@ public class AdministrativeControllerTest {
 
     }
 
+    @Test
+    public void shouldFollowGroup() throws Exception {
+
+        when(administrativeService.followGroup(anyString(),anyString())).thenReturn("OK");
+
+        mockMvc.perform(post("/administrative/followGroup/followingGroupId").principal(new UserPrincipal("testUserId")))
+                .andExpect(status().isOk())
+                .andExpect(mvcResult -> "OK".equals(mvcResult));
+    }
+
+    @Test
+    public void shouldUnFollowGroup() throws Exception {
+
+        when(administrativeService.unFollowGroup(anyString(),anyString())).thenReturn("OK");
+
+        mockMvc.perform(delete("/administrative/unFollowGroup/followingGroupId").principal(new UserPrincipal("testUserId")))
+                .andExpect(status().isOk())
+                .andExpect(mvcResult -> "OK".equals(mvcResult));
+    }
+
+    @Test
+    public void shouldRetrieveGroupIds() throws Exception {
+
+        when(administrativeService.retrieveGroupIds(anyString())).thenReturn(Optional.of(Arrays.asList("testGroupId")));
+
+
+        mockMvc.perform(get("/administrative/retrieveGroupIds/testUsername").principal(new UserPrincipal("testUserId")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0]").value("testGroupId"));
+    }
+
     private String asJsonString(Object input) {
         try {
             final ObjectMapper mapper = new ObjectMapper();
@@ -150,4 +180,6 @@ public class AdministrativeControllerTest {
             throw new RuntimeException(e);
         }
     }
+
+
 }
