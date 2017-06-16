@@ -4,6 +4,7 @@ spring:
 
 server:
   port: 1001
+  context-path: /user-service
 
 feign:
   hystrix:

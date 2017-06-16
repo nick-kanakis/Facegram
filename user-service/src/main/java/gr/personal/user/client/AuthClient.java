@@ -15,12 +15,13 @@ import javax.validation.Valid;
  */
 
 @FeignClient(value="auth-service")
+@RequestMapping("/uaa")
 public interface AuthClient {
 
-    @RequestMapping(value = "/uaa/users/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/users/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     void createUser(@Valid @RequestBody RegistrationUser user);
 
-    @RequestMapping(value = "/uaa/users/delete", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/users/delete", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     void deleteUser(@Valid @RequestBody String username);
 }
 

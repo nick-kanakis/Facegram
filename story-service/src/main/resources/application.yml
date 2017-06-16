@@ -16,6 +16,7 @@ security:
 
 server:
   port: 1000
+  context-path: /story-service
 
 logging:
   level:

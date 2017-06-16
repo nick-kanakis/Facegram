@@ -16,6 +16,7 @@ import java.util.List;
 *   TODO: Find a workaround for the lack of @RequestParam POJO of Feign.
 * */
 @FeignClient(value = "story-service", fallbackFactory = HystrixClientFallbackFactory.class)
+@RequestMapping("/story-service")
 public interface StoryClient {
 
     //Key will be the First argument of the method more here: http://docs.spring.io/spring/docs/current/spring-framework-reference/html/cache.html#cache-spel-context
