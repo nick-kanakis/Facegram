@@ -221,14 +221,14 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     @Override
     @CachePut(cacheNames = "RetrieveGroupIds", key = "#username")
     @HystrixCommand(fallbackMethod = "retrieveGroupIdsFallback", ignoreExceptions = IllegalArgumentException.class)
-    public Optional<List<String>> retrieveGroupIds(String username) {
+    public List<String> retrieveGroupIds(String username) {
         Assert.hasLength(username, "retrieveGroupIds input is empty or null");
         User user = userRepository.findByUsername(username);
         if (user == null) {
             logger.warn("No user with id={} was found.", username);
-            return Optional.empty();
+            return new ArrayList<>();
         }
-        Optional<List<String>> followingGroupIds = Optional.ofNullable(userRepository.getGroupIdsByUsername(username).getFollowingGroupIds());
+        List<String> followingGroupIds =userRepository.getGroupIdsByUsername(username).getFollowingGroupIds();
 
         return followingGroupIds;
     }

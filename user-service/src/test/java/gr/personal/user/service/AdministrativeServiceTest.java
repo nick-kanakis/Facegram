@@ -187,8 +187,8 @@ public class AdministrativeServiceTest {
 
     @Test
     public void shouldRetrieveGroupIds(){
-        Optional<List<String>> followings = administrativeService.retrieveGroupIds("testUsername");
-        assertTrue(followings.get().contains("testGroupId"));
+        List<String> followings = administrativeService.retrieveGroupIds("testUsername");
+        assertTrue(followings.contains("testGroupId"));
     }
 
     @Test(expected = IllegalArgumentException.class)

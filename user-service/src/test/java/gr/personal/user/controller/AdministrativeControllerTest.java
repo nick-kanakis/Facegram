@@ -163,7 +163,7 @@ public class AdministrativeControllerTest {
     @Test
     public void shouldRetrieveGroupIds() throws Exception {
 
-        when(administrativeService.retrieveGroupIds(anyString())).thenReturn(Optional.of(Arrays.asList("testGroupId")));
+        when(administrativeService.retrieveGroupIds(anyString())).thenReturn(Arrays.asList("testGroupId"));
 
 
         mockMvc.perform(get("/administrative/retrieveGroupIds/testUsername").principal(new UserPrincipal("testUserId")))

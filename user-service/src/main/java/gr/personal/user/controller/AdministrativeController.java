@@ -122,15 +122,10 @@ public class AdministrativeController {
     @RequestMapping(value = "/retrieveGroupIds/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> retrieveGroupIds(@PathVariable String username){
         logger.debug("Entering retrieveGroupIds (username = {})",username);
-        Optional<List<String>> optionalGroupIds = administrativeService.retrieveGroupIds(username);
-        if(optionalGroupIds.isPresent()) {
-            logger.debug("Exiting retrieveGroupIds (username ={}, numOfFollowings={})",username, optionalGroupIds.get().size());
-            return optionalGroupIds.get();
-        }
-        else {
-            logger.debug("Exiting retrieveGroupIds (username ={}, numOfFollowings={})",username, 0);
-            return new ArrayList<>();
-        }
+        List<String> groupIds = administrativeService.retrieveGroupIds(username);
+
+        logger.debug("Exiting retrieveGroupIds (username ={}, numOfFollowings={})",username, groupIds.size());
+        return groupIds;
     }
 
 

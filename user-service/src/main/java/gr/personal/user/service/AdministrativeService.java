@@ -4,7 +4,6 @@ import gr.personal.user.domain.User;
 import gr.personal.user.domain.UserRequest;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by Nick Kanakis on 29/5/2017.
@@ -20,5 +19,5 @@ public interface AdministrativeService {
     List<User> retrieveFollowings(String username);
     String followGroup(String name, String followingGroupId);
     String unFollowGroup(String name, String followingGroupId);
-    Optional<List<String>> retrieveGroupIds(String username);
+    List<String> retrieveGroupIds(String username);
 }
