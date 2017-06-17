@@ -178,7 +178,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         Assert.hasLength(username, "followGroup input is empty");
         Assert.hasLength(followingGroupId, "followGroup input is empty");
 
-        String groupResponse = groupClient.follow(username);
+        String groupResponse = groupClient.follow(followingGroupId);
 
         if (groupResponse != "OK") {
             logger.warn("Group {} subscription of user {} failed", followingGroupId, username);
@@ -200,11 +200,11 @@ public class AdministrativeServiceImpl implements AdministrativeService {
 
     @Override
     @HystrixCommand(fallbackMethod = "unfollowGroupFallback", ignoreExceptions = IllegalArgumentException.class)
-    public String unFollowGroup(String username, String followingGroupId) {
+    public String unFollowGroup(String username, String groupId) {
         Assert.hasLength(username, "unFollowGroup input is empty");
-        Assert.hasLength(followingGroupId, "unFollowGroup input is empty");
+        Assert.hasLength(groupId, "unFollowGroup input is empty");
 
-        groupClient.unFollow(username);
+        groupClient.unFollow(groupId);
 
         User user = userRepository.findByUsername(username);
         if (user == null) {
@@ -212,7 +212,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
             return "NOK";
         }
 
-        user.removeFollowingGroupId(followingGroupId);
+        user.removeFollowingGroupId(groupId);
         userRepository.save(user);
 
         return "OK";
@@ -236,39 +236,32 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     //TODO move them in different Class
 
     public String createUserFallback(UserRequest user, Throwable t) {
-
-        logger.error("Create User fallback for user: " + user.getUsername() + ". Returning empty object", t);
-
+        logger.error("Create User fallback for user: " + user.getUsername(), t);
         return "NOK";
     }
 
     public String updateUserFallback(UserRequest user, Throwable t) {
-        logger.error("Update User fallback for user: " + user.getUsername() + ". Returning empty object", t);
-
+        logger.error("Update User fallback for user: " + user.getUsername(), t);
         return "NOK";
     }
 
     public String deleteUserFallback(String username, Throwable t) {
-        logger.error("Delete User fallback for user: " + username + ". Returning empty object", t);
-
+        logger.error("Delete User fallback for user: " + username , t);
         return "NOK";
     }
 
     public User retrieveUserFallback(String username, Throwable t) {
         logger.error("Retrieve User fallback for user: " + username + ". Returning empty object", t);
-
         return new User();
     }
 
     public String addFollowingFallback(String username, String followingUsername, Throwable t) {
-        logger.error("Add Following fallback for user: " + username + ". Returning empty object", t);
-
+        logger.error("Add Following fallback for user: " + username, t);
         return "NOK";
     }
 
     public String removeFollowingFallback(String username, String followingUsername, Throwable t) {
-        logger.error("Remove following fallback for user: " + username + ". Returning empty object", t);
-
+        logger.error("Remove following fallback for user: " + username, t);
         return "NOK";
     }
 
@@ -284,14 +277,12 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     }
 
     public String followGroupFallback(String username, String followingGroupId, Throwable t) {
-        logger.error("Follow group fallback for user: " + username + ". Returning empty object", t);
-
+        logger.error("Follow group fallback for user: " + username, t);
         return "NOK";
     }
 
     public String unfollowGroupFallback(String username, String followingGroupId, Throwable t) {
-        logger.error("Unfollow group fallback for user: " + username + ". Returning empty object", t);
-
+        logger.error("Unfollow group fallback for user: " + username, t);
         return "NOK";
     }
 

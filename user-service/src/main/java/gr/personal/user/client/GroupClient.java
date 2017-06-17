@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 
 @FeignClient(value = "group-service")
+@RequestMapping("/group-service")
 public interface GroupClient {
     //todo: add correct endpoints! (add prefix in all microservices
-    @RequestMapping(method = RequestMethod.POST, value = "/administrative/follow/{username}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    String follow(String username);
+    @RequestMapping(method = RequestMethod.POST, value = "/administrative/follow/{groupId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    String follow(String groupId);
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/administrative/unFollow/{username}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    void unFollow(String username);
+    @RequestMapping(method = RequestMethod.DELETE, value = "/administrative/unFollow/{groupId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    void unFollow(String groupId);
 }

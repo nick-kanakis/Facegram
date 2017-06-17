@@ -1,6 +1,5 @@
 package gr.personal.user.controller;
 
-import gr.personal.user.domain.ErrorMessage;
 import gr.personal.user.domain.GenericJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

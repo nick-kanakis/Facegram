@@ -29,7 +29,7 @@ public class HystrixClientFallbackFactory implements FallbackFactory<StoryClient
 
         return new StoryClient() {
             @Override
-            public List<Story> getHotStoriesOfUser(@PathVariable String username) {
+            public List<Story> getHotStoriesOfUser(@PathVariable("username") String username) {
                 logger.error("Retrieve Hot Stories fallback for user: "+ username + ". Returning List from Cache");
 
                 if (cacheManager.getCache("HotStories") != null && cacheManager.getCache("HotStories").get(username) != null) {
