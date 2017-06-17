@@ -34,9 +34,9 @@ public class HotStoriesController {
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
     @PreAuthorize("#oauth2.hasScope('server')")
     public ResponseEntity<List<Story>> getHotStoriesOfUser(@PathVariable String userId) throws ParseException {
-        logger.debug("Entering getStoriesOfUser (userId={})", userId);
+        logger.debug("Entering getHotStoriesOfUser (userId={})", userId);
         List<Story> hotStoriesOfUser = storiesService.getStoriesOfUser(userId);
-        logger.debug("Exiting getStoriesOfUser (userId={}, numberOfStories={})", userId, hotStoriesOfUser.size());
+        logger.debug("Exiting getHotStoriesOfUser (userId={}, numberOfStories={})", userId, hotStoriesOfUser.size());
 
         return ResponseEntity
                 .ok()
@@ -47,9 +47,9 @@ public class HotStoriesController {
     @RequestMapping(path = "/location", method = RequestMethod.GET)
     @PreAuthorize("#oauth2.hasScope('server')")
     public ResponseEntity<List<Story>> getHotStoriesOfLocation( Geolocation geolocation) throws ParseException {
-        logger.debug("Entering getStoriesOfLocation (geolocation={})", geolocation);
+        logger.debug("Entering getHotStoriesOfLocation (geolocation={})", geolocation);
         List<Story> hotStoriesOfLocation = storiesService.getStoriesOfLocation(geolocation);
-        logger.debug("Exiting getStoriesOfLocation (geolocation={}, numberOfStories={})", geolocation, hotStoriesOfLocation.size());
+        logger.debug("Exiting getHotStoriesOfLocation (geolocation={}, numberOfStories={})", geolocation, hotStoriesOfLocation.size());
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -59,9 +59,9 @@ public class HotStoriesController {
     @RequestMapping(path = "/group/{groupId}", method = RequestMethod.GET)
     @PreAuthorize("#oauth2.hasScope('server')")
     public ResponseEntity<List<Story>> getHotStoriesOfGroup(@PathVariable String groupId) throws ParseException {
-        logger.debug("Entering getStoriesOfGroup (groupId={})", groupId);
+        logger.debug("Entering getHotStoriesOfGroup (groupId={})", groupId);
         List<Story> hotStoriesOfGroup = storiesService.getStoriesOfGroup(groupId);
-        logger.debug("Exiting getStoriesOfGroup (groupId={}, numberOfStories={})", groupId, hotStoriesOfGroup.size());
+        logger.debug("Exiting getHotStoriesOfGroup (groupId={}, numberOfStories={})", groupId, hotStoriesOfGroup.size());
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
