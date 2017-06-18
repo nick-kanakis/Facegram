@@ -38,6 +38,8 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     private String USER_SERVICE_PASSWORD;
     @Value("${password.story-service}")
     private String STORY_SERVICE_PASSWORD;
+    @Value("${password.group-service}")
+    private String GROUP_SERVICE_PASSWORD;
 
 
     @Autowired
@@ -91,6 +93,11 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .and()
                 .withClient("user-service")
                 .secret(USER_SERVICE_PASSWORD)
+                .authorizedGrantTypes("client_credentials", "refresh_token")
+                .scopes("server")
+                .and()
+                .withClient("group-service")
+                .secret(GROUP_SERVICE_PASSWORD)
                 .authorizedGrantTypes("client_credentials", "refresh_token")
                 .scopes("server");
     }

@@ -11,6 +11,7 @@ server:
 password:
   user-service: userServicePassword
   story-service: storyServicePassword
+  group-service: groupServicePassword
 
 logging:
   level:
