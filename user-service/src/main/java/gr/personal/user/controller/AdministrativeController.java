@@ -99,21 +99,19 @@ public class AdministrativeController {
     }
 
     @LogTimeExecution
-    @RequestMapping(value = "/followGroup/{followingGroupId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("#oauth2.hasScope('server')")
-    public GenericJson followGroup(Principal principal, @PathVariable String followingGroupId){
+    @RequestMapping(value = "/followGroup/{groupId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public GenericJson followGroup(Principal principal, @PathVariable String groupId){
         logger.debug("Entering followGroup (username = {})",principal.getName());
-        String result = administrativeService.followGroup(principal.getName(), followingGroupId);
+        String result = administrativeService.followGroup(principal.getName(), groupId);
         logger.debug("Exiting followGroup (username ={}, result={})",principal.getName(), result);
         return new GenericJson(result,null,false);
     }
 
     @LogTimeExecution
-    @RequestMapping(value = "/unFollowGroup/{followingGroupId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("#oauth2.hasScope('server')")
-    public GenericJson unFollowGroup(Principal principal, @PathVariable String followingGroupId){
-        logger.debug("Entering unFollowGroup (username = {}, followingUsername={})",principal.getName(),followingGroupId);
-        String result = administrativeService.unFollowGroup(principal.getName(), followingGroupId);
+    @RequestMapping(value = "/unFollowGroup/{groupId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public GenericJson unFollowGroup(Principal principal, @PathVariable String groupId){
+        logger.debug("Entering unFollowGroup (username = {}, followingUsername={})",principal.getName(),groupId);
+        String result = administrativeService.unFollowGroup(principal.getName(), groupId);
         logger.debug("Exiting unFollowGroup (username ={}, result={})",principal.getName(), result);
         return new GenericJson(result,null,false);
     }

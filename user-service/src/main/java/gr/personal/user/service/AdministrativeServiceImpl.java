@@ -174,14 +174,14 @@ public class AdministrativeServiceImpl implements AdministrativeService {
 
     @Override
     @HystrixCommand(fallbackMethod = "followGroupFallback", ignoreExceptions = IllegalArgumentException.class)
-    public String followGroup(String username, String followingGroupId) {
+    public String followGroup(String username, String groupId) {
         Assert.hasLength(username, "followGroup input is empty");
-        Assert.hasLength(followingGroupId, "followGroup input is empty");
+        Assert.hasLength(groupId, "followGroup input is empty");
 
-        String groupResponse = groupClient.follow(followingGroupId);
+        String groupResponse = groupClient.follow(groupId);
 
         if (groupResponse != "OK") {
-            logger.warn("Group {} subscription of user {} failed", followingGroupId, username);
+            logger.warn("Group {} subscription of user {} failed", groupId, username);
             return "NOK";
         }
 
@@ -192,7 +192,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
             return "NOK";
         }
 
-        user.addFollowingGroupId(followingGroupId);
+        user.addFollowingGroupId(groupId);
         userRepository.save(user);
 
         return "OK";
@@ -276,12 +276,12 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         }
     }
 
-    public String followGroupFallback(String username, String followingGroupId, Throwable t) {
+    public String followGroupFallback(String username, String groupId, Throwable t) {
         logger.error("Follow group fallback for user: " + username, t);
         return "NOK";
     }
 
-    public String unfollowGroupFallback(String username, String followingGroupId, Throwable t) {
+    public String unfollowGroupFallback(String username, String groupId, Throwable t) {
         logger.error("Unfollow group fallback for user: " + username, t);
         return "NOK";
     }

@@ -2,6 +2,7 @@ package gr.personal.user.client;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -12,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(value = "group-service")
 @RequestMapping("/group-service")
 public interface GroupClient {
-    //todo: add correct endpoints! (add prefix in all microservices
-    @RequestMapping(method = RequestMethod.POST, value = "/administrative/follow/{groupId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    String follow(String groupId);
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/administrative/unFollow/{groupId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    void unFollow(String groupId);
+    @RequestMapping(method = RequestMethod.POST, value = "/administrative/follow/{groupId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    String follow(@PathVariable("groupId") String groupId);
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/administrative/unfollow/{groupId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    void unFollow(@PathVariable("groupId") String groupId);
 }

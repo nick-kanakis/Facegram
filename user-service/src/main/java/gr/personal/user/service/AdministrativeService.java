@@ -17,7 +17,7 @@ public interface AdministrativeService {
     String addFollowing(String username, String followingUsername);
     String removeFollowing(String username, String followingUsername);
     List<User> retrieveFollowings(String username);
-    String followGroup(String name, String followingGroupId);
-    String unFollowGroup(String name, String followingGroupId);
+    String followGroup(String name, String groupId);
+    String unFollowGroup(String name, String groupId);
     List<String> retrieveGroupIds(String username);
 }
