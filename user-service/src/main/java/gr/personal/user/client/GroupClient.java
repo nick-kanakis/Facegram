@@ -1,5 +1,6 @@
 package gr.personal.user.client;
 
+import gr.personal.user.domain.GenericJson;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,5 +19,5 @@ public interface GroupClient {
     String follow(@PathVariable("groupId") String groupId);
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/administrative/unfollow/{groupId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    void unFollow(@PathVariable("groupId") String groupId);
+    String unFollow(@PathVariable("groupId") String groupId);
 }

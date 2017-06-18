@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import gr.personal.user.client.AuthClient;
 import gr.personal.user.client.GroupClient;
+import gr.personal.user.domain.GenericJson;
 import gr.personal.user.domain.RegistrationUser;
 import gr.personal.user.domain.User;
 import gr.personal.user.domain.UserRequest;
@@ -178,12 +179,6 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         Assert.hasLength(username, "followGroup input is empty");
         Assert.hasLength(groupId, "followGroup input is empty");
 
-        String groupResponse = groupClient.follow(groupId);
-
-        if (groupResponse != "OK") {
-            logger.warn("Group {} subscription of user {} failed", groupId, username);
-            return "NOK";
-        }
 
         User user = userRepository.findByUsername(username);
 
@@ -191,6 +186,20 @@ public class AdministrativeServiceImpl implements AdministrativeService {
             logger.warn("No user with id={} was found.", username);
             return "NOK";
         }
+
+        if(user.getFollowingGroupIds().contains(groupId)){
+            logger.warn("User with id={} already subscribed to group with id ={}.", username, groupId);
+            return "NOK";
+        }
+
+
+        String groupResponse = groupClient.follow(groupId);
+
+        if (!"OK".equals(groupResponse)) {
+            logger.warn("Group {} subscription of user {} failed", groupId, username);
+            return "NOK";
+        }
+
 
         user.addFollowingGroupId(groupId);
         userRepository.save(user);
@@ -204,11 +213,21 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         Assert.hasLength(username, "unFollowGroup input is empty");
         Assert.hasLength(groupId, "unFollowGroup input is empty");
 
-        groupClient.unFollow(groupId);
-
         User user = userRepository.findByUsername(username);
         if (user == null) {
             logger.warn("No user with id={} was found.", username);
+            return "NOK";
+        }
+
+        if(!user.getFollowingGroupIds().contains(groupId)){
+            logger.warn("User with id={} not subscribed to group with id ={}.", username, groupId);
+            return "NOK";
+        }
+
+        String groupResponse = groupClient.unFollow(groupId);
+
+        if ((!"OK".equals(groupResponse))) {
+            logger.warn("Group {} un-subscription of user {} failed", groupId, username);
             return "NOK";
         }
 

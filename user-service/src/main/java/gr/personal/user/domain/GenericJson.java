@@ -20,6 +20,10 @@ public class GenericJson implements Serializable {
         this.exception = exception;
     }
 
+
+    public GenericJson() {
+    }
+
     public String getGenericResult() {return genericResult;}
 
     public void setGenericResult(String genericResult) {this.genericResult = genericResult;}
