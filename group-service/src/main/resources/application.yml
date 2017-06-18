@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: group-service
+
+server:
+  port: 1002
+  context-path: /group-service
+
+feign:
+  hystrix:
+    enabled: true
+
+security:
+  oauth2:
+    resource:
+      clientId: group-service
+      clientSecret: groupServicePassword
+#TODO: Acquare endpoints by Eureka
+      userInfoUri: http://localhost:5000/uaa/users/current
+      tokenInfoUri: http://localhost:5000/uaa/oauth/check_token
+      accessTokenUri: http://localhost:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
+
+logging:
+  level:
+    org.springframework.web: INFO
+    gr.personal.group: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file: user-service.logs
+
+# Increase the Hystrix timeout to 10s (globally)
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
