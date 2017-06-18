@@ -19,10 +19,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class GlobalAuthenticationConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
 
     @Override
     public void init(AuthenticationManagerBuilder auth) throws Exception {

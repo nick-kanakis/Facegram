@@ -28,7 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by Nick Kanakis on 4/6/2017.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
 @ActiveProfiles("noEureka")
 public class UserControllerTest {
 

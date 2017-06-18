@@ -23,8 +23,7 @@ public class UserRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
-
-    User user;
+    private User user;
 
     @Before
     public void setUp() throws Exception {
@@ -35,8 +34,6 @@ public class UserRepositoryTest {
     @Test
     public void shouldFetchUserByUsername() throws Exception {
         User retrievedUser = userRepository.findByUsername(user.getUsername());
-
         assertEquals(user, retrievedUser);
-
     }
 }
