@@ -19,7 +19,7 @@ public class AuthApplicationTest {
     private EurekaDiscoveryClient client;
 
     @Test
-    public void contextLoads() throws Exception{
+    public void contextLoads() throws Exception {
         Assert.assertNotNull(this.client);
     }
 }

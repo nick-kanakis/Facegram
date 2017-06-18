@@ -58,8 +58,8 @@ public class UserControllerTest {
     @Test
     public void shouldCreateNewUser() throws Exception {
 
-        final User user = new User("testUsername","testPassword", new ArrayList<>());
-       String json = mapper.writeValueAsString(user);
+        final User user = new User("testUsername", "testPassword", new ArrayList<>());
+        String json = mapper.writeValueAsString(user);
 
         mockMvc.perform(post("/users/create")
                 .contentType(MediaType.APPLICATION_JSON).content(json))

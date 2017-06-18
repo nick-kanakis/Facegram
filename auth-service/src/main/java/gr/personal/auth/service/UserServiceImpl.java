@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void delete(String username){
+    public void delete(String username) {
 
         repository.delete(username);
 

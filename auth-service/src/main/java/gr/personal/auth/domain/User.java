@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Nick Kanakis on 3/6/2017.
  */
 @Document(collection = "user")
-public class User implements UserDetails{
+public class User implements UserDetails {
 
     @Id
     private String username;
@@ -25,7 +25,8 @@ public class User implements UserDetails{
         this.authorities = authorities;
     }
 
-    public User() { }
+    public User() {
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

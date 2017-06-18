@@ -33,7 +33,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void shouldFethUserByUsername() throws Exception {
+    public void shouldFetchUserByUsername() throws Exception {
         User retrievedUser = userRepository.findByUsername(user.getUsername());
 
         assertEquals(user, retrievedUser);

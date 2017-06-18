@@ -51,17 +51,18 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldCreateUser() throws Exception{
-        userService.create(new User("myUsername","myPass", new ArrayList<>()));
+    public void shouldCreateUser() throws Exception {
+        userService.create(new User("myUsername", "myPass", new ArrayList<>()));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldNotCreateUser() throws Exception{
-        userService.create(new User("myUsername2","myPass2", new ArrayList<>()));
+    public void shouldNotCreateUser() throws Exception {
+        userService.create(new User("myUsername2", "myPass2", new ArrayList<>()));
     }
+
     @Test
-    public void shouldLoadUserByUsername() throws Exception{
+    public void shouldLoadUserByUsername() throws Exception {
         UserDetails retrievedUser = userService.loadUserByUsername(user.getUsername());
-        assertThat(retrievedUser,is(user));
+        assertThat(retrievedUser, is(user));
     }
 }
