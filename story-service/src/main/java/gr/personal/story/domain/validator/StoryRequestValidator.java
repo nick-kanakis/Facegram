@@ -1,7 +1,6 @@
 package gr.personal.story.domain.validator;
 
 import gr.personal.story.domain.StoryRequest;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;

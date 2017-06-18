@@ -2,9 +2,7 @@ package gr.personal.story.domain;
 
 import org.springframework.data.annotation.Id;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Created by nkanakis on 5/25/2017.

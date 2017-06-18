@@ -2,8 +2,6 @@ package gr.personal.user.service;
 
 import gr.personal.user.client.AuthClient;
 import gr.personal.user.client.GroupClient;
-import gr.personal.user.client.StoryClient;
-import gr.personal.user.domain.RegistrationUser;
 import gr.personal.user.domain.User;
 import gr.personal.user.domain.UserRequest;
 import gr.personal.user.repository.UserRepository;
@@ -19,14 +17,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-import java.util.Optional;
 
-import static gr.personal.user.helper.FakeDataGenerator.generateUser;
-import static gr.personal.user.helper.FakeDataGenerator.generateUserRequest;
-import static gr.personal.user.helper.FakeDataGenerator.generateUsers;
+import static gr.personal.user.helper.FakeDataGenerator.*;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.when;
 

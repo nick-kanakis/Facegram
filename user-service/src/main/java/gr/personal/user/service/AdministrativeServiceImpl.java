@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import gr.personal.user.client.AuthClient;
 import gr.personal.user.client.GroupClient;
-import gr.personal.user.domain.GenericJson;
 import gr.personal.user.domain.RegistrationUser;
 import gr.personal.user.domain.User;
 import gr.personal.user.domain.UserRequest;
@@ -19,7 +18,6 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by Nick Kanakis on 11/5/2017.

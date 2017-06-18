@@ -1,7 +1,5 @@
 package gr.personal.user.service;
 
-import com.netflix.discovery.converters.Auto;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import gr.personal.user.client.StoryClient;
 import gr.personal.user.domain.Geolocation;
 import gr.personal.user.domain.Story;
@@ -10,12 +8,13 @@ import gr.personal.user.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by Nick Kanakis on 11/5/2017.

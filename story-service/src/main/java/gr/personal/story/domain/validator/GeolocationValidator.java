@@ -1,9 +1,7 @@
 package gr.personal.story.domain.validator;
 
 import gr.personal.story.domain.Geolocation;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 /**

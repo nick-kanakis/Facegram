@@ -1,8 +1,5 @@
 package gr.personal.story.domain;
 
-import org.hibernate.validator.constraints.NotBlank;
-
-
 /**
  * Created by Nick Kanakis on 4/5/2017.
  */

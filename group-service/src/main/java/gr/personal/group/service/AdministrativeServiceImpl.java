@@ -13,10 +13,6 @@ import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserExc
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Nick Kanakis on 17/6/2017.
  */

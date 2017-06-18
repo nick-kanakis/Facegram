@@ -1,10 +1,7 @@
 package gr.personal.story.service;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import gr.personal.story.domain.Geolocation;
 import gr.personal.story.domain.Story;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

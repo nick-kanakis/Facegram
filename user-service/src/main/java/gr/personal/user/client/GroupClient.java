@@ -1,6 +1,5 @@
 package gr.personal.user.client;
 
-import gr.personal.user.domain.GenericJson;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
