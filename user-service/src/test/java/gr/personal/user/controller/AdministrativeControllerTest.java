@@ -38,9 +38,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AdministrativeControllerTest {
 
     @MockBean
-    AdministrativeService administrativeService;
+    private AdministrativeService administrativeService;
 
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @InjectMocks
     private AdministrativeController administrativeController;
@@ -177,6 +177,4 @@ public class AdministrativeControllerTest {
             throw new RuntimeException(e);
         }
     }
-
-
 }
