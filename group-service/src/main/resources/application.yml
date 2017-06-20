@@ -29,7 +29,7 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-  file: user-service.logs
+  file: group-service.logs
 
 # Increase the Hystrix timeout to 10s (globally)
 hystrix:

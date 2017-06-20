@@ -9,8 +9,6 @@ import org.springframework.cloud.netflix.turbine.EnableTurbine;
 /**
  * Created by Nick Kanakis on 6/5/2017.
  */
-
-
 @SpringBootApplication
 @EnableEurekaClient
 @EnableHystrixDashboard
