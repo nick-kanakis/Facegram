@@ -2,7 +2,6 @@ package gr.personal.group.service;
 
 import gr.personal.group.client.StoryClient;
 import gr.personal.group.domain.Story;
-import gr.personal.group.helper.FakeDataGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

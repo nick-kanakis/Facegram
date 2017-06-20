@@ -1,6 +1,5 @@
 package gr.personal.group.service;
 
-import com.sun.security.auth.UserPrincipal;
 import gr.personal.group.domain.Group;
 import gr.personal.group.domain.GroupRequest;
 import gr.personal.group.repository.GroupRepository;
@@ -16,11 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.security.sasl.AuthenticationException;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
