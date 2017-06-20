@@ -60,7 +60,6 @@ public class GroupApplication {
         return new ClientCredentialsResourceDetails();
     }
 
-
     @Bean
     @Primary
     public ResourceServerTokenServices tokenServices() {

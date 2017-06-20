@@ -3,6 +3,7 @@ package gr.personal.group.aop;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -30,7 +31,7 @@ public class LogTimeExecutionAspect {
     @Around("@annotation(gr.personal.group.aop.annotations.LogExecutionTime)")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable{
         StopWatch stopWatch = new StopWatch(LogTimeExecutionAspect.class.getName());
-        stopWatch.start(joinPoint.toShortString());
+        stopWatch.start(((MethodSignature) joinPoint.getSignature()).getMethod().getName());
         //Just call the annotated method (Join point)
         Object proceed = joinPoint.proceed();
         stopWatch.stop();

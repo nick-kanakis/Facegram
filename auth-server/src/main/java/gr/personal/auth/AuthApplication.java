@@ -9,7 +9,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 /**
  * Created by Nick Kanakis on 3/6/2017.
  */
-
 @SpringBootApplication
 @EnableResourceServer
 @EnableEurekaClient

@@ -12,6 +12,12 @@ password:
   story-service: storyServicePassword
   group-service: groupServicePassword
 
+#Mongo configuration
+mongo:
+  host: 127.0.0.1
+  port: 27017
+  dbname: Auth-Service
+
 # Logging configuration
 logging:
   level:

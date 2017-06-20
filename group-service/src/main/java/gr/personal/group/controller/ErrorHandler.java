@@ -15,11 +15,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class ErrorHandler {
-
     Logger logger = LoggerFactory.getLogger(ErrorHandler.class);
-
     // TODO: Replace general handler with specific error handlers
-
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody

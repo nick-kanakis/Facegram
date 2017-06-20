@@ -2,6 +2,16 @@ spring:
   application:
     name: story-service
 
+server:
+  port: 0
+  context-path: /story-service
+
+#Mongo configuration
+mongo:
+  host: 127.0.0.1
+  port: 27017
+  dbname: Story-Service
+
 security:
   oauth2:
     resource:
@@ -13,10 +23,6 @@ security:
       accessTokenUri: http://localhost:5000/uaa/oauth/token
       grant-type: client_credentials
       scope: server
-
-server:
-  port: 1000
-  context-path: /story-service
 
 logging:
   level:

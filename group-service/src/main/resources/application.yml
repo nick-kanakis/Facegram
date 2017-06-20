@@ -3,19 +3,25 @@ spring:
     name: group-service
 
 server:
-  port: 1002
+  port: 0
   context-path: /group-service
 
 feign:
   hystrix:
     enabled: true
 
+#Mongo configuration
+mongo:
+  host: 127.0.0.1
+  port: 27017
+  dbname: Group-Service
+
 security:
   oauth2:
     resource:
       clientId: group-service
       clientSecret: groupServicePassword
-#TODO: Acquare endpoints by Eureka
+#TODO: Acquire endpoints by Eureka
       userInfoUri: http://localhost:5000/uaa/users/current
       tokenInfoUri: http://localhost:5000/uaa/oauth/check_token
       accessTokenUri: http://localhost:5000/uaa/oauth/token

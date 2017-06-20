@@ -2,6 +2,7 @@ package gr.personal.auth.setting;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -13,14 +14,21 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories(basePackages = "gr.personal.auth.repository")
 public class MongoConfig extends AbstractMongoConfiguration {
 
+    @Value("${mongo.host}")
+    private String HOST_NAME;
+    @Value("${mongo.port}")
+    private Integer PORT;
+    @Value("${mongo.dbname}")
+    private String DB_NAME;
+
     @Override
     protected String getDatabaseName() {
-        return "Auth-Service";
+        return DB_NAME;
     }
 
     @Override
     public Mongo mongo() throws Exception {
-        return new MongoClient("127.0.0.1", 27017);
+        return new MongoClient(HOST_NAME, PORT);
     }
 
 }
