@@ -13,7 +13,7 @@ eureka:
     registerWithEureka: false
     fetchRegistry: false
   server:
-    waitTimeInMsWhenSyncEmpty: 0 #WARNING: Remove from production use!!
+    waitTimeInMsWhenSyncEmpty: 0 #WARNING: Remove for production use!!
 
 ---
 spring:
