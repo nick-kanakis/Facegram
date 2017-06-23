@@ -171,7 +171,7 @@ public class AdministrativeServiceTest {
     @Test
     public void shouldUnFollowGroup(){
         String result = administrativeService.unFollowGroup("testUsername", "testFollowingUsername");
-        assertEquals(result, "OK");
+        assertEquals("OK", result);
     }
 
     @Test(expected = IllegalArgumentException.class)
