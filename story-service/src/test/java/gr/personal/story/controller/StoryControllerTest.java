@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.security.auth.UserPrincipal;
 import gr.personal.story.domain.*;
 import gr.personal.story.service.StoryService;
+import gr.personal.story.util.Constants;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,40 +61,40 @@ public class StoryControllerTest {
     public void shouldCreateStory() throws Exception {
         StoryRequest storyRequest = new StoryRequest("test","test","1",new Geolocation(0.0,0.0));
 
-        when(storyService.createStory(anyString(), any(StoryRequest.class))).thenReturn("OK");
+        when(storyService.createStory(anyString(), any(StoryRequest.class))).thenReturn(Constants.OK);
 
         mockMvc.perform(post("/story/create")
                     .content(asJsonString(storyRequest))
                     .contentType(MediaType.APPLICATION_JSON).principal(new UserPrincipal("testUserId")))
                 .andExpect(status().isOk())
-                .andExpect(mvcResult -> "OK".equals(mvcResult));
+                .andExpect(mvcResult -> Constants.OK.equals(mvcResult));
 
     }
 
     @Test
     public void shouldDeleteStory() throws Exception {
-        when(storyService.deleteStory(anyString(), anyString())).thenReturn("OK");
+        when(storyService.deleteStory(anyString(), anyString())).thenReturn(Constants.OK);
 
         mockMvc.perform(delete("/story/delete/test").principal(new UserPrincipal("testUserId")))
-                .andExpect(mvcResult -> "OK".equals(mvcResult))
+                .andExpect(mvcResult -> Constants.OK.equals(mvcResult))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void shouldLikeStory() throws Exception {
-        when(storyService.likeStory(anyString())).thenReturn("OK");
+        when(storyService.likeStory(anyString())).thenReturn(Constants.OK);
 
         mockMvc.perform(post("/story/like/test"))
-                .andExpect(mvcResult -> "OK".equals(mvcResult))
+                .andExpect(mvcResult -> Constants.OK.equals(mvcResult))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void shouldUnLikeStory() throws Exception {
-        when(storyService.unlikeStory(anyString())).thenReturn("OK");
+        when(storyService.unlikeStory(anyString())).thenReturn(Constants.OK);
 
         mockMvc.perform(post("/story/unlike/test"))
-                .andExpect(mvcResult -> "OK".equals(mvcResult))
+                .andExpect(mvcResult -> Constants.OK.equals(mvcResult))
                 .andExpect(status().isOk());
     }
 
@@ -101,21 +102,21 @@ public class StoryControllerTest {
     public void shouldCreateComment() throws Exception{
         CommentRequest comment = new CommentRequest("testHeader","test");
 
-        when(storyService.createComment(eq("testUserId"), anyString(), any(CommentRequest.class))).thenReturn("OK");
+        when(storyService.createComment(eq("testUserId"), anyString(), any(CommentRequest.class))).thenReturn(Constants.OK);
 
         mockMvc.perform(post("/story/comment/testStoryId").contentType(MediaType.APPLICATION_JSON)
                             .content(asJsonString(comment)).principal(new UserPrincipal("testUserId")))
                 .andExpect(status().isOk())
-                .andExpect(mvcResult -> "OK".equals(mvcResult));
+                .andExpect(mvcResult -> Constants.OK.equals(mvcResult));
     }
 
     @Test
     public void shouldDeleteComment() throws Exception{
-        when(storyService.deleteComment(anyString(), anyString())).thenReturn("OK");
+        when(storyService.deleteComment(anyString(), anyString())).thenReturn(Constants.OK);
 
         mockMvc.perform(delete("/story/uncomment/testCommentId").principal(new UserPrincipal("testUserId")))
                 .andExpect(status().isOk())
-                .andExpect(mvcResult -> "OK".equals(mvcResult));
+                .andExpect(mvcResult -> Constants.OK.equals(mvcResult));
     }
 
     @Test

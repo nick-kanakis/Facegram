@@ -61,25 +61,25 @@ public class StoryServiceTest {
     public void shouldCreateComment() throws Exception {
         CommentRequest commentRequest = generateCommentRequest();
         String response = storyService.createComment("testUserId", "testStoryId",commentRequest);
-        assertEquals(response, Constants.OK);
+        assertEquals(Constants.OK, response);
     }
 
     @Test
     public void shouldCreateStory() throws Exception {
         StoryRequest storyRequest = generateStoryRequest();
         String response = storyService.createStory("testUserId", storyRequest);
-        assertEquals(response, Constants.OK);
+        assertEquals(Constants.OK, response);
     }
     @Test
     public void shouldFetchStory() throws Exception {
         Story story = storyService.fetchStory("testStoryId");
-        assertEquals(story, originalStory);
+        assertEquals(originalStory, story);
     }
 
     @Test
     public void shouldFetchComment() throws Exception {
         Comment comment = storyService.fetchComment("testStoryId");
-        assertEquals(comment, originalComment);
+        assertEquals(originalComment, comment);
     }
 
     @Test
