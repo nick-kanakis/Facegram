@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class AccessLogFilter extends ZuulFilter {
 
-    Logger logger = LoggerFactory.getLogger(AccessLogFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(AccessLogFilter.class);
 
     @Override
     public String filterType() {
