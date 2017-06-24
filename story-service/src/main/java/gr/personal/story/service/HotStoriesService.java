@@ -22,10 +22,10 @@ import java.util.List;
 @Service("HotStoriesService")
 public class HotStoriesService implements StoriesService {
 
-    Logger logger = LoggerFactory.getLogger(HotStoriesService.class);
+    private static final Logger logger = LoggerFactory.getLogger(HotStoriesService.class);
 
     @Autowired
-    StoryRepository storyRepository;
+    private StoryRepository storyRepository;
 
     @Autowired
     private CacheManager cacheManager;
@@ -55,35 +55,35 @@ public class HotStoriesService implements StoriesService {
     }
 
     private List<Story> hotStoriesOfUserFallback(String userId, Throwable t) {
-        logger.error("Hot Stories Fallback for userId: "+ userId +". Returning list from cache", t);
+        logger.warn("Hot Stories Fallback for userId: "+ userId +". Returning list from cache", t);
         if (cacheManager.getCache("HotStoriesOfUser") != null && cacheManager.getCache("HotStoriesOfUser").get(userId) != null) {
             return cacheManager.getCache("HotStoriesOfUser").get(userId, List.class);
         }
         else {
-            logger.error("Hot Stories Fallback for userId: "+ userId +". Cache is empty.");
+            logger.warn("Hot Stories Fallback for userId: "+ userId +". Cache is empty.");
             return new ArrayList<>();
         }
     }
 
     private List<Story> hotStoriesOfGroupFallback(String groupId, Throwable t) {
-        logger.error("Hot Stories Fallback for groupId: "+ groupId+". Returning list from cache", t);
+        logger.warn("Hot Stories Fallback for groupId: "+ groupId+". Returning list from cache", t);
         if (cacheManager.getCache("HotStoriesOfGroup") != null && cacheManager.getCache("HotStoriesOfGroup").get(groupId) != null) {
             return cacheManager.getCache("HotStoriesOfGroup").get(groupId, List.class);
         }
         else {
-            logger.error("Hot Stories Fallback for groupId: "+ groupId +". Cache is empty.");
+            logger.warn("Hot Stories Fallback for groupId: "+ groupId +". Cache is empty.");
             return new ArrayList<>();
         }
 
     }
 
     private List<Story> hotStoriesOfLocationFallback(Geolocation geolocation, Throwable t) {
-        logger.error("Hot Stories Fallback for Location: "+ geolocation+". Returning list from cache", t);
+        logger.warn("Hot Stories Fallback for Location: "+ geolocation+". Returning list from cache", t);
         if (cacheManager.getCache("HotStoriesOfLocation") != null && cacheManager.getCache("HotStoriesOfLocation").get(geolocation) != null) {
             return cacheManager.getCache("HotStoriesOfLocation").get(geolocation, List.class);
         }
         else {
-            logger.error("Hot Stories Fallback for geolocation: "+ geolocation +". Cache is empty.");
+            logger.warn("Hot Stories Fallback for geolocation: "+ geolocation +". Cache is empty.");
             return new ArrayList<>();
         }
     }

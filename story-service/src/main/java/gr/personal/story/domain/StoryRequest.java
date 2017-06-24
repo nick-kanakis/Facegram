@@ -1,10 +1,13 @@
 package gr.personal.story.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by Nick Kanakis on 11/5/2017.
  */
-public class StoryRequest {
+public class StoryRequest implements Serializable{
 
+    private static final long serialVersionUID = 1L;
     private String story;
     private String title;
     private String groupId;

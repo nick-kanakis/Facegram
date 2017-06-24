@@ -32,14 +32,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @ActiveProfiles("noEureka")
 public class TopStoriesControllerTest {
-
-
-    @Qualifier("TopStoriesService")
     @MockBean
+    @Qualifier("TopStoriesService")
     private StoriesService topStoriesService;
-
-    MockMvc mockMvc;
-
+    private MockMvc mockMvc;
     @InjectMocks
     private TopStoriesController topStoriesController;
 
@@ -51,7 +47,6 @@ public class TopStoriesControllerTest {
 
     @Test
     public void shouldGetTopStoriesOfUser() throws Exception{
-
         Story story = generateStory();
 
         when(topStoriesService.getStoriesOfUser("test")).thenReturn(ImmutableList.of(story));
@@ -62,18 +57,15 @@ public class TopStoriesControllerTest {
 
     @Test
     public void shouldGetTopStoriesOfLocation() throws Exception{
-
         Story story = generateStory();
-
         Geolocation geolocation = new Geolocation();
         geolocation.setLatitude(0);
         geolocation.setLongitude(0);
-
-        when(topStoriesService.getStoriesOfLocation(any(Geolocation.class))).thenReturn(ImmutableList.of(story));
-
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
         params.add("latitude",String.valueOf(geolocation.getLatitude()));
         params.add("longitude",String.valueOf(geolocation.getLongitude()));
+
+        when(topStoriesService.getStoriesOfLocation(any(Geolocation.class))).thenReturn(ImmutableList.of(story));
 
         mockMvc.perform(get("/topStories/location").params(params))
                 .andExpect(jsonPath("$[0].id").value(story.getId()))
@@ -82,7 +74,6 @@ public class TopStoriesControllerTest {
 
     @Test
     public void shouldGetTopStoriesOfGroup() throws Exception{
-
         Story story = generateStory();
 
         when(topStoriesService.getStoriesOfGroup("test")).thenReturn(ImmutableList.of(story));
@@ -90,6 +81,4 @@ public class TopStoriesControllerTest {
         mockMvc.perform(get("/topStories/group/test")).andExpect(jsonPath("$[0].id").value(story.getId()))
                 .andExpect(status().isOk());
     }
-
-
 }

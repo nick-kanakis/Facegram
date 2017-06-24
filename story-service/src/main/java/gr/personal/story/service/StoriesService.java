@@ -11,6 +11,8 @@ import java.util.List;
 public interface StoriesService {
 
     List<Story> getStoriesOfGroup(String groupId);
+
     List<Story> getStoriesOfLocation(Geolocation geolocation);
+
     List<Story> getStoriesOfUser(String userId);
 }

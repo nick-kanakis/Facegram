@@ -24,9 +24,8 @@ public class StoryRepositoryImpl implements CustomRepository {
 
     @Override
     public Comment findCommentById(String commentId) {
-        // Ids are not queried like other object you have to query them by ObjectId and not String!!
+        // Ids are not queried like other object you have to query them by ObjectId and not String!
         Story story = mongoTemplate.findOne(new Query(Criteria.where("comments.id").is(new ObjectId(commentId))), Story.class);
-
         return story.getCommentById(commentId);
     }
 
@@ -34,6 +33,7 @@ public class StoryRepositoryImpl implements CustomRepository {
     public void deleteCommentById(String commentId) {
         Story story = mongoTemplate.findOne(new Query(Criteria.where("comments.id").is(new ObjectId(commentId))), Story.class);
         story.deleteCommentById(commentId);
+
         mongoTemplate.save(story);
     }
 

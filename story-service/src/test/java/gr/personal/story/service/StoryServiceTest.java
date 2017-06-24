@@ -5,6 +5,7 @@ import gr.personal.story.domain.CommentRequest;
 import gr.personal.story.domain.Story;
 import gr.personal.story.domain.StoryRequest;
 import gr.personal.story.repository.StoryRepository;
+import gr.personal.story.util.Constants;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,13 +28,15 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(SpringRunner.class)
 public class StoryServiceTest {
-
     @Autowired
     private StoryService storyService;
-
+    @MockBean
+    private StoryRepository storyRepository;
+    private Comment originalComment;
+    private Story originalStory;
+    
     @TestConfiguration
     static class StoryServiceTestContextConfiguration {
-
         @Bean
         public StoryService storyService() {
             return new StoryServiceImpl();
@@ -43,12 +46,7 @@ public class StoryServiceTest {
             return new ConcurrentMapCacheManager("testCache");
         }
     }
-
-    @MockBean
-    private StoryRepository storyRepository;
-    private Comment originalComment;
-    private Story originalStory;
-
+    
     @Before
     public void setUp() throws Exception {
         originalStory = generateStory();
@@ -63,14 +61,14 @@ public class StoryServiceTest {
     public void shouldCreateComment() throws Exception {
         CommentRequest commentRequest = generateCommentRequest();
         String response = storyService.createComment("testUserId", "testStoryId",commentRequest);
-        assertEquals(response, "OK");
+        assertEquals(response, Constants.OK);
     }
 
     @Test
     public void shouldCreateStory() throws Exception {
         StoryRequest storyRequest = generateStoryRequest();
         String response = storyService.createStory("testUserId", storyRequest);
-        assertEquals(response, "OK");
+        assertEquals(response, Constants.OK);
     }
     @Test
     public void shouldFetchStory() throws Exception {
@@ -132,6 +130,4 @@ public class StoryServiceTest {
     public void shouldFailToDeleteComment() {
         storyService.deleteComment("", null);
     }
-
-
 }

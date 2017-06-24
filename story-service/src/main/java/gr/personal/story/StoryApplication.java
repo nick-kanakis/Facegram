@@ -45,13 +45,11 @@ public class StoryApplication {
         return new OAuth2RestTemplate(clientCredentialsResourceDetails());
     }
 
-
     @Bean
     @ConfigurationProperties(prefix = "security.oauth2.resource")
     public ClientCredentialsResourceDetails clientCredentialsResourceDetails(){
         return new ClientCredentialsResourceDetails();
     }
-
 
     @Bean
     @Primary

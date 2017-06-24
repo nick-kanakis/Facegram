@@ -1,4 +1,4 @@
-package gr.personal.story.setting;
+package gr.personal.story.configuration;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;

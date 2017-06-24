@@ -17,21 +17,20 @@ public class FakeDataGenerator {
     public static List<Story> generateStories(){
         Fairy fairy = Fairy.create();
         BaseProducer baseProducer = fairy.baseProducer();
-
         List<Story> stories = new ArrayList<>();
+
         for(int i=0; i<=baseProducer.randomBetween(1, 50); i++){
             stories.add(generateStory());
         }
+
         return stories;
     }
 
     public static Story generateStory(){
-
         Fairy fairy = Fairy.create();
         TextProducer textProducer = fairy.textProducer();
         BaseProducer baseProducer = fairy.baseProducer();
-
-        Story story = new Story.Builder<>()
+        Story story = new Story.Builder()
                 .title(textProducer.sentence())
                 .userId(String.valueOf(baseProducer.randomBetween(0, 999999999)))
                 .geolocation(getRandomGeoLocation())
@@ -45,12 +44,11 @@ public class FakeDataGenerator {
 
 
     public static Story generateStoryWithoutId(){
-
         Fairy fairy = Fairy.create();
         TextProducer textProducer = fairy.textProducer();
         BaseProducer baseProducer = fairy.baseProducer();
 
-        Story story = new Story.Builder<>()
+        Story story = new Story.Builder()
                 .title(textProducer.sentence())
                 .userId(String.valueOf(baseProducer.randomBetween(0, 999999999)))
                 .geolocation(getRandomGeoLocation())
@@ -62,23 +60,21 @@ public class FakeDataGenerator {
     }
 
     public static List<Comment> generateComments() {
-
         Fairy fairy = Fairy.create();
         BaseProducer baseProducer = fairy.baseProducer();
-
         List<Comment> comments = new ArrayList<>();
+
         for(int i=0; i<=baseProducer.randomBetween(2, 10); i++){
             comments.add(generateComment());
         }
+
         return comments;
     }
 
     public static Comment generateComment() {
-
         Fairy fairy = Fairy.create();
         TextProducer textProducer = fairy.textProducer();
         BaseProducer baseProducer = fairy.baseProducer();
-        DateProducer dateProducer = fairy.dateProducer();
 
         Comment comment = new Comment.Builder()
                 .storyId(String.valueOf(baseProducer.randomBetween(0, 999999999)))
@@ -92,7 +88,6 @@ public class FakeDataGenerator {
     }
 
     public static Geolocation getRandomGeoLocation(){
-
         Fairy fairy = Fairy.create();
         BaseProducer baseProducer = fairy.baseProducer();
 
@@ -101,19 +96,15 @@ public class FakeDataGenerator {
 
 
     public static StoryRequest generateStoryRequest() {
-
         Fairy fairy = Fairy.create();
         TextProducer textProducer = fairy.textProducer();
-        BaseProducer baseProducer = fairy.baseProducer();
 
         return new StoryRequest(textProducer.paragraph(),textProducer.sentence(),null, getRandomGeoLocation());
-
     }
 
     public static CommentRequest generateCommentRequest(){
         Fairy fairy = Fairy.create();
         TextProducer textProducer = fairy.textProducer();
-        BaseProducer baseProducer = fairy.baseProducer();
 
        return new CommentRequest(textProducer.sentence(),textProducer.sentence());
     }

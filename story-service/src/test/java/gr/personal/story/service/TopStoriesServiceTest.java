@@ -30,13 +30,14 @@ import static org.mockito.Matchers.anyString;
 
 @RunWith(SpringRunner.class)
 public class TopStoriesServiceTest {
-
     @Autowired
     private StoriesService topStoriesService;
+    @MockBean
+    private StoryRepository storyRepository;
+    private List<Story> originalStories;
 
     @TestConfiguration
     static class StoriesServiceTestContextConfiguration {
-
         @Bean
         public StoriesService topStoriesService() {
             return new TopStoriesService();
@@ -46,11 +47,6 @@ public class TopStoriesServiceTest {
             return new ConcurrentMapCacheManager("testCache");
         }
     }
-
-    @MockBean
-    private StoryRepository storyRepository;
-    private List<Story> originalStories;
-
 
     @Before
     public void setUp() throws Exception {
@@ -93,6 +89,4 @@ public class TopStoriesServiceTest {
     public void shouldFailToGetTopStoriesOfUser(){
         topStoriesService.getStoriesOfUser("");
     }
-
-
 }

@@ -32,13 +32,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @ActiveProfiles("noEureka")
 public class HotStoriesControllerTest {
-
-    @Qualifier("HotStoriesService")
     @MockBean
+    @Qualifier("HotStoriesService")
     private StoriesService hotStoriesService;
-
-    MockMvc mockMvc;
-
+    private MockMvc mockMvc;
     @InjectMocks
     private HotStoriesController hotStoriesController;
 
@@ -48,10 +45,8 @@ public class HotStoriesControllerTest {
         this.mockMvc = MockMvcBuilders.standaloneSetup(hotStoriesController).build();
     }
 
-
     @Test
     public void shouldGetHotStoriesOfUser() throws Exception{
-
         Story story = generateStory();
 
         when(hotStoriesService.getStoriesOfUser("test")).thenReturn(ImmutableList.of(story));
@@ -62,18 +57,15 @@ public class HotStoriesControllerTest {
 
     @Test
     public void shouldGetHotStoriesOfLocation() throws Exception{
-
         Story story = generateStory();
-
         Geolocation geolocation = new Geolocation();
         geolocation.setLatitude(0);
         geolocation.setLongitude(0);
-
-        when(hotStoriesService.getStoriesOfLocation(any(Geolocation.class))).thenReturn(ImmutableList.of(story));
-
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
         params.add("latitude",String.valueOf(geolocation.getLatitude()));
         params.add("longitude",String.valueOf(geolocation.getLongitude()));
+
+        when(hotStoriesService.getStoriesOfLocation(any(Geolocation.class))).thenReturn(ImmutableList.of(story));
 
         mockMvc.perform(get("/hotStories/location").params(params))
                 .andExpect(jsonPath("$[0].id").value(story.getId()))
@@ -82,7 +74,6 @@ public class HotStoriesControllerTest {
 
     @Test
     public void shouldGetHotStoriesOfGroup() throws Exception{
-
         Story story = generateStory();
 
         when(hotStoriesService.getStoriesOfGroup("test")).thenReturn(ImmutableList.of(story));
@@ -90,6 +81,4 @@ public class HotStoriesControllerTest {
         mockMvc.perform(get("/hotStories/group/test")).andExpect(jsonPath("$[0].id").value(story.getId()))
                 .andExpect(status().isOk());
     }
-
-
 }

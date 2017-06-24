@@ -22,8 +22,7 @@ public class Story extends AbstractEntity{
     private List<Comment> comments;
     private Geolocation geolocation;
 
-
-    public static class Builder<T extends Builder>{
+    public static class Builder{
         private String title;
         private String id;
         private String userId;

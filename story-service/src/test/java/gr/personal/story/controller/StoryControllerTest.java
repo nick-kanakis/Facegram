@@ -19,6 +19,7 @@ import static gr.personal.story.helper.FakeDataGenerator.generateComment;
 import static gr.personal.story.helper.FakeDataGenerator.generateStory;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -32,13 +33,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @ActiveProfiles("noEureka")
 public class StoryControllerTest {
-
-
     @MockBean
     private StoryService storyService;
-
-    MockMvc mockMvc;
-
+    private MockMvc mockMvc;
     @InjectMocks
     private StoryController storyController;
 
@@ -61,7 +58,6 @@ public class StoryControllerTest {
 
     @Test
     public void shouldCreateStory() throws Exception {
-
         StoryRequest storyRequest = new StoryRequest("test","test","1",new Geolocation(0.0,0.0));
 
         when(storyService.createStory(anyString(), any(StoryRequest.class))).thenReturn("OK");
@@ -74,11 +70,8 @@ public class StoryControllerTest {
 
     }
 
-
     @Test
     public void shouldDeleteStory() throws Exception {
-        Story story = generateStory();
-
         when(storyService.deleteStory(anyString(), anyString())).thenReturn("OK");
 
         mockMvc.perform(delete("/story/delete/test").principal(new UserPrincipal("testUserId")))
@@ -88,8 +81,6 @@ public class StoryControllerTest {
 
     @Test
     public void shouldLikeStory() throws Exception {
-        Story story = generateStory();
-
         when(storyService.likeStory(anyString())).thenReturn("OK");
 
         mockMvc.perform(post("/story/like/test"))
@@ -99,8 +90,6 @@ public class StoryControllerTest {
 
     @Test
     public void shouldUnLikeStory() throws Exception {
-        Story story = generateStory();
-
         when(storyService.unlikeStory(anyString())).thenReturn("OK");
 
         mockMvc.perform(post("/story/unlike/test"))
@@ -110,11 +99,9 @@ public class StoryControllerTest {
 
     @Test
     public void shouldCreateComment() throws Exception{
-
         CommentRequest comment = new CommentRequest("testHeader","test");
 
-
-        when(storyService.createComment("testUserId", anyString(), any(CommentRequest.class))).thenReturn("OK");
+        when(storyService.createComment(eq("testUserId"), anyString(), any(CommentRequest.class))).thenReturn("OK");
 
         mockMvc.perform(post("/story/comment/testStoryId").contentType(MediaType.APPLICATION_JSON)
                             .content(asJsonString(comment)).principal(new UserPrincipal("testUserId")))
@@ -124,7 +111,6 @@ public class StoryControllerTest {
 
     @Test
     public void shouldDeleteComment() throws Exception{
-
         when(storyService.deleteComment(anyString(), anyString())).thenReturn("OK");
 
         mockMvc.perform(delete("/story/uncomment/testCommentId").principal(new UserPrincipal("testUserId")))
@@ -134,7 +120,6 @@ public class StoryControllerTest {
 
     @Test
     public void shouldFetchComment() throws Exception{
-
         Comment comment = generateComment();
 
         when(storyService.fetchComment(anyString())).thenReturn(comment);
@@ -143,7 +128,6 @@ public class StoryControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(comment.getId()));
     }
-
 
     private String asJsonString(Object input) {
         try {
@@ -154,5 +138,4 @@ public class StoryControllerTest {
             throw new RuntimeException(e);
         }
     }
-
 }

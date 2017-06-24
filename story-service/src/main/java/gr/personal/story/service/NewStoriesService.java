@@ -22,10 +22,10 @@ import java.util.List;
 @Service("NewStoriesService")
 public class NewStoriesService implements StoriesService {
 
-    Logger logger = LoggerFactory.getLogger(NewStoriesService.class);
+    private static final Logger logger = LoggerFactory.getLogger(NewStoriesService.class);
 
     @Autowired
-    StoryRepository storyRepository;
+    private StoryRepository storyRepository;
 
     @Autowired
     private CacheManager cacheManager;
@@ -34,7 +34,6 @@ public class NewStoriesService implements StoriesService {
     @HystrixCommand(fallbackMethod = "newStoriesOfUserFallback", ignoreExceptions = IllegalArgumentException.class)
     public List<Story> getStoriesOfUser(String userId) {
         Assert.hasLength(userId, "New stories of user input was null or empty");
-
         return storyRepository.findNewStoriesOfUser(userId);
     }
 
@@ -53,34 +52,34 @@ public class NewStoriesService implements StoriesService {
     }
 
     private List<Story> newStoriesOfUserFallback(String userId, Throwable t) {
-        logger.error("New Stories Fallback for UserId "+userId+". Returning list from cache", t);
+        logger.warn("New Stories Fallback for UserId "+userId+". Returning list from cache", t);
         if (cacheManager.getCache("NewStoriesOfUser") != null && cacheManager.getCache("NewStoriesOfUser").get(userId) != null) {
             return cacheManager.getCache("NewStoriesOfUser").get(userId, List.class);
         }
         else {
-            logger.error("New Stories Fallback for userId: "+ userId +". Cache is empty.");
+            logger.warn("New Stories Fallback for userId: "+ userId +". Cache is empty.");
             return new ArrayList<>();
         }
     }
 
     private List<Story> newStoriesOfLocationFallback(Geolocation geolocation, Throwable t) {
-        logger.error("New Stories Fallback for Location " + geolocation+". Returning list from cache", t);
+        logger.warn("New Stories Fallback for Location " + geolocation+". Returning list from cache", t);
         if (cacheManager.getCache("NewStoriesOfLocation") != null && cacheManager.getCache("NewStoriesOfLocation").get(geolocation) != null) {
             return cacheManager.getCache("NewStoriesOfLocation").get(geolocation, List.class);
         }
         else {
-            logger.error("New Stories Fallback for userId: "+ geolocation +". Cache is empty.");
+            logger.warn("New Stories Fallback for userId: "+ geolocation +". Cache is empty.");
             return new ArrayList<>();
         }
     }
 
     private List<Story> newStoriesOfGroupFallback(String groupId, Throwable t) {
-        logger.error("New Stories Fallback for GroupId "+groupId+". Returning list from cache", t);
+        logger.warn("New Stories Fallback for GroupId "+groupId+". Returning list from cache", t);
         if (cacheManager.getCache("NewStoriesOfGroup") != null && cacheManager.getCache("NewStoriesOfGroup").get(groupId) != null) {
             return cacheManager.getCache("NewStoriesOfGroup").get(groupId, List.class);
         }
         else {
-            logger.error("New Stories Fallback for groupId: "+ groupId +". Cache is empty.");
+            logger.warn("New Stories Fallback for groupId: "+ groupId +". Cache is empty.");
             return new ArrayList<>();
         }
     }

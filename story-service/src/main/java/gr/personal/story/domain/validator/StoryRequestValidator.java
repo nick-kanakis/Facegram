@@ -21,12 +21,9 @@ public class StoryRequestValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"title","title.empty");
-
         StoryRequest storyRequest = (StoryRequest) o;
         geolocationValidator = new GeolocationValidator();
-
         ValidationUtils.invokeValidator(this.geolocationValidator, storyRequest.getGeolocation(), errors);
 
     }

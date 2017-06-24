@@ -26,10 +26,10 @@ import java.util.List;
 @RequestMapping("/topStories")
 public class TopStoriesController {
 
-    Logger logger = LoggerFactory.getLogger(TopStoriesController.class);
+    private static final Logger logger = LoggerFactory.getLogger(TopStoriesController.class);
 
-    @Qualifier("TopStoriesService")
     @Autowired
+    @Qualifier("TopStoriesService")
     private StoriesService storiesService;
 
     @LogExecutionTime
@@ -44,6 +44,7 @@ public class TopStoriesController {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .body(topStoriesOfUser);
     }
+
     @LogExecutionTime
     @RequestMapping(path = "/location", method = RequestMethod.GET)
     @PreAuthorize("#oauth2.hasScope('server')")
@@ -56,6 +57,7 @@ public class TopStoriesController {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .body(topStoriesOfLocation);
     }
+
     @LogExecutionTime
     @RequestMapping(path = "/group/{groupId}", method = RequestMethod.GET)
     @PreAuthorize("#oauth2.hasScope('server')")

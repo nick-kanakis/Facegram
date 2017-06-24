@@ -6,6 +6,7 @@ import gr.personal.story.domain.CommentRequest;
 import gr.personal.story.domain.Story;
 import gr.personal.story.domain.StoryRequest;
 import gr.personal.story.repository.StoryRepository;
+import gr.personal.story.util.Constants;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,17 +22,17 @@ import org.springframework.util.Assert;
 @Service
 public class StoryServiceImpl implements StoryService{
 
-    Logger logger = LoggerFactory.getLogger(StoryServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(StoryServiceImpl.class);
 
     @Autowired
-    StoryRepository storyRepository;
+    private StoryRepository storyRepository;
 
     @Override
     @HystrixCommand(fallbackMethod = "fallbackCreateStory", ignoreExceptions = IllegalArgumentException.class)
     public String createStory(String username, StoryRequest storyRequest) {
         Assert.notNull(storyRequest, "createStory input is null");
 
-        Story story = new Story.Builder<>()
+        Story story = new Story.Builder()
                 .userId(username)
                 .geolocation(storyRequest.getGeolocation())
                 .title(storyRequest.getTitle())
@@ -41,7 +42,7 @@ public class StoryServiceImpl implements StoryService{
 
         storyRepository.save(story);
 
-        return "OK";
+        return Constants.OK;
     }
 
     @Override
@@ -55,29 +56,29 @@ public class StoryServiceImpl implements StoryService{
     @HystrixCommand(fallbackMethod = "fallbackDeleteStory", ignoreExceptions = IllegalArgumentException.class)
     public String deleteStory(String storyId, String userId) {
         Assert.hasLength(storyId, "deleteStory input was null or empty");
-        Story story = storyRepository.findById(storyId);
 
+        Story story = storyRepository.findById(storyId);
         if(!userId.equals(story.getUserId()))
             throw new UnauthorizedUserException("Unauthorized user for this action");
 
         storyRepository.delete(storyId);
-        return "OK";
+        return Constants.OK;
     }
 
     @Override
     @HystrixCommand(fallbackMethod = "fallbackLikeStory", ignoreExceptions = IllegalArgumentException.class)
     public String likeStory(String storyId) {
         Assert.hasLength(storyId, "likeStory input was null or empty");
-        Story story = storyRepository.findById(storyId);
 
+        Story story = storyRepository.findById(storyId);
         if(story ==null){
             logger.error("There is no story with id={}", storyId);
-            return "NOK";
+            return Constants.NOK;
         }
 
         story.like();
         storyRepository.save(story);
-        return "OK";
+        return Constants.OK;
     }
 
     @Override
@@ -86,15 +87,14 @@ public class StoryServiceImpl implements StoryService{
         Assert.hasLength(storyId, "unlikeStory input was null or empty");
 
         Story story = storyRepository.findById(storyId);
-
         if(story ==null){
             logger.error("There is no story with id={}", storyId);
-            return "NOK";
+            return Constants.NOK;
         }
 
         story.unlike();
         storyRepository.save(story);
-        return "OK";
+        return Constants.OK;
     }
 
     @Override
@@ -112,14 +112,13 @@ public class StoryServiceImpl implements StoryService{
                 .build();
 
         Story story = storyRepository.findById(storyId);
-
         if(story ==null){
             logger.error("There is no story with id={}", storyId);
-            return "NOK";
+            return Constants.NOK;
         }
-        story.getComments().add(comment);
+        story.addComment(comment);
         storyRepository.save(story);
-        return "OK";
+        return Constants.OK;
     }
 
     @Override
@@ -132,7 +131,7 @@ public class StoryServiceImpl implements StoryService{
             throw new UnauthorizedUserException("Unauthorized user for this action");
 
         storyRepository.deleteCommentById(commentId);
-        return "OK";
+        return Constants.OK;
     }
 
     @Override
@@ -144,7 +143,7 @@ public class StoryServiceImpl implements StoryService{
 
     private String fallbackCreateStory(String username, StoryRequest story, Throwable t) {
         logger.error("Create story fallback method for Story Title: " + story.getTitle()+". Returning NOK", t);
-        return "NOK";
+        return Constants.NOK;
     }
 
     private Story fallbackFetchStory(String storyId, Throwable t){
@@ -154,27 +153,27 @@ public class StoryServiceImpl implements StoryService{
 
     private String fallbackDeleteStory(String storyId, String userId, Throwable t) {
         logger.error("Delete story fallback method for StoryId: " + storyId+". Returning NOK", t);
-        return "NOK";
+        return Constants.NOK;
     }
 
     private String fallbackLikeStory(String storyId, Throwable t) {
         logger.error("Like story fallback method for StoryId: " + storyId+". Returning NOK", t);
-        return "NOK";
+        return Constants.NOK;
     }
 
     private String fallbackUnlikeStory(String storyId, Throwable t) {
         logger.error("Unlike story fallback method for StoryId: " + storyId+". Returning NOK", t);
-        return "NOK";
+        return Constants.NOK;
     }
 
     private String fallbackCreateComment(String username, String storyId, CommentRequest comment, Throwable t) {
         logger.error("Create comment fallback method for StoryId: " + storyId+". Returning NOK", t);
-        return "NOK";
+        return Constants.NOK;
     }
 
     private String fallbackDeleteComment(String commentId, String userId, Throwable t) {
         logger.error("Delete comment fallback method for CommentId: " + commentId+". Returning NOK", t);
-        return "NOK";
+        return Constants.NOK;
     }
 
     private Comment fallbackFetchComment(String commentId, Throwable t){

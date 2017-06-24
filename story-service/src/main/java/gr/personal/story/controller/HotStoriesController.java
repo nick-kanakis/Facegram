@@ -26,12 +26,11 @@ import java.util.List;
 @RequestMapping("/hotStories")
 public class HotStoriesController {
 
-    Logger logger = LoggerFactory.getLogger(HotStoriesController.class);
+    private static final Logger logger = LoggerFactory.getLogger(HotStoriesController.class);
 
-    @Qualifier("HotStoriesService")
     @Autowired
+    @Qualifier("HotStoriesService")
     private StoriesService storiesService;
-
 
     @LogExecutionTime
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
@@ -46,10 +45,11 @@ public class HotStoriesController {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .body(hotStoriesOfUser);
     }
+
     @LogExecutionTime
     @RequestMapping(path = "/location", method = RequestMethod.GET)
     @PreAuthorize("#oauth2.hasScope('server')")
-    public ResponseEntity<List<Story>> getHotStoriesOfLocation( Geolocation geolocation) throws ParseException {
+    public ResponseEntity<List<Story>> getHotStoriesOfLocation(Geolocation geolocation) throws ParseException {
         logger.debug("Entering getHotStoriesOfLocation (geolocation={})", geolocation);
         List<Story> hotStoriesOfLocation = storiesService.getStoriesOfLocation(geolocation);
         logger.debug("Exiting getHotStoriesOfLocation (geolocation={}, numberOfStories={})", geolocation, hotStoriesOfLocation.size());
@@ -58,6 +58,7 @@ public class HotStoriesController {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .body(hotStoriesOfLocation);
     }
+
     @LogExecutionTime
     @RequestMapping(path = "/group/{groupId}", method = RequestMethod.GET)
     @PreAuthorize("#oauth2.hasScope('server')")

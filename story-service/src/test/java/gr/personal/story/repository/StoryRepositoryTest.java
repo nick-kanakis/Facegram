@@ -27,9 +27,9 @@ import static gr.personal.story.helper.FakeDataGenerator.generateStoryWithoutId;
 @DataMongoTest
 @ActiveProfiles("repository")
 public class StoryRepositoryTest {
-
     @Autowired
     private StoryRepository storyRepository;
+    private Story story;
 
     @TestConfiguration
     static class TestContextConfiguration{
@@ -38,16 +38,11 @@ public class StoryRepositoryTest {
         public ResourceServerProperties resourceServerProperties(){
             return new ResourceServerProperties();
         }
-
     }
-
-    private Story story;
 
     @Before
     public void setUp(){
-
         story = generateStoryWithoutId();
-
         Assert.assertNull(story.getId());
         this.storyRepository.save(story);
         Assert.assertNotNull(story.getId());
@@ -67,12 +62,10 @@ public class StoryRepositoryTest {
 
     @Test
     public void shouldUpdateData(){
-
         Story retrievedStory = storyRepository.findById(story.getId());
         retrievedStory.addComment(generateComment());
         storyRepository.save(retrievedStory);
         Story updatedStory = storyRepository.findById(story.getId());
         Assert.assertNotNull(updatedStory.getComments());
     }
-
 }

@@ -12,7 +12,6 @@ import org.springframework.validation.Validator;
 @Component("beforeCreateCommentRequestValidator")
 public class CommentRequestValidator implements Validator {
 
-
     @Override
     public boolean supports(Class<?> aClass) {
         return CommentRequest.class.equals(aClass);
@@ -20,9 +19,6 @@ public class CommentRequestValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-
-        CommentRequest commentRequest = (CommentRequest) o;
-
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"header","header.empty");
     }
 }
