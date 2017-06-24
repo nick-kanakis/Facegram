@@ -1,4 +1,4 @@
-package gr.personal.auth.setting;
+package gr.personal.auth.configuration;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
@@ -30,5 +30,4 @@ public class MongoConfig extends AbstractMongoConfiguration {
     public Mongo mongo() throws Exception {
         return new MongoClient(HOST_NAME, PORT);
     }
-
 }

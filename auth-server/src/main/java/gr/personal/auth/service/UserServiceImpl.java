@@ -18,7 +18,7 @@ import org.springframework.util.Assert;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     @Autowired
     private UserRepository repository;

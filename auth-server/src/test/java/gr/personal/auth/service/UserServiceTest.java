@@ -27,21 +27,17 @@ public class UserServiceTest {
 
     @Autowired
     private UserService userService;
-
+    @MockBean
+    private UserRepository userRepository;
     private User user;
-
 
     @TestConfiguration
     static class UserServiceTestContextConfiguration {
-
         @Bean
         public UserService userService() {
             return new UserServiceImpl();
         }
     }
-
-    @MockBean
-    UserRepository userRepository;
 
     @Before
     public void setUp() throws Exception {

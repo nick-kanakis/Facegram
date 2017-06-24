@@ -1,4 +1,4 @@
-package gr.personal.auth.setting;
+package gr.personal.auth.configuration;
 
 import gr.personal.auth.repository.UserRepository;
 import gr.personal.auth.service.UserServiceImpl;
@@ -20,7 +20,6 @@ public class GlobalAuthenticationConfiguration extends GlobalAuthenticationConfi
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private UserServiceImpl userService;
 

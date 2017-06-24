@@ -1,4 +1,4 @@
-package gr.personal.auth.setting;
+package gr.personal.auth.configuration;
 
 import gr.personal.auth.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
  * Created by Nick Kanakis on 4/6/2017.
  */
 
-
 /*
 * Authorization server is the one responsible for verifying credentials and if credentials are OK,
 * providing the tokens[refresh-token as well as access-token]. It also contains information about registered
@@ -33,11 +32,8 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     private String STORY_SERVICE_PASSWORD;
     @Value("${password.group-service}")
     private String GROUP_SERVICE_PASSWORD;
-
-
     @Autowired
     private AuthenticationManager authenticationManager;
-
     @Autowired
     private UserServiceImpl userService;
 

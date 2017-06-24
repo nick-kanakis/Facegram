@@ -32,12 +32,9 @@ public class UserControllerTest {
 
     @Mock
     private UserService userService;
-
     @InjectMocks
     private UserController userController;
-
     private static final ObjectMapper mapper = new ObjectMapper();
-
     private MockMvc mockMvc;
 
     @Before
@@ -63,5 +60,4 @@ public class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk());
     }
-
 }
