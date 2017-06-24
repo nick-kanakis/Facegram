@@ -51,6 +51,10 @@ public class NewStoriesService implements StoriesService {
         return storyRepository.findNewStoriesOfGroup(groupId);
     }
 
+    /**
+     * Hystrix Fallback Classes
+     **/
+
     private List<Story> newStoriesOfUserFallback(String userId, Throwable t) {
         logger.warn("New Stories Fallback for UserId "+userId+". Returning list from cache", t);
         if (cacheManager.getCache("NewStoriesOfUser") != null && cacheManager.getCache("NewStoriesOfUser").get(userId) != null) {

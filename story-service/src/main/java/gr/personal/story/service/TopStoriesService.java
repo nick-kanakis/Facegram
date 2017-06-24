@@ -51,6 +51,10 @@ public class TopStoriesService implements StoriesService {
         return storyRepository.findTopStoriesOfGroup(groupId);
     }
 
+    /**
+     * Hystrix Fallback Classes
+     **/
+
     private List<Story> topStoriesOfUserFallback(String userId, Throwable t) {
         logger.warn("Top Stories Fallback for userId: "+ userId+". Returning list from cache", t);
         if (cacheManager.getCache("TopStoriesOfUser") != null && cacheManager.getCache("TopStoriesOfUser").get(userId) != null) {

@@ -141,6 +141,10 @@ public class StoryServiceImpl implements StoryService{
         return storyRepository.findCommentById(commentId);
     }
 
+    /**
+     * Hystrix Fallback Classes
+     **/
+
     private String fallbackCreateStory(String username, StoryRequest story, Throwable t) {
         logger.error("Create story fallback method for Story Title: " + story.getTitle()+". Returning NOK", t);
         return Constants.NOK;

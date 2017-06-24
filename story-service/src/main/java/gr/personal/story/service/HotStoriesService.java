@@ -54,6 +54,10 @@ public class HotStoriesService implements StoriesService {
         return  storyRepository.findHotStoriesOfUser(userId);
     }
 
+    /**
+     * Hystrix Fallback Classes
+     **/
+
     private List<Story> hotStoriesOfUserFallback(String userId, Throwable t) {
         logger.warn("Hot Stories Fallback for userId: "+ userId +". Returning list from cache", t);
         if (cacheManager.getCache("HotStoriesOfUser") != null && cacheManager.getCache("HotStoriesOfUser").get(userId) != null) {
