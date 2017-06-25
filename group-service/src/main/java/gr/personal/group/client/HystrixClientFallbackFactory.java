@@ -17,20 +17,18 @@ import java.util.List;
  */
 @Component
 public class HystrixClientFallbackFactory implements FallbackFactory<StoryClient> {
-    Logger logger = LoggerFactory.getLogger(HystrixClientFallbackFactory.class);
 
+    private static final Logger logger = LoggerFactory.getLogger(HystrixClientFallbackFactory.class);
     @Autowired
-    CacheManager cacheManager;
+    private CacheManager cacheManager;
 
     @Override
     public StoryClient create(Throwable throwable) {
         logger.error("HystrixClientFallbackFactory: ", throwable);
-
         return new StoryClient() {
             @Override
             public List<Story> getHotStories(@PathVariable("groupId") String groupId) {
                 logger.error("Retrieve Hot Stories fallback for groupId: "+ groupId + ". Returning List from Cache");
-
                 if (cacheManager.getCache("HotStories") != null && cacheManager.getCache("HotStories").get(groupId) != null) {
                     return cacheManager.getCache("HotStories").get(groupId, List.class);
                 }
@@ -43,7 +41,6 @@ public class HystrixClientFallbackFactory implements FallbackFactory<StoryClient
             @Override
             public List<Story> getNewStories(@PathVariable("groupId") String groupId) {
                 logger.error("Retrieve New Stories fallback for groupId: "+ groupId + ". Returning List from Cache");
-
                 if (cacheManager.getCache("NewStories") != null && cacheManager.getCache("NewStories").get(groupId) != null) {
                     return cacheManager.getCache("NewStories").get(groupId, List.class);
                 }
@@ -56,7 +53,6 @@ public class HystrixClientFallbackFactory implements FallbackFactory<StoryClient
             @Override
             public List<Story> getTopStories(@PathVariable("groupId") String groupId) {
                 logger.error("Retrieve Top Stories fallback for groupId: "+ groupId + ". Returning List from Cache");
-
                 if (cacheManager.getCache("TopStories") != null && cacheManager.getCache("TopStories").get(groupId) != null) {
                     return cacheManager.getCache("TopStories").get(groupId, List.class);
                 }
@@ -65,7 +61,6 @@ public class HystrixClientFallbackFactory implements FallbackFactory<StoryClient
                     return new ArrayList<>();
                 }
             }
-
         };
     }
 }

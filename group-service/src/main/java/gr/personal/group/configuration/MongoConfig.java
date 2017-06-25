@@ -1,4 +1,4 @@
-package gr.personal.group.setting;
+package gr.personal.group.configuration;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;

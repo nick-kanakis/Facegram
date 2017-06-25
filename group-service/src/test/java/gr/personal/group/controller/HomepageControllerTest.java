@@ -33,12 +33,9 @@ public class HomepageControllerTest {
 
     @MockBean
     private HomepageService homepageService;
-
     private MockMvc mockMvc;
-
     @InjectMocks
     private HomepageController homepageController;
-
     private List<Story> stories = FakeDataGenerator.generateStories();
 
     @Before
@@ -46,7 +43,6 @@ public class HomepageControllerTest {
         initMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(homepageController).build();
     }
-
 
     @Test
     public void shouldGetHotStories() throws Exception {
@@ -76,6 +72,5 @@ public class HomepageControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].story").value(stories.get(0).getStory()));
-
     }
 }

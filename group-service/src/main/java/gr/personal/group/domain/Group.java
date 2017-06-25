@@ -3,6 +3,7 @@ package gr.personal.group.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +11,9 @@ import java.util.List;
  * Created by Nick Kanakis on 17/6/2017.
  */
 @Document(collection = "group")
-public class Group {
+public class Group implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Id
     private String id;
     public String name;

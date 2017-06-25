@@ -4,6 +4,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import gr.personal.group.domain.Group;
 import gr.personal.group.domain.GroupRequest;
 import gr.personal.group.repository.GroupRepository;
+import gr.personal.group.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,11 @@ import org.springframework.util.Assert;
 @Service
 public class AdministrativeServiceImpl implements AdministrativeService {
 
-    Logger logger = LoggerFactory.getLogger(AdministrativeServiceImpl.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(AdministrativeServiceImpl.class);
     @Autowired
     private GroupRepository groupRepository;
-
     @Autowired
-    CacheManager cacheManager;
+    private CacheManager cacheManager;
 
     @Override
     @HystrixCommand(fallbackMethod = "followGroupFallback", ignoreExceptions = IllegalArgumentException.class)
@@ -34,11 +33,11 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         Group group = groupRepository.findOne(groupId);
         if(group == null){
             logger.warn("No group with id={} was found.", groupId);
-            return "NOK";
+            return Constants.NOK;
         }
         group.addFollower();
         groupRepository.save(group);
-        return "OK";
+        return Constants.OK;
     }
 
     @Override
@@ -48,11 +47,11 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         Group group = groupRepository.findOne(groupId);
         if(group == null){
             logger.warn("No group with id={} was found.", groupId);
-            return "NOK";
+            return Constants.NOK;
         }
         group.removeFollower();
         groupRepository.save(group);
-        return "OK";
+        return Constants.OK;
     }
 
     @Override
@@ -61,7 +60,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         Assert.hasLength(username, "createGroup input is empty");
         Group group = new Group(username, groupRequest.getName(), groupRequest.getAbout(), groupRequest.getRelatedGroupIds());
         groupRepository.save(group);
-        return "OK";
+        return Constants.OK;
     }
 
     @Override
@@ -72,10 +71,8 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         Group group = groupRepository.findOne(groupId);
         if(group == null){
             logger.warn("No group with id={} was found.", groupId);
-            //todo: should I return new or null?
             return new Group();
         }
-
         return group;
     }
 
@@ -83,18 +80,14 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     @HystrixCommand(fallbackMethod = "deleteGroupFallback", ignoreExceptions = IllegalArgumentException.class)
     public String deleteGroup(String groupId, String username) {
         Assert.hasLength(groupId, "followGroup input is empty");
-        if(!checkUser(username, groupId)){
-            logger.warn("No group with id={} was found.", groupId);
-            return "NOK";
-        }
 
-        Group group = groupRepository.findOne(groupId);
-        if(group == null){
+        checkUser(username, groupId);
+        if(!groupRepository.exists(groupId)){
             logger.warn("No group with id={} was found.", groupId);
-            return "NOK";
+            return Constants.NOK;
         }
         groupRepository.delete(groupId);
-        return "OK";
+        return Constants.OK;
     }
 
     @Override
@@ -103,18 +96,14 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         Assert.hasLength(groupId, "followGroup input is empty");
         Assert.hasLength(username, "followGroup input is empty");
 
-        if(!checkUser(username, groupId)){
-            logger.warn("No group with id={} was found.", groupId);
-            return "NOK";
-        }
-
+        checkUser(username, groupId);
         Group group = groupRepository.findOne(groupId);
         group.setAbout(groupRequest.getAbout());
         group.setName(groupRequest.getName());
         group.setRelatedGroupIds(groupRequest.getRelatedGroupIds());
 
         groupRepository.save(group);
-        return "OK";
+        return Constants.OK;
 
     }
 
@@ -128,26 +117,27 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     }
 
 
-    /*Hystrix fallback methods*/
+    /**
+     * Hystrix fallback methods
+     * */
 
     public String followGroupFallback(String groupId, Throwable t){
         logger.error("Follow group fallback for groupId: " + groupId, t);
-        return "NOK";
+        return Constants.NOK;
     }
 
     public String unfollowGroupFallback(String groupId, Throwable t){
         logger.error("Unfollow group fallback for groupId: " + groupId, t);
-        return "NOK";
+        return Constants.NOK;
     }
 
     public String createGroupFallback(String username, GroupRequest groupRequest, Throwable t){
         logger.error("Create group fallback, group Name : " + groupRequest.getName(), t);
-        return "NOK";
+        return Constants.NOK;
     }
 
     public Group retrieveGroupFallback(String groupId, Throwable t) {
         logger.error("Retrieve group fallback for groupId: " + groupId + ". Returning Group from Cache", t);
-
         if (cacheManager.getCache("RetrieveGroup") != null && cacheManager.getCache("RetrieveGroup").get(groupId) != null) {
             return cacheManager.getCache("RetrieveGroup").get(groupId, Group.class);
         } else {
@@ -158,11 +148,11 @@ public class AdministrativeServiceImpl implements AdministrativeService {
 
     public String deleteGroupFallback(String groupId, String username, Throwable t) {
         logger.error("Delete group fallback for groupId: " + groupId, t);
-        return "NOK";
+        return Constants.NOK;
     }
 
     public String updateGroupFallback(String groupId, GroupRequest groupRequest, String username, Throwable t) {
         logger.error("Update group fallback for groupId: " + groupId, t);
-        return "NOK";
+        return Constants.NOK;
     }
 }

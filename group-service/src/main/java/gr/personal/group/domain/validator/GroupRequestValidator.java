@@ -16,9 +16,6 @@ public class GroupRequestValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-        GroupRequest groupRequest = (GroupRequest) o;
-
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"name","name.empty");
-
     }
 }

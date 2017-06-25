@@ -28,7 +28,6 @@ public class Story extends AbstractEntity{
         private String story;
         private String groupId;
 
-
         public Builder geolocation(Geolocation geolocation) {
             this.geolocation = geolocation;
             return this;
@@ -61,7 +60,6 @@ public class Story extends AbstractEntity{
         public Story build(){
             return new Story(this);
         }
-
     }
 
     protected Story(Builder builder){

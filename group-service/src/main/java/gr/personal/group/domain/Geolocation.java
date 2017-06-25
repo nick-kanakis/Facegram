@@ -1,10 +1,13 @@
 package gr.personal.group.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by Nick Kanakis on 4/5/2017.
  */
-public class Geolocation {
+public class Geolocation implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private double latitude;
     private double longitude;
 

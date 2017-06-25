@@ -23,8 +23,7 @@ import java.util.List;
 @RequestMapping("/homepage")
 public class HomepageController {
 
-    private Logger logger = LoggerFactory.getLogger(HomepageController.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(HomepageController.class);
     @Autowired
     private HomepageService homepageService;
 

@@ -5,6 +5,7 @@ import com.sun.security.auth.UserPrincipal;
 import gr.personal.group.domain.Group;
 import gr.personal.group.domain.GroupRequest;
 import gr.personal.group.service.AdministrativeService;
+import gr.personal.group.util.Constants;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,9 +34,7 @@ public class AdministrativeControllerTest {
 
     @MockBean
     private AdministrativeService administrativeService;
-
     private MockMvc mockMvc;
-
     @InjectMocks
     private AdministrativeController administrativeController;
 
@@ -47,69 +46,70 @@ public class AdministrativeControllerTest {
 
     @Test
     public void shouldFollow() throws Exception{
-        when(administrativeService.followGroup(anyString())).thenReturn("OK");
+        when(administrativeService.followGroup(anyString())).thenReturn(Constants.OK);
 
         mockMvc.perform(post("/administrative/follow/testGroupId")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(mvcResult -> "OK".equals(mvcResult));
+                .andExpect(mvcResult -> Constants.OK.equals(mvcResult));
     }
 
     @Test
     public void shouldUnfollow() throws Exception{
-        when(administrativeService.unfollowGroup(anyString())).thenReturn("OK");
+        when(administrativeService.unfollowGroup(anyString())).thenReturn(Constants.OK);
 
         mockMvc.perform(delete("/administrative/unfollow/testGroupId")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(mvcResult -> "OK".equals(mvcResult));
+                .andExpect(mvcResult -> Constants.OK.equals(mvcResult));
     }
 
     @Test
     public void shouldCreateGroup() throws Exception{
         GroupRequest groupRequest = new GroupRequest(null, "testName", "testAbout");
-        when(administrativeService.createGroup(anyString(), any(GroupRequest.class))).thenReturn("OK");
+
+        when(administrativeService.createGroup(anyString(), any(GroupRequest.class))).thenReturn(Constants.OK);
 
         mockMvc.perform(post("/administrative/create").principal(new UserPrincipal("testUserId"))
                 .content(asJsonString(groupRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(mvcResult -> "OK".equals(mvcResult));
+                .andExpect(mvcResult -> Constants.OK.equals(mvcResult));
     }
 
     @Test
     public void shouldRetrieveGroup() throws Exception{
         Group group = new Group("testModerator", "testName", "testAbout", null);
+
         when(administrativeService.retrieveGroup(anyString())).thenReturn(group);
 
         mockMvc.perform(get("/administrative/retrieve/testGroupId").principal(new UserPrincipal("testUserId"))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.moderator").value(group.getModerator()));
-
     }
 
     @Test
     public void shouldDeleteGroup() throws Exception{
-        when(administrativeService.deleteGroup(anyString(), anyString())).thenReturn("OK");
+        when(administrativeService.deleteGroup(anyString(), anyString())).thenReturn(Constants.OK);
 
         mockMvc.perform(delete("/administrative/delete/testGroupId").principal(new UserPrincipal("testUserId"))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(mvcResult -> "OK".equals(mvcResult));
+                .andExpect(mvcResult -> Constants.OK.equals(mvcResult));
     }
 
     @Test
     public void shouldUpdateGroup() throws Exception{
-        when(administrativeService.updateGroup(anyString(), any(GroupRequest.class), anyString())).thenReturn("OK");
-
         GroupRequest groupRequest = new GroupRequest(null, "testName", "testAbout");
+
+        when(administrativeService.updateGroup(anyString(), any(GroupRequest.class), anyString())).thenReturn(Constants.OK);
+
         mockMvc.perform(post("/administrative/update/testGroupId").principal(new UserPrincipal("testUserId"))
                 .content(asJsonString(groupRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(mvcResult -> "OK".equals(mvcResult));
-
+                .andExpect(mvcResult -> Constants.OK.equals(mvcResult));
     }
 
     private String asJsonString(Object input) {

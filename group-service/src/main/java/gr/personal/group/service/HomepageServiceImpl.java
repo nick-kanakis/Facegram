@@ -18,11 +18,9 @@ import java.util.List;
 @Service
 public class HomepageServiceImpl implements HomepageService {
 
-    Logger logger = LoggerFactory.getLogger(HomepageServiceImpl.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(HomepageServiceImpl.class);
     @Autowired
     private CacheManager cacheManager;
-
     @Autowired
     private StoryClient storyClient;
 
@@ -43,6 +41,4 @@ public class HomepageServiceImpl implements HomepageService {
         Assert.hasLength(groupId, "getNewStories input is empty or null");
         return storyClient.getNewStories(groupId);
     }
-
-
 }

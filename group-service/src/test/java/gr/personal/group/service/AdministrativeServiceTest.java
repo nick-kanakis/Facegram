@@ -3,6 +3,7 @@ package gr.personal.group.service;
 import gr.personal.group.domain.Group;
 import gr.personal.group.domain.GroupRequest;
 import gr.personal.group.repository.GroupRepository;
+import gr.personal.group.util.Constants;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,39 +28,35 @@ public class AdministrativeServiceTest {
 
     @Autowired
     private AdministrativeService administrativeService;
+    @MockBean
+    private GroupRepository groupRepository;
+    private Group group;
+    private GroupRequest groupRequest;
 
     @TestConfiguration
     static class AdministrativeTestContextConfiguration{
-
         @Bean
         public AdministrativeService administrativeService(){
             return new AdministrativeServiceImpl();
         }
-
         @Bean
         public CacheManager cacheManager(){
             return new ConcurrentMapCacheManager("testCache");
         }
     }
 
-    @MockBean
-    private GroupRepository groupRepository;
-
-    private Group group;
-    private GroupRequest groupRequest;
-
     @Before
     public void setUp() throws Exception {
-        group = new Group("testUsername", "testName", "testAbout", null);
-        groupRequest = new GroupRequest(null, "testName", "testAbout");
+        group = new Group("testUsername", "testGroupName", "testAbout", null);
+        groupRequest = new GroupRequest(null, "testGroupName", "testAbout");
         when(groupRepository.findOne(anyString())).thenReturn(group);
+        when(groupRepository.exists("testGroupName")).thenReturn(true);
     }
 
     @Test
     public void shouldFollow() throws Exception{
-        String result = administrativeService.followGroup("testGroupId");
-        assertEquals(result, "OK");
-
+        String result = administrativeService.followGroup("testGroupName");
+        assertEquals(Constants.OK, result);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -69,8 +66,8 @@ public class AdministrativeServiceTest {
 
     @Test
     public void shouldUnfollow() throws Exception{
-        String result = administrativeService.followGroup("testGroupId");
-        assertEquals(result, "OK");
+        String result = administrativeService.followGroup("testGroupName");
+        assertEquals(Constants.OK, result);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -81,7 +78,7 @@ public class AdministrativeServiceTest {
     @Test
     public void shouldCreateGroup() throws Exception{
         String result = administrativeService.createGroup("testUserName", groupRequest);
-        assertEquals(result, "OK");
+        assertEquals(Constants.OK, result);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -91,7 +88,7 @@ public class AdministrativeServiceTest {
 
     @Test
     public void shouldRetrieveGroup() throws Exception{
-        Group group = administrativeService.retrieveGroup("testGroupId");
+        Group group = administrativeService.retrieveGroup("testGroupName");
         assertEquals(group.getId(), this.group.getId());
     }
 
@@ -102,8 +99,8 @@ public class AdministrativeServiceTest {
 
     @Test
     public void shouldDeleteGroup() throws Exception{
-        String result = administrativeService.deleteGroup("testGroupId", "testUsername");
-        assertEquals(result, "OK");
+        String result = administrativeService.deleteGroup("testGroupName", "testUsername");
+        assertEquals(Constants.OK, result);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -113,12 +110,12 @@ public class AdministrativeServiceTest {
 
     @Test(expected = UnauthorizedUserException.class)
     public void shouldFailToDeleteGroupUnauthrizedUser() throws Exception{
-        administrativeService.deleteGroup("testGroupId", "testUsername2");
+        administrativeService.deleteGroup("testGroupName", "testUsername2");
     }
 
     @Test
     public void shouldUpdateGroup() throws Exception{
-        administrativeService.updateGroup("testGroupId", groupRequest ,"testUsername");
+        administrativeService.updateGroup("testGroupName", groupRequest ,"testUsername");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -128,6 +125,6 @@ public class AdministrativeServiceTest {
 
     @Test(expected = UnauthorizedUserException.class)
     public void shouldFailToUpdateGroupUnauthrizedUser() throws Exception{
-        administrativeService.updateGroup("testGroupId",groupRequest,"testUsername2");
+        administrativeService.updateGroup("testGroupName",groupRequest,"testUsername2");
     }
 }

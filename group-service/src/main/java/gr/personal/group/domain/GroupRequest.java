@@ -1,12 +1,14 @@
 package gr.personal.group.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Nick Kanakis on 17/6/2017.
  */
-public class GroupRequest {
+public class GroupRequest implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private List<String> relatedGroupIds;
     private String name;
     private String about;

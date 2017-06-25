@@ -65,5 +65,4 @@ public class GroupApplication {
     public ResourceServerTokenServices tokenServices() {
         return new CustomUserInfoTokenServices(resourceServerProperties.getUserInfoUri(), resourceServerProperties.getClientId());
     }
-
 }

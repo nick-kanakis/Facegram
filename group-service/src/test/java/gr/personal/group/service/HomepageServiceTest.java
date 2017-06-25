@@ -28,25 +28,21 @@ public class HomepageServiceTest {
 
     @Autowired
     private HomepageService homepageService;
+    @MockBean
+    private StoryClient storyClient;
+    private List<Story> stories;
 
     @TestConfiguration
     static class AdministrativeTestContextConfiguration{
-
         @Bean
         public HomepageService homepageService(){
             return new HomepageServiceImpl();
         }
-
         @Bean
         public CacheManager cacheManager(){
             return new ConcurrentMapCacheManager("testCache");
         }
     }
-
-    @MockBean
-    private StoryClient storyClient;
-
-    private List<Story> stories;
 
     @Before
     public void setUp() throws Exception {

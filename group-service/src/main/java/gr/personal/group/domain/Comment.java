@@ -9,7 +9,6 @@ public class Comment extends AbstractEntity {
 
     private String header;
     private String description;
-    //TODO: Should I store storyId?
     private String storyId;
 
     public String getHeader() {
@@ -21,7 +20,6 @@ public class Comment extends AbstractEntity {
     public String getStoryId() {
         return storyId;
     }
-
 
     public class Builder{
         private String id;

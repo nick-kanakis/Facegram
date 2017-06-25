@@ -3,7 +3,7 @@ spring:
     name: group-service
 
 server:
-  port: 0
+  port: 1002 #TODO: replace it with 0
   context-path: /group-service
 
 feign:
