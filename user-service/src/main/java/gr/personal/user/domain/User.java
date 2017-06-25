@@ -10,8 +10,9 @@ import java.util.List;
  * Created by Nick Kanakis on 9/5/2017.
  */
 @Document(collection = "users")
-public class User {
+public class User  {
 
+    private static final long serialVersionUID = 1L;
     @Id
     private String username;
     private String name;
@@ -53,7 +54,6 @@ public class User {
     public void removeFollowingGroupId(String followingGroupId) {
         this.followingGroupIds.remove(followingGroupId);
     }
-
 
     public Gender getGender() {
         return gender;
@@ -114,5 +114,4 @@ public class User {
     //Will be used only to avoid returning null object in case of exception
     public User() {
     }
-
 }

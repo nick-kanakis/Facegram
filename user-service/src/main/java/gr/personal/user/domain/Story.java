@@ -20,14 +20,13 @@ public class Story extends AbstractEntity{
     public Story() {
     }
 
-    public static class Builder<T extends Builder>{
+    public static class Builder{
         private String id;
         private String title;
         private String userId;
         private Geolocation geolocation;
         private String story;
         private String groupId;
-
 
         public Builder geolocation(Geolocation geolocation) {
             this.geolocation = geolocation;
@@ -61,7 +60,6 @@ public class Story extends AbstractEntity{
         public Story build(){
             return new Story(this);
         }
-
     }
 
     protected Story(Builder builder){

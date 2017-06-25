@@ -18,7 +18,7 @@ public class LogTimeExecutionAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(LogTimeExecutionAspect.class);
 
-    @Around("@annotation(gr.personal.user.aop.LogTimeExecution)")
+    @Around("@annotation(gr.personal.user.aop.annotation.LogTimeExecution)")
     public Object logTimeExecutionAspect(ProceedingJoinPoint joinPoint) throws Throwable{
         StopWatch stopWatch = new StopWatch(LogTimeExecutionAspect.class.getName());
         stopWatch.start(((MethodSignature) joinPoint.getSignature()).getMethod().getName());

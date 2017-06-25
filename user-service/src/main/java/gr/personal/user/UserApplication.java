@@ -29,8 +29,6 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
  * Created by Nick Kanakis on 9/5/2017.
  */
 
-//TODO: Fix startup Hystrix exception
-
 @SpringBootApplication
 @EnableOAuth2Client
 @EnableResourceServer
@@ -65,7 +63,6 @@ public class UserApplication extends ResourceServerConfigurerAdapter {
         return new ClientCredentialsResourceDetails();
     }
 
-
     @Bean
     @Primary
     public ResourceServerTokenServices tokenServices() {
@@ -78,5 +75,4 @@ public class UserApplication extends ResourceServerConfigurerAdapter {
                 .antMatchers("/administrative/createUser").permitAll()
                 .anyRequest().authenticated();
     }
-
 }

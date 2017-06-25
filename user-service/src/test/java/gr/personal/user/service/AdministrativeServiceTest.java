@@ -5,6 +5,7 @@ import gr.personal.user.client.GroupClient;
 import gr.personal.user.domain.User;
 import gr.personal.user.domain.UserRequest;
 import gr.personal.user.repository.UserRepository;
+import gr.personal.user.util.Constants;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,10 +33,17 @@ public class AdministrativeServiceTest {
 
     @Autowired
     private AdministrativeService administrativeService;
+    @MockBean
+    private AuthClient authClient;
+    @MockBean
+    private GroupClient groupClient;
+    @MockBean
+    private UserRepository userRepository;
+    private User originalUser;
+    private List<User> originalUsers;
 
     @TestConfiguration
     static class AdministrativeTestContextConfiguration{
-
         @Bean
         public AdministrativeService administrativeService(){
             return new AdministrativeServiceImpl();
@@ -46,25 +54,11 @@ public class AdministrativeServiceTest {
         }
     }
 
-    @MockBean
-    private AuthClient authClient;
-
-    @MockBean
-    private GroupClient groupClient;
-
-    @MockBean
-    private UserRepository userRepository;
-
-    private User originalUser;
-    private List<User> originalUsers;
-
     @Before
     public void setUp() throws Exception {
-
         originalUser = generateUser();
         originalUser.addFollowingGroupId("testGroupId");
         originalUsers = generateUsers();
-
 
         when(userRepository.findAll()).thenReturn(originalUsers);
         when(userRepository.findAll(anyCollection())).thenReturn(originalUsers);
@@ -73,14 +67,16 @@ public class AdministrativeServiceTest {
         when(userRepository.findByUsername(anyString())).thenReturn(originalUser);
         when(userRepository.save(any(User.class))).thenReturn(originalUser);
         when(userRepository.getGroupIdsByUsername(anyString())).thenReturn(originalUser);
-        when(groupClient.follow(anyString())).thenReturn("OK");
+        when(groupClient.follow(anyString())).thenReturn(Constants.OK);
+        when(groupClient.unFollow(anyString())).thenReturn(Constants.OK);
+
     }
 
     @Test
     public void shouldCreateUser() throws Exception {
         UserRequest userRequest = generateUserRequest();
         String result = administrativeService.createUser(userRequest);
-        assertEquals(result, "OK");
+        assertEquals(Constants.OK, result);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -92,7 +88,7 @@ public class AdministrativeServiceTest {
     public void shouldUpdateUser(){
         UserRequest userRequest = generateUserRequest();
         String result = administrativeService.updateUser(userRequest);
-        assertEquals(result, "OK");
+        assertEquals(Constants.OK, result);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -103,7 +99,7 @@ public class AdministrativeServiceTest {
     @Test
     public void shouldDeleteUser(){
         String result = administrativeService.deleteUser("testUsername");
-        assertEquals(result, "OK");
+        assertEquals(Constants.OK, result);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -114,7 +110,7 @@ public class AdministrativeServiceTest {
     @Test
     public void shouldRetrieveUser(){
         User user = administrativeService.retrieveUser("testUsername");
-        assertEquals(user, originalUser);
+        assertEquals(originalUser, user);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -125,7 +121,7 @@ public class AdministrativeServiceTest {
     @Test
     public void shouldAddFollowing(){
         String result = administrativeService.addFollowing("testUsername", "testFollowingUsername");
-        assertEquals(result, "OK");
+        assertEquals(Constants.OK, result);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -136,7 +132,7 @@ public class AdministrativeServiceTest {
     @Test
     public void shouldRemoveFollowing(){
         String result = administrativeService.removeFollowing("testUsername", "testFollowingUsername");
-        assertEquals(result, "OK");
+        assertEquals(Constants.OK, result);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -147,7 +143,7 @@ public class AdministrativeServiceTest {
     @Test
     public void shouldRetrieveFollowings(){
         List<User> followings = administrativeService.retrieveFollowings("testUsername");
-        assertEquals(followings, originalUsers);
+        assertEquals(originalUsers, followings);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -156,11 +152,10 @@ public class AdministrativeServiceTest {
     }
 
     /*Group */
-
     @Test
     public void shouldFollowGroup(){
-        String result = administrativeService.followGroup("testUsername", "testFollowingUsername");
-        assertEquals("OK", result);
+        String result = administrativeService.followGroup("testUsername", "testGroupId2");
+        assertEquals(Constants.OK, result);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -170,8 +165,8 @@ public class AdministrativeServiceTest {
 
     @Test
     public void shouldUnFollowGroup(){
-        String result = administrativeService.unFollowGroup("testUsername", "testFollowingUsername");
-        assertEquals("OK", result);
+        String result = administrativeService.unFollowGroup("testUsername", "testGroupId");
+        assertEquals(Constants.OK, result);
     }
 
     @Test(expected = IllegalArgumentException.class)

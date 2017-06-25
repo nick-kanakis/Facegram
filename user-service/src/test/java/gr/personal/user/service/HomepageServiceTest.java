@@ -33,6 +33,11 @@ public class HomepageServiceTest {
 
     @Autowired
     HomepageService homepageService;
+    @MockBean
+    private StoryClient storyClient;
+    @MockBean
+    private UserRepository userRepository;
+    private List<Story> originalStories;
 
     @TestConfiguration
     static class HomepageTestContextConfiguration{
@@ -47,17 +52,8 @@ public class HomepageServiceTest {
 
     }
 
-    @MockBean
-    private StoryClient storyClient;
-
-    @MockBean
-    private UserRepository userRepository;
-
-    List<Story> originalStories;
-
     @Before
     public void setUp() throws Exception {
-
         originalStories = generateStories();
 
         when(storyClient.getHotStoriesOfLocation(anyDouble(),anyDouble())).thenReturn(originalStories);
@@ -66,7 +62,6 @@ public class HomepageServiceTest {
         when(storyClient.getNewStoriesOfUser(anyString())).thenReturn(originalStories);
         when(storyClient.getTopStoriesOfUser(anyString())).thenReturn(originalStories);
         when(storyClient.getTopStoriesOfLocation(anyDouble(),anyDouble())).thenReturn(originalStories);
-
     }
 
     @Test

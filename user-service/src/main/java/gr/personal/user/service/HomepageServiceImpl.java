@@ -22,13 +22,11 @@ import java.util.List;
 @Service
 public class HomepageServiceImpl implements HomepageService {
 
+    private static final Logger logger = LoggerFactory.getLogger(HomepageServiceImpl.class);
     @Autowired
-    StoryClient client;
-
+    private StoryClient client;
     @Autowired
-    UserRepository userRepository;
-
-    Logger logger = LoggerFactory.getLogger(HomepageServiceImpl.class);
+    private UserRepository userRepository;
 
     @Override
     public List<Story> retrieveNewStories(String username, Geolocation geolocation) {
@@ -37,7 +35,6 @@ public class HomepageServiceImpl implements HomepageService {
 
         List<Story> newStoriesOfUser = new ArrayList<>();
         List<String> followingIds = new ArrayList<>();
-
         User user = userRepository.findByUsername(username);
 
         if(user!=null)
@@ -84,7 +81,6 @@ public class HomepageServiceImpl implements HomepageService {
 
         List<Story> topStoriesOfUser = new ArrayList<>();
         List<String> followingIds = new ArrayList<>();
-
         User user = userRepository.findByUsername(username);
 
         if(user!=null)
@@ -108,8 +104,7 @@ public class HomepageServiceImpl implements HomepageService {
         return stories;
     }
 
-    @Override
-    public List<Story> mergeAndRemoveDuplicates(List<Story> list1, List<Story> list2) {
+    private List<Story> mergeAndRemoveDuplicates(List<Story> list1, List<Story> list2) {
         list2.removeAll(list1);
         list1.addAll(list2);
         return list1;

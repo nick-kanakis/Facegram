@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
  *
  */
 public class CustomSimpleGrantedAuthority implements GrantedAuthority {
+
     private static final long serialVersionUID = 420L;
     private String role;
 

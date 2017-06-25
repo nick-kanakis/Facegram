@@ -3,7 +3,7 @@ spring:
     name: user-service
 
 server:
-  port: 0
+  port: 1001 #TODO: replace with 0
   context-path: /user-service
 
 #Mongo configuration

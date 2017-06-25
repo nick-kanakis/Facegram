@@ -1,10 +1,13 @@
 package gr.personal.user.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by Nick Kanakis on 4/5/2017.
  */
-public class Geolocation {
+public class Geolocation implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private double latitude;
     private double longitude;
 
@@ -32,7 +35,6 @@ public class Geolocation {
         this.longitude = longitude;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -42,7 +44,6 @@ public class Geolocation {
 
         if (Double.compare(that.latitude, latitude) != 0) return false;
         return Double.compare(that.longitude, longitude) == 0;
-
     }
 
     @Override

@@ -1,13 +1,15 @@
 package gr.personal.user.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Nick Kanakis on 8/6/2017.
  */
-public class RegistrationUser {
+public class RegistrationUser implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String username;
     private String password;
     private List<CustomSimpleGrantedAuthority> authorities;
@@ -17,8 +19,7 @@ public class RegistrationUser {
         this.password = password;
         this.authorities = new ArrayList<>();
 
-        //TODO do it with streams
-            for (String role:roles) {
+        for (String role : roles) {
             this.authorities.add(new CustomSimpleGrantedAuthority(role));
         }
     }

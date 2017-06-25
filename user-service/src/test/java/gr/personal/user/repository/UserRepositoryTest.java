@@ -26,34 +26,28 @@ import static gr.personal.user.helper.FakeDataGenerator.generateUser;
 public class UserRepositoryTest {
 
     @Autowired
-    UserRepository userRepository;
-
+    private UserRepository userRepository;
     private User user;
 
     @Before
     public void setup(){
         user = generateUser();
-
         userRepository.save(user);
         Assert.assertNotNull(user.getUsername());
     }
 
     @TestConfiguration
     static class UserRepositoryTestContextConfiguration{
-
         @Bean
         public ResourceServerProperties resourceServerProperties(){
             return new ResourceServerProperties();
         }
-
     }
-
 
     @After
     public void tearDown(){
         userRepository.delete(user.getUsername());
     }
-
 
     @Test
     public void shouldFetchUser() throws Throwable{
@@ -71,7 +65,6 @@ public class UserRepositoryTest {
         Assert.assertEquals(user.getName(), retrievedUser.getName());
     }
 
-
     @Test
     public void shouldReturnNullUser() throws Throwable{
         User user = userRepository.findByUsername("notExistingUsername");
@@ -82,8 +75,6 @@ public class UserRepositoryTest {
     public void shouldReturnUserByUsername() throws Exception {
         User retrievedUser = userRepository.findByUsername(user.getUsername());
         Assert.assertNotNull(retrievedUser);
-        Assert.assertEquals(retrievedUser.getUsername(),user.getUsername());
-
+        Assert.assertEquals(user.getUsername(), retrievedUser.getUsername());
     }
-
 }

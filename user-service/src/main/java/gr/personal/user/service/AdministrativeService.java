@@ -11,13 +11,22 @@ import java.util.List;
 public interface AdministrativeService {
 
     String createUser(UserRequest userRequest);
+
     String updateUser(UserRequest userRequest);
+
     String deleteUser(String username);
+
     User retrieveUser(String username);
+
     String addFollowing(String username, String followingUsername);
+
     String removeFollowing(String username, String followingUsername);
+
     List<User> retrieveFollowings(String username);
+
     String followGroup(String name, String groupId);
+
     String unFollowGroup(String name, String groupId);
+
     List<String> retrieveGroupIds(String username);
 }

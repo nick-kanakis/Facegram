@@ -6,6 +6,7 @@ import gr.personal.user.domain.Gender;
 import gr.personal.user.domain.User;
 import gr.personal.user.domain.UserRequest;
 import gr.personal.user.service.AdministrativeService;
+import gr.personal.user.util.Constants;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,9 +40,7 @@ public class AdministrativeControllerTest {
 
     @MockBean
     private AdministrativeService administrativeService;
-
     private MockMvc mockMvc;
-
     @InjectMocks
     private AdministrativeController administrativeController;
 
@@ -50,7 +49,6 @@ public class AdministrativeControllerTest {
         initMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(administrativeController).build();
     }
-
 
     @Test
     public void shouldCreateUser() throws Exception{
@@ -68,29 +66,27 @@ public class AdministrativeControllerTest {
     @Test
     public void shouldUpdateUser() throws Exception {
         UserRequest userRequest = new UserRequest("testUsername","testPassword","testName","testSurname",Gender.FEMALE);
-
-
-        when(administrativeService.updateUser(any(UserRequest.class))).thenReturn("OK");
+        
+        when(administrativeService.updateUser(any(UserRequest.class))).thenReturn(Constants.OK);
 
         mockMvc.perform(post("/administrative/updateUser").principal(new UserPrincipal(userRequest.getUsername()))
                 .content(asJsonString(userRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(mvcResult -> "OK".equals(mvcResult));
+                .andExpect(mvcResult -> Constants.OK.equals(mvcResult));
     }
 
     @Test
     public void shouldDeleteUser() throws Exception {
-        when(administrativeService.deleteUser(anyString())).thenReturn("OK");
+        when(administrativeService.deleteUser(anyString())).thenReturn(Constants.OK);
 
         mockMvc.perform(delete("/administrative/deleteUser/testUserId").principal(new UserPrincipal("testUserId")))
                 .andExpect(status().isOk())
-                .andExpect(mvcResult -> "OK".equals(mvcResult));
+                .andExpect(mvcResult -> Constants.OK.equals(mvcResult));
     }
 
     @Test
     public void shouldRetrieveUser() throws Exception {
-
         User user = generateUser();
 
         when(administrativeService.retrieveUser(anyString())).thenReturn(user);
@@ -102,30 +98,26 @@ public class AdministrativeControllerTest {
 
     @Test
     public void shouldAddFollowing() throws Exception {
-
-        when(administrativeService.addFollowing(anyString(), anyString())).thenReturn("OK");
+        when(administrativeService.addFollowing(anyString(), anyString())).thenReturn(Constants.OK);
 
         mockMvc.perform(post("/administrative/addFollowing/testFollowingId").principal(new UserPrincipal("testUserId")))
                 .andExpect(status().isOk())
-                .andExpect(mvcResult -> "OK".equals(mvcResult));
+                .andExpect(mvcResult -> Constants.OK.equals(mvcResult));
 
     }
 
     @Test
     public void shouldRemoveFollowing() throws Exception {
-
-        when(administrativeService.removeFollowing(anyString(),anyString())).thenReturn("OK");
+        when(administrativeService.removeFollowing(anyString(),anyString())).thenReturn(Constants.OK);
 
         mockMvc.perform(delete("/administrative/removeFollowing/testFollowingId").principal(new UserPrincipal("testUserId")))
                 .andExpect(status().isOk())
-                .andExpect(mvcResult -> "OK".equals(mvcResult));
+                .andExpect(mvcResult -> Constants.OK.equals(mvcResult));
     }
 
     @Test
     public void shouldRetrieveFollowings() throws Exception {
-
         User user = generateUser();
-
         List<User> users = new ArrayList<>();
         users.add(user);
 
@@ -134,34 +126,29 @@ public class AdministrativeControllerTest {
         mockMvc.perform(get("/administrative/retrieveFollowings/testUserId"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].username").value(user.getUsername()));
-
     }
 
     @Test
     public void shouldFollowGroup() throws Exception {
-
-        when(administrativeService.followGroup(anyString(),anyString())).thenReturn("OK");
+        when(administrativeService.followGroup(anyString(),anyString())).thenReturn(Constants.OK);
 
         mockMvc.perform(post("/administrative/followGroup/followingGroupId").principal(new UserPrincipal("testUserId")))
                 .andExpect(status().isOk())
-                .andExpect(mvcResult -> "OK".equals(mvcResult));
+                .andExpect(mvcResult -> Constants.OK.equals(mvcResult));
     }
 
     @Test
     public void shouldUnFollowGroup() throws Exception {
-
-        when(administrativeService.unFollowGroup(anyString(),anyString())).thenReturn("OK");
+        when(administrativeService.unFollowGroup(anyString(),anyString())).thenReturn(Constants.OK);
 
         mockMvc.perform(delete("/administrative/unFollowGroup/followingGroupId").principal(new UserPrincipal("testUserId")))
                 .andExpect(status().isOk())
-                .andExpect(mvcResult -> "OK".equals(mvcResult));
+                .andExpect(mvcResult -> Constants.OK.equals(mvcResult));
     }
 
     @Test
     public void shouldRetrieveGroupIds() throws Exception {
-
         when(administrativeService.retrieveGroupIds(anyString())).thenReturn(Arrays.asList("testGroupId"));
-
 
         mockMvc.perform(get("/administrative/retrieveGroupIds/testUsername").principal(new UserPrincipal("testUserId")))
                 .andExpect(status().isOk())

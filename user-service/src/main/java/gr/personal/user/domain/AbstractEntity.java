@@ -1,12 +1,17 @@
 package gr.personal.user.domain;
 
+import org.springframework.data.annotation.Id;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * Created by nkanakis on 5/25/2017.
  */
-public abstract class AbstractEntity {
+public abstract class AbstractEntity implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    @Id
     private String id;
     private String userId;
     private LocalDateTime postDate;

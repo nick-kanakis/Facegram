@@ -33,12 +33,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("noEureka")
 public class HomepageControllerTest {
 
-
     @MockBean
     private HomepageService homepageService;
-
     private MockMvc mockMvc;
-
     @InjectMocks
     private HomepageController homepageController;
 
@@ -48,16 +45,12 @@ public class HomepageControllerTest {
         this.mockMvc = MockMvcBuilders.standaloneSetup(homepageController).build();
     }
 
-
     @Test
     public void shouldRetrieveTopStories() throws Exception {
-
         Story story = generateStory();
-
         Geolocation geolocation = new Geolocation();
         geolocation.setLatitude(0);
         geolocation.setLongitude(0);
-
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
         params.add("latitude",String.valueOf(geolocation.getLatitude()));
         params.add("longitude",String.valueOf(geolocation.getLongitude()));
@@ -71,13 +64,10 @@ public class HomepageControllerTest {
 
     @Test
     public void shouldRetrieveHotStories() throws Exception{
-
         Story story = generateStory();
-
         Geolocation geolocation = new Geolocation();
         geolocation.setLatitude(0);
         geolocation.setLongitude(0);
-
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
         params.add("latitude",String.valueOf(geolocation.getLatitude()));
         params.add("longitude",String.valueOf(geolocation.getLongitude()));
@@ -93,11 +83,9 @@ public class HomepageControllerTest {
     @Test
     public void shouldRetrieveNewStories() throws Exception{
         Story story = generateStory();
-
         Geolocation geolocation = new Geolocation();
         geolocation.setLatitude(0);
         geolocation.setLongitude(0);
-
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
         params.add("latitude",String.valueOf(geolocation.getLatitude()));
         params.add("longitude",String.valueOf(geolocation.getLongitude()));
@@ -109,7 +97,6 @@ public class HomepageControllerTest {
                 .andExpect(jsonPath("$[0].id").value(story.getId()));
     }
 
-
     @Test
     public void shouldRetrieveMyStories() throws Exception{
         Story story = generateStory();
@@ -120,6 +107,4 @@ public class HomepageControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(story.getId()));
     }
-
-
 }

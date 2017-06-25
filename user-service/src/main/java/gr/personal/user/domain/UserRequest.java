@@ -1,10 +1,13 @@
 package gr.personal.user.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by Nick Kanakis on 9/5/2017.
  */
-public class UserRequest {
+public class UserRequest implements Serializable{
 
+    private static final long serialVersionUID = 1L;
     private String username;
     private String name;
     private String surname;

@@ -18,7 +18,6 @@ public class UserRequestValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-        UserRequest userRequest = (UserRequest) o;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"username","username.empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"name","name.empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"gender","gender.empty");

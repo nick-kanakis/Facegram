@@ -9,7 +9,6 @@ import java.io.Serializable;
 public class GenericJson implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     private String genericResult;
     private String errorMessage;
     private boolean exception = false;
@@ -20,6 +19,9 @@ public class GenericJson implements Serializable {
         this.exception = exception;
     }
 
+    public GenericJson(String genericResult){
+        this(genericResult, null, false);
+    }
 
     public GenericJson() {
     }

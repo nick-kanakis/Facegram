@@ -8,6 +8,7 @@ import gr.personal.user.domain.RegistrationUser;
 import gr.personal.user.domain.User;
 import gr.personal.user.domain.UserRequest;
 import gr.personal.user.repository.UserRepository;
+import gr.personal.user.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +26,15 @@ import java.util.List;
 @Service
 public class AdministrativeServiceImpl implements AdministrativeService {
 
-    Logger logger = LoggerFactory.getLogger(AdministrativeServiceImpl.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(AdministrativeServiceImpl.class);
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    CacheManager cacheManager;
+    private CacheManager cacheManager;
     @Autowired
-    AuthClient authClient;
+    private AuthClient authClient;
     @Autowired
-    GroupClient groupClient;
+    private GroupClient groupClient;
 
     @Override
     @HystrixCommand(fallbackMethod = "createUserFallback", ignoreExceptions = IllegalArgumentException.class)
@@ -43,9 +43,8 @@ public class AdministrativeServiceImpl implements AdministrativeService {
 
         if (userRepository.exists(userRequest.getUsername())) {
             logger.warn("User with id={} is already registered.", userRequest.getUsername());
-            return "NOK";
+            return Constants.NOK;
         }
-
         authClient.createUser(generateRegistrationUser(userRequest));
 
         User user = new User.Builder()
@@ -54,16 +53,9 @@ public class AdministrativeServiceImpl implements AdministrativeService {
                 .surname(userRequest.getSurname())
                 .username(userRequest.getUsername())
                 .build();
-
         userRepository.save(user);
 
-        return "OK";
-    }
-
-    private RegistrationUser generateRegistrationUser(UserRequest userRequest) {
-        List<String> roles = new ArrayList<>();
-        roles.add("ROLE_USER");
-        return new RegistrationUser(userRequest.getUsername(), userRequest.getPassword(), roles);
+        return Constants.OK;
     }
 
     @Override
@@ -71,32 +63,34 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     public String updateUser(UserRequest userRequest) {
         Assert.notNull(userRequest, "updateUser input is null");
 
-        //TODO: do it in one operation with query (?)
         User user = userRepository.findByUsername(userRequest.getUsername());
-
         if (user == null) {
             logger.warn("No user with id={} was found.", userRequest.getUsername());
-            return "NOK";
+            return Constants.NOK;
         }
-
 
         user.setName(userRequest.getName());
         user.setSurname(userRequest.getSurname());
         user.setGender(userRequest.getGender());
-
         userRepository.save(user);
 
-        return "OK";
+        return Constants.OK;
     }
 
     @Override
     @HystrixCommand(fallbackMethod = "deleteUserFallback", ignoreExceptions = IllegalArgumentException.class)
     public String deleteUser(String username) {
         Assert.hasLength(username, "deleteUser input is empty or null");
+
+        if (!userRepository.exists(username)) {
+            logger.warn("No user with id={} was found.", username);
+            return Constants.NOK;
+        }
+
         authClient.deleteUser(username);
         userRepository.delete(username);
 
-        return "OK";
+        return Constants.OK;
     }
 
     @Override
@@ -110,27 +104,25 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     @HystrixCommand(fallbackMethod = "addFollowingFallback", ignoreExceptions = IllegalArgumentException.class)
     public String addFollowing(String username, String followingUsername) {
         Assert.hasLength(followingUsername, "addFollowing input is empty");
-        User user = userRepository.findByUsername(username);
 
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             logger.warn("No user with id={} was found.", username);
-            return "NOK";
+            return Constants.NOK;
         }
         if (!userRepository.exists(followingUsername)) {
             logger.warn("No user with id={} was found", followingUsername);
-            return "NOK";
+            return Constants.NOK;
         }
-        for (String followingId : user.getFollowingIds()) {
-            if (followingId.equals(followingUsername)) {
-                logger.warn("User with id={} is already following {}", username, followingId);
-                return "NOK";
-            }
+        if (user.getFollowingIds().contains(username)) {
+            logger.warn("User with id={} is already following {}", username, followingUsername);
+            return Constants.NOK;
         }
 
-        user.getFollowingIds().add(followingUsername);
+        user.addFollowingId(followingUsername);
         userRepository.save(user);
 
-        return "OK";
+        return Constants.OK;
     }
 
 
@@ -141,16 +133,15 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         Assert.hasLength(followingUsername, "removeFollowing input is empty or null");
 
         User user = userRepository.findByUsername(username);
-
         if (user == null) {
             logger.warn("No user with id={} was found.", username);
-            return "NOK";
+            return Constants.NOK;
         }
 
         user.removeFollowingId(followingUsername);
         userRepository.save(user);
 
-        return "OK";
+        return Constants.OK;
     }
 
     @Override
@@ -160,14 +151,12 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         Assert.hasLength(username, "retrieveFollowings input is empty or null");
 
         User user = userRepository.findByUsername(username);
-
         if (user == null) {
             logger.warn("No user with id={} was found.", username);
             return new ArrayList<>();
         }
 
         Iterable<User> friends = userRepository.findAll(user.getFollowingIds());
-
         return Lists.newArrayList(friends);
     }
 
@@ -177,32 +166,26 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         Assert.hasLength(username, "followGroup input is empty");
         Assert.hasLength(groupId, "followGroup input is empty");
 
-
         User user = userRepository.findByUsername(username);
-
         if (user == null) {
             logger.warn("No user with id={} was found.", username);
-            return "NOK";
+            return Constants.NOK;
         }
-
-        if(user.getFollowingGroupIds().contains(groupId)){
+        if (user.getFollowingGroupIds().contains(groupId)) {
             logger.warn("User with id={} already subscribed to group with id ={}.", username, groupId);
-            return "NOK";
+            return Constants.NOK;
         }
-
 
         String groupResponse = groupClient.follow(groupId);
-
-        if (!"OK".equals(groupResponse)) {
+        if (!Constants.OK.equals(groupResponse)) {
             logger.warn("Group {} subscription of user {} failed", groupId, username);
-            return "NOK";
+            return Constants.NOK;
         }
-
 
         user.addFollowingGroupId(groupId);
         userRepository.save(user);
 
-        return "OK";
+        return Constants.OK;
     }
 
     @Override
@@ -214,25 +197,23 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         User user = userRepository.findByUsername(username);
         if (user == null) {
             logger.warn("No user with id={} was found.", username);
-            return "NOK";
+            return Constants.NOK;
         }
-
-        if(!user.getFollowingGroupIds().contains(groupId)){
+        if (!user.getFollowingGroupIds().contains(groupId)) {
             logger.warn("User with id={} not subscribed to group with id ={}.", username, groupId);
-            return "NOK";
+            return Constants.NOK;
         }
 
         String groupResponse = groupClient.unFollow(groupId);
-
-        if ((!"OK".equals(groupResponse))) {
+        if ((!Constants.OK.equals(groupResponse))) {
             logger.warn("Group {} un-subscription of user {} failed", groupId, username);
-            return "NOK";
+            return Constants.NOK;
         }
 
         user.removeFollowingGroupId(groupId);
         userRepository.save(user);
 
-        return "OK";
+        return Constants.OK;
     }
 
     @Override
@@ -240,31 +221,38 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     @HystrixCommand(fallbackMethod = "retrieveGroupIdsFallback", ignoreExceptions = IllegalArgumentException.class)
     public List<String> retrieveGroupIds(String username) {
         Assert.hasLength(username, "retrieveGroupIds input is empty or null");
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
+        if (!userRepository.exists(username)) {
             logger.warn("No user with id={} was found.", username);
             return new ArrayList<>();
         }
-        List<String> followingGroupIds =userRepository.getGroupIdsByUsername(username).getFollowingGroupIds();
 
+        List<String> followingGroupIds = userRepository.getGroupIdsByUsername(username).getFollowingGroupIds();
         return followingGroupIds;
     }
 
-    //TODO move them in different Class
+    private RegistrationUser generateRegistrationUser(UserRequest userRequest) {
+        List<String> roles = new ArrayList<>();
+        roles.add("ROLE_USER");
+        return new RegistrationUser(userRequest.getUsername(), userRequest.getPassword(), roles);
+    }
+
+    /**
+     * Hystrix Fallback Classes
+     **/
 
     public String createUserFallback(UserRequest user, Throwable t) {
         logger.error("Create User fallback for user: " + user.getUsername(), t);
-        return "NOK";
+        return Constants.NOK;
     }
 
     public String updateUserFallback(UserRequest user, Throwable t) {
         logger.error("Update User fallback for user: " + user.getUsername(), t);
-        return "NOK";
+        return Constants.NOK;
     }
 
     public String deleteUserFallback(String username, Throwable t) {
-        logger.error("Delete User fallback for user: " + username , t);
-        return "NOK";
+        logger.error("Delete User fallback for user: " + username, t);
+        return Constants.NOK;
     }
 
     public User retrieveUserFallback(String username, Throwable t) {
@@ -274,12 +262,12 @@ public class AdministrativeServiceImpl implements AdministrativeService {
 
     public String addFollowingFallback(String username, String followingUsername, Throwable t) {
         logger.error("Add Following fallback for user: " + username, t);
-        return "NOK";
+        return Constants.NOK;
     }
 
     public String removeFollowingFallback(String username, String followingUsername, Throwable t) {
         logger.error("Remove following fallback for user: " + username, t);
-        return "NOK";
+        return Constants.NOK;
     }
 
     public List<User> retrieveFollowingsFallback(String username, Throwable t) {
@@ -295,12 +283,12 @@ public class AdministrativeServiceImpl implements AdministrativeService {
 
     public String followGroupFallback(String username, String groupId, Throwable t) {
         logger.error("Follow group fallback for user: " + username, t);
-        return "NOK";
+        return Constants.NOK;
     }
 
     public String unfollowGroupFallback(String username, String groupId, Throwable t) {
         logger.error("Unfollow group fallback for user: " + username, t);
-        return "NOK";
+        return Constants.NOK;
     }
 
     public List<String> retrieveGroupIdsFallback(String username, Throwable t) {
