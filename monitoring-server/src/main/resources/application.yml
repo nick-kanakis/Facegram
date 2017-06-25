@@ -5,6 +5,11 @@ server:
   port: 8179
 
 turbine:
+#use instanceUrlSuffix in order to specify the contextPath of each microservice
+  instanceUrlSuffix:
+    STORY-SERVICE: /story-service/hystrix.stream
+    USER-SERVICE: /user-service/hystrix.stream
+    GROUP-SERVICE: /group-service/hystrix.stream
   aggregator:
     clusterConfig: STORY-SERVICE,USER-SERVICE,GROUP-SERVICE
   appConfig: STORY-SERVICE,USER-SERVICE,GROUP-SERVICE
