@@ -13,8 +13,8 @@
         <module>edge-server</module>
         <module>monitoring-server</module>
         <module>auth-server</module>
+        <module>story-service</module>
         <module>user-service</module>
         <module>group-service</module>
-        <module>story-service</module>
     </modules>
 </project>

@@ -9,12 +9,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * Created by Nick Kanakis on 20/5/2017.
  */
+@Component
 public class StoryRepositoryImpl implements CustomRepository {
 
     @Autowired
