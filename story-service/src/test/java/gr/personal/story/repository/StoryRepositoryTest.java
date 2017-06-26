@@ -27,13 +27,13 @@ import static gr.personal.story.helper.FakeDataGenerator.generateStoryWithoutId;
 @DataMongoTest
 @ActiveProfiles("repository")
 public class StoryRepositoryTest {
+
     @Autowired
     private StoryRepository storyRepository;
     private Story story;
 
     @TestConfiguration
     static class TestContextConfiguration{
-
         @Bean
         public ResourceServerProperties resourceServerProperties(){
             return new ResourceServerProperties();

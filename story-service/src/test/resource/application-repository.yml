@@ -7,6 +7,10 @@ spring:
     mongodb:
       port: 0
 
+security:
+  oauth2:
+    enabled: false
+
 hystrix:
   command:
     default:
