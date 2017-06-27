@@ -21,7 +21,7 @@ Microservice Architecture.
 ### Http Client, Circuit Breaker
 
 ## Topology
-
+![Topology](https://user-images.githubusercontent.com/4174162/27610531-607ca98e-5b97-11e7-8402-c2d3c0b25cb1.png)
 ## API
 
 ## How to run
