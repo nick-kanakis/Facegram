@@ -36,16 +36,20 @@ zuul:
       path: /uaa/**
       serviceId: auth-service
       stripPrefix: false
+      sensitiveHeaders: Cookie, Set-Cookie
     story-service:
       path: /story-service/**
       serviceId: story-service
       strip-prefix: false
+      sensitiveHeaders: Cookie, Set-Cookie
     user-service:
       path: /user-service/**
       serviceId: user-service
       strip-prefix: false
+      sensitiveHeaders: Cookie, Set-Cookie
     group-service:
       path: /group-service/**
       serviceId: group-service
       strip-prefix: false
+      sensitiveHeaders: Cookie, Set-Cookie
 

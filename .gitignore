@@ -3,6 +3,6 @@
 *.iml
 modules.xml
 *.ipr
-*.logs*
+*.log*
 */target/*
 *.idea/*
