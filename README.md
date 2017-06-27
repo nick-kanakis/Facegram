@@ -10,13 +10,41 @@ Microservice Architecture.
 
 ## Technology Stack
 
-## Infrastructure
+### Discovery server (Eureka)
 
-## Services
+### Edge server (Zuul)
+
+### Monitoring (Hystrix Dashboard)
+
+### Security (OAuth2)
+
+### Http Client, Circuit Breaker
+
+## Topology
+
+## API
 
 ## How to run
 
+After successful building the project with maven you first need run each microservice in the following order:
+
+1. discovery-service
+2. auth-server
+3. edge-server
+4. monitoring-server
+5. group-service
+6. story-service
+7. user-service
+
+You will also need 4 Mongo DB instances (Auth-server, Group-service, Story-service, User-service)
+
+Todo:
+- [ ] Add automation script
+- [ ] Build docker images
+
 ## Feedback
+
+For any feedback please contact me with [linkedin](https://www.linkedin.com/in/nick-kanakis-24b34677)
 
 
 
