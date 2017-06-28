@@ -2,8 +2,6 @@ Monitoring
 
 Responsible for monitoring all Hystrix Wrapped calls.
 
-
-
 Tech Features
 =============
 
@@ -24,7 +22,6 @@ turbine.appConfig: Eureka serviceIds that turbine will use to lookup instances
 turbine.aggregator.clusterConfig: Cluster Name.
 
 eg: http://my.turbine.sever:8080/turbine.stream?cluster=<CLUSTERNAME>; CLUSTERNAME == turbine.aggregator.clusterConfig
-
 
 When I register more microservices turbine  I need to do is:
 
