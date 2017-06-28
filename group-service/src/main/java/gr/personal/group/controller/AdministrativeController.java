@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 /**
  * Created by Nick Kanakis on 17/6/2017.
@@ -69,6 +70,19 @@ public class AdministrativeController {
                 .ok()
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .body(group);
+    }
+
+
+    @LogExecutionTime
+    @RequestMapping(value = "/retrieveMyGroups", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Group>> retrieveMyGroups(Principal principal){
+        logger.debug("Entering retrieveMyGroups (username = {})", principal.getName());
+        List<Group> groups = administrativeService.retrieveMyGroups(principal.getName());
+        logger.debug("Exiting retrieveMyGroups (username = {})", principal.getName());
+        return  ResponseEntity
+                .ok()
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body(groups);
     }
 
     @LogExecutionTime

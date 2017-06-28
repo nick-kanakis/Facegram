@@ -14,6 +14,9 @@ import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserExc
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Nick Kanakis on 17/6/2017.
  */
@@ -67,13 +70,26 @@ public class AdministrativeServiceImpl implements AdministrativeService {
     @CachePut(cacheNames = "RetrieveGroup", key = "#groupId")
     @HystrixCommand(fallbackMethod = "retrieveGroupFallback", ignoreExceptions = IllegalArgumentException.class)
     public Group retrieveGroup(String groupId) {
-        Assert.hasLength(groupId, "followGroup input is empty");
+        Assert.hasLength(groupId, "retrieveGroup input is empty");
         Group group = groupRepository.findOne(groupId);
         if(group == null){
             logger.warn("No group with id={} was found.", groupId);
             return new Group();
         }
         return group;
+    }
+
+    @Override
+    @CachePut(cacheNames = "RetrieveMyGroups", key = "#username")
+    @HystrixCommand(fallbackMethod = "retrieveMyGroupsFallback", ignoreExceptions = IllegalArgumentException.class)
+    public List<Group> retrieveMyGroups(String username) {
+        Assert.hasLength(username, "retrieveMyGroups input is empty");
+        List<Group> groups = groupRepository.findByModerator(username);
+        if(groups == null){
+            logger.warn("No group for username={} was found.", username);
+            return new ArrayList<>();
+        }
+        return groups;
     }
 
     @Override
@@ -106,6 +122,7 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         return Constants.OK;
 
     }
+
 
     private boolean checkUser(String username, String groupId) throws UnauthorizedUserException {
         Group group = groupRepository.findOne(groupId);
@@ -143,6 +160,16 @@ public class AdministrativeServiceImpl implements AdministrativeService {
         } else {
             logger.error("Retrieve group Fallback for groupId: " + groupId + ". Cache is empty.");
             return new Group();
+        }
+    }
+
+    public List<Group> retrieveMyGroupsFallback(String username, Throwable t) {
+        logger.error("Retrieve my groups fallback for username: " + username + ". Returning Groups from Cache", t);
+        if (cacheManager.getCache("RetrieveMyGroups") != null && cacheManager.getCache("RetrieveMyGroups").get(username) != null) {
+            return cacheManager.getCache("RetrieveMyGroups").get(username, ArrayList.class);
+        } else {
+            logger.error("Retrieve my groups Fallback for username: " + username + ". Cache is empty.");
+            return new ArrayList<>();
         }
     }
 

@@ -16,6 +16,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
@@ -51,6 +54,7 @@ public class AdministrativeServiceTest {
         groupRequest = new GroupRequest(null, "testGroupName", "testAbout");
         when(groupRepository.findOne(anyString())).thenReturn(group);
         when(groupRepository.exists("testGroupName")).thenReturn(true);
+        when(groupRepository.findByModerator("testUsername")).thenReturn(Arrays.asList(group));
     }
 
     @Test
@@ -95,6 +99,17 @@ public class AdministrativeServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToRetrieveGroup() throws Exception{
         administrativeService.retrieveGroup("");
+    }
+
+    @Test
+    public void shouldRetrieveMyGroups() throws Exception{
+        List<Group> groups = administrativeService.retrieveMyGroups("testUsername");
+        assertEquals(groups.get(0).getId(), this.group.getId());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailToRetrieveMyGroups() throws Exception{
+        administrativeService.retrieveMyGroups("");
     }
 
     @Test

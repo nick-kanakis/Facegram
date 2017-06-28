@@ -8,6 +8,12 @@
            memoryStoreEvictionPolicy="LFU" transactionalMode="off">
     </cache>
 
+    <cache name="RetrieveMyGroups"
+           maxElementsInMemory="100" eternal="true"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LFU" transactionalMode="off">
+    </cache>
+
     <cache name="HotStories"
            maxElementsInMemory="100" eternal="true"
            overflowToDisk="false"

@@ -17,6 +17,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Arrays;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
@@ -87,6 +89,18 @@ public class AdministrativeControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.moderator").value(group.getModerator()));
+    }
+
+    @Test
+    public void shouldRetrieveMyGroups() throws Exception{
+        Group group = new Group("testModerator", "testName", "testAbout", null);
+
+        when(administrativeService.retrieveMyGroups(anyString())).thenReturn(Arrays.asList(group));
+
+        mockMvc.perform(get("/administrative/retrieveMyGroups").principal(new UserPrincipal("testModerator"))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].moderator").value(group.getModerator()));
     }
 
     @Test
