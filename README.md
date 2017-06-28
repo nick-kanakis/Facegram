@@ -12,7 +12,7 @@ Microservice Architecture.
 
 ### Service Discovery (Eureka)
 
-In a microservice architecture services typically need to call other services. When we consider the dynamic nature of a
+In a microservice architecture services typically need to call each other. When we consider the dynamic nature of a
 typical microservice-based application we can easily identify a number of potential issues. Most importantly how dynamically 
 assigned endpoints are being used and how load balancing works.
 
@@ -42,8 +42,8 @@ In order to address this issue Netflix developed and open-sourced Zuul proxy ser
 system, which allows consumers (mobile, browser etc.) to consume services from multiple hosts without having to manage
 CORS and authentication for each service.
 
-In this project Zuul is used to server static content, route requests to appropriate services and Log request/responses
-using filters. In order to enable Zuul the `@EnableZuulProxy` annotation is needed. The routing is being done the following 
+In this project Zuul is used to server (minimal) static content, route requests to appropriate services and log request/responses
+using filters. In order to enable Zuul the `@EnableZuulProxy` annotation is needed. The routing is being done by the following 
 sample configuration:
 
 ``` yaml
@@ -65,7 +65,7 @@ Zuul endpoint: [localhost:8765](http://localhost:8765)
 In an infrastructure with dozen of microservices is crucial to be able to monitor the state of each service. It is only
 logical to use Hystrix Dashboard for this project as Hystrix is used as a Circuit Breaker in all the services.
 
-With Hystrix Dashboard we can have a quick overview of all microservices. For enabling Hystrix Dashboard the following
+With Hystrix Dashboard we can have a quick overview of all services. For enabling Hystrix Dashboard the following
 annotations are needed:
 
 - `@EnableHystrixDashboard` 
@@ -85,12 +85,12 @@ turbine:
   combineHostPort: true
 ```
 
-In order to access the console go to: localhost:8179/hystrix and add the turbine URL turbine.stream?cluster=STORY-SERVICE
+In order to access the console go to: [localhost:8179/hystrix](localhost:8179/hystrix) and add the turbine URL `turbine.stream?cluster=STORY-SERVICE``
 (for story service).
 
 Turbine is not build to aggregate multiple services into the same cluster. To do this you need to add in each of the clients
-the dependency of spring-boot-starter-amqp and created rabbitMQ broker. Turbine is aggregating all messages via amqp
-and be able to see all Hystrix commands aggregated on hystrix dashboard server
+the dependency of spring-boot-starter-amqp and created a rabbitMQ broker. Turbine is aggregating all messages via amqp
+so you can be able to see all Hystrix commands aggregated on hystrix dashboard server
 
 ### Security (OAuth2)
 
@@ -101,7 +101,7 @@ In this project we use 2 grant types:
 - Password
 - Client Credentials
 
-The `password` grand type is used for the communication between consumers and the API, while Client Credentials is used for 
+The `password` grand type is used for the communication between consumers and the API, while `client credentials` is used for 
 service-to-service communication.
 
 In order to secure the endpoints that need to be accessed only by other services we use 2 scope types:
@@ -109,14 +109,18 @@ In order to secure the endpoints that need to be accessed only by other services
 - server 
 
 When server scope is used means that this endpoint can only be called by another service and the functionality is enforced by
-the use of `@PreAuthorize("#oauth2.hasScope('server')")`
+the use of `@PreAuthorize("#oauth2.hasScope('server')")`. 
+Another way to secure sensitive endpoints is by enforcing "user roles" to them, this can be done by using `@PreAuthorize("hasRole('ROLE_ADMIN')")`.
+Endpoints annotated as per the above example can only be accessed by clients with this type of role. In this Project there are 2 roles:
+- User (default)
+- Admin 
 
 ### Circuit Breaker (Hystrix)
 
-Fast failing and fault tolerance are two important aspects of a microservice system. For this reason we use Hystrix a
+Fast failing and fault tolerance are two important aspects of a microservices system. For this reason we use Hystrix a
 Circuit Breaker pattern implementation from Netfix. 
 
-Hystrix helps to avoid cascading an issue over the microservices network, this is especially important when there are
+Hystrix helps to avoid cascading an issue over the network, this is especially important when there are
 multiples services and a small (recoverable) exception may cause multiple failures and magnify the initial problem.
 
 Another functionality of Hystrix is the ability to provide fallbacks. In case of a failure the system may self-recover by
@@ -129,7 +133,7 @@ behavior. In this project many fallback methods retrieve (in a naively way) prev
 
 ### Client Side Load Balancing (Ribbon)
 
-To avoid using an extra load balancer (and the extra hop) Spring Cloud uses natively Ribbon. Eureka provided a dynamic list
+To avoid using an extra load balancer (as well as an extra hop) Spring Cloud uses natively Ribbon. Eureka provided a dynamic list
 of all available services (and service instances) and Ribbon is responsible for balancing between each instance.
 
 ### Http Client (Feign)
@@ -148,7 +152,7 @@ public interface StoryClient {
 }
 ```
 
-The value at `@FeingClient` specifies the client serviceId (auto-discovered from Eureka).
+The value `@FeingClient` specifies the client serviceId (auto-discovered from Eureka).
 
 ## Topology
 ![topology](https://user-images.githubusercontent.com/4174162/27611807-534182c6-5b9c-11e7-986e-0bd60b6b56b4.png)
@@ -157,7 +161,7 @@ The value at `@FeingClient` specifies the client serviceId (auto-discovered from
 
 #### Authorization Server
 
-Responsible for authorization and authentication of consumers & services
+Responsible for authorization and authentication of consumers & services.
 
 | Method | Path	| URL Parameters | Data Parameters  | Description | User authenticated |
 |:------:|:----:|:--------------:|:----------------:|:-----------:|:------------------:|
