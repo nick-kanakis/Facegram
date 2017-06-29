@@ -164,7 +164,7 @@ The value `@FeingClient` specifies the client serviceId (auto-discovered from Eu
 Responsible for authorization and authentication of consumers & services.
 
 | Method | Path	| URL Parameters | Data Parameters  | Description | User authenticated |
-|:------:|:----:|:--------------:|:----------------:|:-----------:|:------------------:|
+|:------:|:----:|:--------------:|:----------------:|------------------------|:------------------:|
 |POST	| /uaa/oauth/token	| `grand_type`&`username`&`password` | 	|   Login and retrieve bearer token   |  NO|  	
 |GET	| /uaa/users/current	| 	| 	|   Get user principal   | YES|
 
@@ -174,9 +174,18 @@ Responsible for managing the user lifecycle and social actions (follow, unfollow
 based on user & location.
 
 | Method | Path	| URL Parameters | Data Parameters (Json)  | Description | User authenticated |
-|:------:|:----:|:--------------:|:----------------:|:-----------:|:------------------:|
-|POST	| /user-service/administrative/createUser |  | `UserRequest` | User creation at `User-Service` & `Auth-Server`  |  NO|  	
-|GET	| /user-service/administrative/retrieveUser/{*username*} | username |  | Retrieves User based on give username  |  YES|  	
+|:------:|:----:|:--------------:|:----------------:|------------------------|:------------------:|
+|POST	| /user-service/administrative/createUser |  | `UserRequest` | User creation at `User-Service` & `Auth-Server`  |  NO|
+|POST	| /user-service/administrative/updateUser |  | `UserRequest` | Updates User details  |  NO|
+|GET	| /user-service/administrative/retrieveUser/{*username*} | username |  | Retrieves User based on give username  |  YES|
+|DELETE	| /user-service/administrative/deleteUser/{*username*} | username |  | Delete User (This action is available only for users with Admin Role)  |  YES|
+|POST	| /user-service/administrative/addFollowing/{*username*} | username |  | Follow user  |  YES|
+|DELETE	| /user-service/administrative/removeFollowing/{*username*} | username |  | Unfollow user  |  YES|
+|GET	| /user-service/administrative/retrieveFollowings/{*username*} | username |  | Retrieves following users  |  YES|
+
+
+
+
 
 #### Story Service
 
@@ -184,8 +193,17 @@ Stores information and manages the lifecycle of the story. It is also responsibl
 a number of criteria (Location, User, Group etc.).
 
 | Method | Path	| URL Parameters | Data Parameters (Json)  | Description | User authenticated |
-|:------:|:----:|:--------------:|:----------------:|:-----------:|:------------------:|
-|POST	| /story-service/story/create	|  | `StoryRequest` |   Persist Story to DB   |  YES|  
+|:------:|:----:|:--------------:|:----------------:|------------------------|:------------------:|
+|POST	| /story-service/story/create	|  | `StoryRequest` |  Persist Story to DB   |  YES|  
+|GET	| /story-service/story/fetch/{*StoryId*}	| StoryId | |  Retrieve Story   |  YES| 
+|DELETE	| /story-service/story/delete/{*StoryId*}	| StoryId | |  Delete Story   |  YES| 
+|POST	| /story-service/story/like/{*StoryId*}	| StoryId | |  Like Story   |  YES| 
+|POST	| /story-service/story/unlike/{*StoryId*}	| StoryId | |  Unlike Story   |  YES| 
+|POST	| /story-service/story/comment/{*StoryId*} | StoryId | `CommentRequest` |  Comment Story, comments are stored in Story collection |  YES|
+|DELETE	| /story-service/story/uncomment/{*CommentId*} | CommentId | | Remove comment from Story |  YES|
+|GET	| /story-service/story/fetchComment/{*CommentId*}	| CommentId | |  Retrieve Comment   |  YES| 
+
+
 
 Note: 
 - *Top stories*: Stories sorted by likes.
