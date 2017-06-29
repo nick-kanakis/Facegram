@@ -173,18 +173,19 @@ Responsible for authorization and authentication of consumers & services.
 Responsible for managing the user lifecycle and social actions (follow, unfollow, subscribe etc.). Also aggregates and retrieve stories
 based on user & location.
 
-| Method | Path	| URL Parameters | Data Parameters  | Description | User authenticated |
+| Method | Path	| URL Parameters | Data Parameters (Json)  | Description | User authenticated |
 |:------:|:----:|:--------------:|:----------------:|:-----------:|:------------------:|
-|GET	| /test	|  |  |   TEST   |  NO|  	
+|POST	| /user-service/administrative/createUser |  | `UserRequest` | User creation at `User-Service` & `Auth-Server`  |  NO|  	
+|GET	| /user-service/administrative/retrieveUser/{*username*} | username |  | Retrieves User based on give username  |  YES|  	
 
 #### Story Service
 
 Stores information and manages the lifecycle of the story. It is also responsible for sorting and retrieving stories based on
 a number of criteria (Location, User, Group etc.).
 
-| Method | Path	| URL Parameters | Data Parameters  | Description | User authenticated |
+| Method | Path	| URL Parameters | Data Parameters (Json)  | Description | User authenticated |
 |:------:|:----:|:--------------:|:----------------:|:-----------:|:------------------:|
-|GET	| /test	|  |  |   TEST   |  NO|  	
+|POST	| /story-service/story/create	|  | `StoryRequest` |   Persist Story to DB   |  YES|  
 
 Note: 
 - *Top stories*: Stories sorted by likes.
