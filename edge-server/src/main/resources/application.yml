@@ -13,19 +13,19 @@ endpoints:
   health: #../health allows for health checks of the app
     sensitive: false
 
-# Increase the Hystrix timeout to 10s (globally)
+# Increase the Hystrix timeout to 20s (globally)
 hystrix:
   command:
     default:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 10000
+            timeoutInMilliseconds: 20000
 
 zuul:
-  # socket timeout: 3.33 minutes connect timeout: 0.33 minutes
+  # socket timeout: 3.33 minutes connect timeout: 1.5 minutes
   host:
-    connect-timeout-millis: 20000
+    connect-timeout-millis: 100000
     socket-timeout-millis: 200000
   #All services will be mapped under the /api URI
   prefix: /api
