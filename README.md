@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b520d4ca49c84e14bfde23e46cb1b213)](https://www.codacy.com/app/nicolasmanic/Facegram?utm_source=github.com&utm_medium=referral&utm_content=nicolasmanic/Facegram&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/nicolasmanic/Facegram.svg?branch=master)](https://travis-ci.org/nicolasmanic/Facegram)
 [![codecov](https://codecov.io/gh/nicolasmanic/Facegram/branch/master/graph/badge.svg)](https://codecov.io/gh/nicolasmanic/Facegram)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b520d4ca49c84e14bfde23e46cb1b213)](https://www.codacy.com/app/nicolasmanic/Facegram?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=nicolasmanic/Facegram&amp;utm_campaign=Badge_Grade)
