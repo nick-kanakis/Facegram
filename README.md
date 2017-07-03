@@ -183,6 +183,13 @@ based on user & location.
 |POST	| /user-service/administrative/addFollowing/{*username*} | username |  | Follow user  |  YES|
 |DELETE	| /user-service/administrative/removeFollowing/{*username*} | username |  | Unfollow user  |  YES|
 |GET	| /user-service/administrative/retrieveFollowings/{*username*} | username |  | Retrieves following users  |  YES|
+|POST	| /user-service/administrative/followGroup/{*groupId*} | groupId |  | Follow Group  |  YES|
+|DELETE	| /user-service/administrative/unFollowGroup/{*groupId*} | groupId |  | Unfollow Group  |  YES|
+|GET	| /user-service/administrative/retrieveGroupIds/{*username*} | username |  | Retrieves following groups of users  |  YES|
+|GET	| /user-service/homepage/retrieveTopStories?latitude={*latitude*}&longitude={*longitude*} | latitude&longitude |  | Retrieves Top Stories of following user and location  |  YES|
+|GET	| /user-service/homepage/retrieveHotStories?latitude={*latitude*}&longitude={*longitude*} | latitude&longitude |  | Retrieves Hot Stories of following user and location  |  YES|
+|GET	| /user-service/homepage/retrieveNewStories?latitude={*latitude*}&longitude={*longitude*} | latitude&longitude |  | Retrieves New Stories of following user and location  |  YES|
+|GET	| /user-service/homepage/retrieveMyStories |  |  | Retrieves User stories  |  YES|
 
 
 
@@ -217,7 +224,21 @@ Responsible for managing the group lifecycle. Also aggregates group stories base
 
 | Method | Path	| URL Parameters | Data Parameters  | Description | User authenticated |
 |:------:|:----:|:--------------:|:----------------:|:-----------:|:------------------:|
-|GET	| /test	|  |  |   TEST   |  NO|  	
+|POST	| /group-service/administrative/create |  | `GroupRequest` | Group creation  |  YES|
+|GET	| /group-service/administrative/retrieveMyGroups |  |  | Returned groups moderated by user  |  YES|
+|POST	| /group-service/administrative/update/{*GroupId*} | GroupId | `GroupRequest` | Update group (only by moderator)  |  YES|
+|DELETE	| /group-service/administrative/delete/{*GroupId*} | GroupId |  | Remove group (only by moderator)  |  YES|
+|GET	| /group-service/administrative/retrieve/{*GroupId*} | GroupId |  | Returned specific group  |  YES|
+|GET	| /group-service/homepage/new/{*GroupId*} | GroupId |  | Returned stories (sorted by newest)  |  YES|
+|GET	| /group-service/homepage/top/{*GroupId*} | GroupId |  | Returned stories (sorted by likes)  |  YES|
+|GET	| /group-service/homepage/hot/{*GroupId*} | GroupId |  | Returned stories (sorted by comments)  |  YES|
+
+
+
+
+
+
+
 
 ## How to run
 
