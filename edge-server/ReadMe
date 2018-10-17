@@ -5,4 +5,4 @@ Github: https://github.com/spring-cloud-samples/zuul-server & https://github.com
 
 Zuul always runs as standalone, for HA use 2 instances behind a LB.
 
-In this example we have implemented filter & routing, use current implementation for further use cases.
+Here is implemented filter & routing.
